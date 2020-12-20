@@ -1,7 +1,7 @@
-# PROJECT NUMBER 1 - ALGORITHMS & PROGRAMATION I
+# PROJECT NUMBER 1 - ALGORITHMS & PROGRAMMING I
 
-This folder contains the first project of "algoritmos y 
-programacion I" a subject from Facultad de Ingenieria de la
+This folder contains the first project of "Algoritmos y 
+Programacion I" a subject from Facultad de Ingenieria de la
 Universidad de Buenos Aires. The project is a program that 
 runs on CLI which its function is to process data entered via 
 a .csv file.
