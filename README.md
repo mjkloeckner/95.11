@@ -1,7 +1,7 @@
-#	ALGORITHMS & PROGRAMATION I (code 9511) - WORKBOOK
+#	ALGORITHMS & PROGRAMMING I (code 9511) - WORKBOOK
 
-"Algorithms and programation I" is a subject from "Facultad de 
-Ingenieria de la universidad de Buenos Aires".
+"Algoritmos y programacion I" is a subject from "Facultad de 
+Ingenieria de la Universidad de Buenos Aires".
 
 In this repository (previous a subfolder from c-repo) I'm gonna
 be storing all my resolved exercies from Martin Cardozo's exercies
