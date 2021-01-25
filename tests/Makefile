@@ -10,4 +10,4 @@ main.o: readlines.c ISO3166-1.h
 	$(CC) -c readlines.c
 
 clean: 
-	rm -f *.c *.out
+	rm -f *.o *.out main

@@ -1,30 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "readlines.h"
 
-#define INPUT_FILE_NAME "input.csv"
-#define INITIAL_SIZE 1000
-#define TIME_MAX_DIGITS 1000
-
-#define ARG "Argentina"
-#define COL "Colombia"
-#define GER "Germany"
-
-const char date_print_format[] = "%b %Y";
-
-typedef enum {
-	OK,
-	ERROR_PRINTING,
-	ERROR_READING_FILE,
-	ERROR_NULL_POINTER,
-	ERROR_ALLOCATING_TIME
-} status_t;
-
-typedef enum {
-	PAIS,
-	DATE,
-	INFECTED
-} data_t;
+const char date_print_format[] = "%d %b %Y";
 
 status_t print_country(size_t country_code);
 status_t print_date(size_t data);
@@ -49,6 +28,7 @@ int main(void)
 
 	for(line = 0; fgets(buff1, sizeof(buff1), fp) != NULL; line++)
 	{
+//	This if is to skip the first line which doesn't contain information;
 		if(line != 0) {
 			for(i = 0, j = 0, data = PAIS; buff1[i] != '\0'; i++)
 			{
@@ -79,6 +59,16 @@ int main(void)
 			print_infected(infected);
 		}
 	}
+
+//	char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH];
+
+//	if(load_country_codes(country_codes) != OK)
+//		return ERROR_LOADING_COUNTRY_CODES;
+//	empty_country_codes(country_codes);
+
+//	size_t i;
+//	for(i = 0; i < 500; i++)
+//		printf("%s", *(country_codes + i));
 
 
 	fclose(fp);
