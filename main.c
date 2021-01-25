@@ -1,9 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "../include/main.h"
-#include "../include/arguments.h"
-#include "../include/macros.h"
+#include "main.h"
+#include "arguments.h"
+#include "macros.h"
 
 int main(int argc, char * argv[])
 {

@@ -1,5 +1,5 @@
-#include "../include/arguments.h"
-#include "../include/macros.h"
+#include "arguments.h"
+#include "macros.h"
 
 //	Checks if the arguments are right;
 status_t validate_arguments(int argc, char * argv[])

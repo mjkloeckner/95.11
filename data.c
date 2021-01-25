@@ -1,4 +1,4 @@
-#include "../include/main.h"
+#include "main.h"
 
 void print_error(status_t error)
 {
