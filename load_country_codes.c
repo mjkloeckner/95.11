@@ -2,12 +2,12 @@
 #include "macros.h"
 #include "load_country_codes.h"
 
-status_t clean (char *buffer)
+status_t clean (char *buffer, size_t size)
 {
     size_t i;
     i = 0;
-    while(buffer[i] != '\0') {
-        buffer[i] = ' ';
+    while(i < size) {
+        buffer[i] = '\0';
         i++;
     }
     return OK;
@@ -32,8 +32,8 @@ status_t load_country_codes(char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH])
 	FILE *fp;
 
 	char *buff;
-	char buff_2[20];
-	buff_2[19] = '\0';
+	char buff_2[INITIAL_SIZE];
+	buff_2[INITIAL_SIZE] = '\0';
 
 	int country_code;
 	char country_name[INITIAL_SIZE];
@@ -49,18 +49,16 @@ status_t load_country_codes(char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH])
 
 
 	while(fgets(buff, INITIAL_SIZE, fp) != NULL) {
-//		printf("%s", buff);
-
+		clean(country_name, INITIAL_SIZE);
 		for(i = 0, j = 0, part = CODE; (*(buff + i)) != '\0'; i++) {
-
+//			putchar((*(buff + i)));
 			if((*(buff + i)) == ',') {
 				country_code = atoi(buff_2);
-				clean(buff_2);
+				clean(buff_2, INITIAL_SIZE);
 //				printf("%d\n", country_code);
 				part = NAME;
 				i++;
 			} else if (*(buff + i + 1) == '\n') {
-//				clean(country_name);
 				part = CODE;
 				j = 0;
 			}
@@ -71,7 +69,6 @@ status_t load_country_codes(char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH])
 				case NAME: country_name[j] = *(buff + i); j++; break;
 			}
 		}
-//		putchar(country_name[1]);
 		printf("%s\n", country_name);
 		strcpy(country_name, country_codes[country_code]);
 	}

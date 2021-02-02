@@ -16,7 +16,7 @@ data.o: main.c main.h
 	$(CC) -c data.c
 
 load_country_codes.o: load_country_codes.h main.h
-	$(CC) -c load_country_codes.c main.o
+	$(CC) -c load_country_codes.c 
 
 clean:
 	rm -f *.o
