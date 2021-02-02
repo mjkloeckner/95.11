@@ -7,7 +7,7 @@
 #define SOURCE_ARGUMENT			"-in"
 #define DESTINATION_ARGUMENT	"-out"
 
-#define INITIAL_SIZE		100
+#define INITIAL_SIZE		1000
 
 #define MSG_ERROR_NULL_POINTER	"ERROR_NULL_POINTER\n"\
 								"An unexpected error has occured during the execution\n"\

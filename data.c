@@ -1,4 +1,5 @@
 #include "main.h"
+#include "macros.h"
 
 void print_error(status_t error)
 {

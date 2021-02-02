@@ -1,19 +1,10 @@
 #ifndef LOAD_COUNTRY_CODES
 #define LOAD_COUNTRY_CODES
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "main.h"
 
-#define INITIAL_SIZE		65
 #define COUNTRIES_NUMBER	500
 #define ARRAYS_LENGTH		25
-
-typedef enum {
-	OK,
-	ERROR_NULL_POINTER,
-	ERROR_LOADING_COUNTRY_CODES
-} status_t;
 
 typedef enum {
 	CODE,

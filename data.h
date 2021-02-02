@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "../include/main.h"
+#include "main.h"
 
 #ifndef DATA_H
 #define DATA_H
