@@ -19,7 +19,7 @@ status_t empty_country_codes(char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH]
 	size_t i, j;
 	for(i = 0; i < COUNTRIES_NUMBER; i++)
 		for(j = 0; j < (ARRAYS_LENGTH - 1); j++) {
-			country_codes[i][j] = 'a';
+			country_codes[i][j] = '\0';
 		
 		country_codes[i][ARRAYS_LENGTH - 1] = '\n';
 		}
@@ -30,6 +30,8 @@ status_t empty_country_codes(char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH]
 status_t load_country_codes(char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH])
 {
 	FILE *fp;
+
+	empty_country_codes(country_codes);
 
 	char *buff;
 	char buff_2[INITIAL_SIZE];
@@ -50,15 +52,11 @@ status_t load_country_codes(char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH])
 
 	while(fgets(buff, INITIAL_SIZE, fp) != NULL) {
 		clean(country_name, INITIAL_SIZE);
-		for(i = 0, j = 0, part = CODE; (*(buff + i)) != '\0'; i++) {
-//			putchar((*(buff + i)));
-			if((*(buff + i)) == ',') {
-				country_code = atoi(buff_2);
-				clean(buff_2, INITIAL_SIZE);
-//				printf("%d\n", country_code);
+		for(i = 0, j = 0, part = CODE; buff[i] != '\0'; i++) {
+			if(buff[i] == ',') {
 				part = NAME;
 				i++;
-			} else if (*(buff + i + 1) == '\n') {
+			} else if (buff[i] == '\n') {
 				part = CODE;
 				j = 0;
 			}
@@ -69,8 +67,14 @@ status_t load_country_codes(char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH])
 				case NAME: country_name[j] = *(buff + i); j++; break;
 			}
 		}
-		printf("%s\n", country_name);
-		strcpy(country_name, country_codes[country_code]);
+		country_code = atoi(buff_2);
+//		printf("%d\n", country_code);
+		clean(buff_2, INITIAL_SIZE);
+
+
+//		printf("%s\n", country_name);
+		strcpy(country_codes[country_code], country_name);
+//		printf("n. %d is: %s\n", country_code, country_codes[country_code]);
 	}
 
 	fclose(fp);

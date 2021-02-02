@@ -34,7 +34,6 @@ int main(int argc, char * argv[])
 		return ERROR_LOADING_COUNTRY_CODES;	
 
 
-	printf("Hello world! (after load_country_codes call)\n");
 	printf("the country number 32 of iso 3166 is: %s\n", country_codes[32]);
 
 	fpi = fopen(src, "r");
