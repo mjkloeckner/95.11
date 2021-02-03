@@ -6,21 +6,15 @@
 #define INPUT_FILE_NAME_MSG 	"\t -> Archivo de entrada: "
 #define OUTPUT_FILE_NAME_MSG 	"\t -> Archivo de salida: "
 
-//	Checks if the arguments are right;
-status_t validate_arguments(int argc, char * argv[])
+//	Valida que los argumentos esten correctos y guarda los nombres de los 
+//	archivos de entrada y salida en src y dest respectivamente;
+status_t validate_arguments(int argc, char * argv[], char * src, char * dest)
 {
 	if(argc == NO_CMD_ARGUMENTS)
 		return ERROR_INVOCATING_PROGRAM;
 	else if(argv == NULL)
 		return ERROR_NULL_POINTER;
 
-	return OK;
-}
-
-//	Valida que los argumentos esten correctos y guardas los nombres de los 
-//	archivos de entrada y salida en src y dest respectivamente;
-status_t set_files_name(int argc, char * argv[], char * src, char * dest)
-{
 	int i;
 	status_t inputFile, outputFile;
 	inputFile = outputFile = FILE_NOT_FOUND;

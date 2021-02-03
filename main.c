@@ -41,18 +41,11 @@ int main(int argc, char * argv[])
 
 //	char **country_codes = (char**)malloc(COUNTRIES_NUMBER * ARRAYS_LENGTH * sizeof(char));
 
-	if((st = validate_arguments(argc, argv)) != OK) {
+	if((st = validate_arguments(argc, argv, src, dest)) != OK) {
 		print_error(st);
 		return st;
 	}
 	
-
-
-	if((st = set_files_name(argc, argv, src, dest)) != OK) {
-		print_error(st);
-		return st;
-	}
-
 
 	if(load_country_codes(country_codes) != OK)
 		return ERROR_LOADING_COUNTRY_CODES;	
