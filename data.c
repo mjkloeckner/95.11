@@ -10,8 +10,8 @@ void print_error(status_t error)
 		case ERROR_NULL_POINTER:
 			fprintf(stderr, MSG_ERROR_NULL_POINTER"\n");
 			break;
-		case FILE_NOT_FOUND: 
-			fprintf(stderr, MSG_FILE_NOT_FOUND"\n");
+		case IO_FILE_NOT_FOUND: 
+			fprintf(stderr, MSG_IO_FILE_NOT_FOUND"\n");
 			break;
 		case ERROR_LOADING_COUNTRY_CODES:
 			fprintf(stderr, MSG_ERROR_LOADING_COUNTRY_CODES"\n");

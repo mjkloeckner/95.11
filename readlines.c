@@ -2,7 +2,6 @@
 //	por linea, y los va imprimiendo en pantalla
 
 
-
 #include "readlines.h"
 
 #define COUNTRY_PROMPT "Pais"
@@ -12,6 +11,7 @@ const char date_print_format[] = "%d %b %Y";
 status_t readlines(char *src, char *dest)
 {
 	size_t line, i, j;
+	status_t st;
 
 //	Puntero para el archivo de entrada;	
 	FILE *fp;
@@ -23,13 +23,17 @@ status_t readlines(char *src, char *dest)
 //	codigo de pais, una fecha o el numero de infectados;
 	data_t data;
 
-	char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH];
-	load_country_codes(country_codes);
-
 	unsigned long country;
 	unsigned long date;
 	unsigned long infected;
 
+//	Arreglo para almacenar los codigos de los paises segun el standard iso3166-1,
+	char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH];
+
+//	Carga los datos al arreglo mencionado previamente, en caso de haber algun
+//	error devuelve el codigo de dicho error;
+	if((st = load_country_codes(country_codes)) != OK)
+		return st;
 
 //	Abre el archivo de entrada en modo lectura si por algun motivo no se puede
 //	abrir devuelve un codigo de error;

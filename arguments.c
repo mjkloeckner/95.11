@@ -19,7 +19,7 @@ status_t validate_arguments(int argc, char * argv[], char * src, char * dest)
 
 	int i;
 	status_t inputFile, outputFile;
-	inputFile = outputFile = FILE_NOT_FOUND;
+	inputFile = outputFile = IO_FILE_NOT_FOUND;
 
 	for(i = 1; i < argc; i++) {
 		if(!strcmp(argv[i], INPUT_ARGUMENT)) {

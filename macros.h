@@ -19,13 +19,16 @@
 										"\t$ ./main -out <output file -in <input file>\n"\
 										"Read documentation to know more"
 
-#define MSG_FILE_NOT_FOUND 	"FILE_NOT_FOUND\n"\
-							"No se ha encontrado dicho archivo"
+#define MSG_IO_FILE_NOT_FOUND 	"\nIO_FILE_NOT_FOUND\n"\
+								"Un de los archivos de entrada o salida no se ha especificado"\
 
-#define MSG_ERROR_LOADING_COUNTRY_CODES "Ha ocurrido un error al cargar los codigos de los paises\n"\
+#define MSG_ERROR_LOADING_COUNTRY_CODES "ERROR_LOADING_COUNTRY_CODES\n"\
+										"Ha ocurrido un error al cargar los codigos de los paises\n"\
 										"compruebe que el archivo \"iso3166-1.csv\" se encuentre\n"\
 										"disponible en el directorio en el el programa ha sido ejecutado"
+
 #define MSG_ERROR_PRINTING
+
 #define MSG_ERROR_READING_FILE			"\nERROR_READING_FILE\n"\
 										"El archivo de entrada no pudo ser leido, compruebe que el nombre este\n"\
 										"escrito correctamente y la existencia de el mismo"
