@@ -12,6 +12,8 @@ status_t validate_arguments(int argc, char * argv[], char * src, char * dest)
 {
 	if(argc == NO_CMD_ARGUMENTS)
 		return ERROR_INVOCATING_PROGRAM;
+	else if(argc == ONE_CMD_ARGUMENT)
+		return ERROR_INVOCATING_PROGRAM;
 	else if(argv == NULL)
 		return ERROR_NULL_POINTER;
 

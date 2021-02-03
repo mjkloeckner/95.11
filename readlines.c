@@ -1,4 +1,5 @@
-//	Lee el archivo de entrada 
+//	Lee el archivo de entrada y va separando los datos mientras va leyendo linea
+//	por linea, y los va imprimiendo en pantalla
 
 
 
@@ -50,19 +51,49 @@ status_t readlines(char *src, char *dest)
 			{
 
 //				Si encuentra una coma cambia el tipo de dato;
-				if((buff1[i] == ',') || (buff1[i] == '\n'))
+				if((buff1[i] == ','))
 				{
+
+//					Se incrementa i para evitar que sea guardado en algun lado;
 					i++;
+
+//					De acuerdo al tipo de dato que se guardo hasta llegar a la
+//					coma va a guardarlo de distinta manera, ej: si el dato que
+//					se guardo en buff2 era el codigo de un PAIS, entonces lo 
+//					guarda en la variable country, si el tipo de dato que se 
+//					guardo en buff2 era una fecha entonces lo guarda en date, etc;
 					switch(data) 
 					{
 						case PAIS: country = atoi(buff2); break;
 						case DATE: date = atol(buff2); j++; break;
 						case INFECTED: infected = atol(buff2); break;
 					}
+
+//					Como encontro una coma entonces el tipo de dato cambia;
 					data++;
+
+//					j vale cero porque es el indice de el buffer en el que se van
+//					guardando los datos;
 					j = 0;
+
+//					Se limpia el buffer ya que se va a volver a utilizar;
 					clean_buffer(buff2);
-					printf("data: %d\n", data);
+
+
+//				Si en lugar de una coma se encuentra un caracter de nueva line 
+//				entonces significa que esta parado en el ultimo dato
+				} else if (buff1[i] == '\n') {
+
+//					Si estamos parados en el ultimo dato y no es INFECTED,
+//					entonces la variable datos no se incremento tres veces, por
+//					lo cual se supone que falta un dato, devolviendo un codigo de
+//					error;
+					if(data != INFECTED) 
+						return ERROR_DATA_ON_FILE_MISSING;
+
+//					Si esta todo bien entonces el dato vuelve a ser PAIS que es 
+//					el primer dato de el archivo de entrada
+					data = PAIS;
 				}
 
 				switch(data) 
