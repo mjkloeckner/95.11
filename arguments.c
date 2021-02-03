@@ -1,7 +1,7 @@
 #include "arguments.h"
 
-#define INPUT_ARGUMENT_FOUND_MSG 	"Encontre un -in\n"
-#define OUTPUT_ARGUMENT_FOUND_MSG 	"Encontre un -out\n"
+#define INPUT_ARGUMENT_FOUND_MSG 	"Encontre un '-in'\n"
+#define OUTPUT_ARGUMENT_FOUND_MSG 	"Encontre un '-out'\n"
 
 #define INPUT_FILE_NAME_MSG 	"\t -> Archivo de entrada: "
 #define OUTPUT_FILE_NAME_MSG 	"\t -> Archivo de salida: "

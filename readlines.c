@@ -4,12 +4,6 @@
 
 const char date_print_format[] = "%d %b %Y";
 
-status_t print_country(size_t country_code, char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH]);
-status_t print_date(size_t data);
-status_t print_infected(size_t data);
-status_t clean_buffer(char *buffer);
-status_t time_translator(time_t unix_time, char *res, size_t size); 
-
 status_t readlines(void)
 {
 	size_t line, i, j;
@@ -57,8 +51,8 @@ status_t readlines(void)
 				}
 			}
 			print_country(country, country_codes);
-//			print_date(date);
-//			print_infected(infected);
+			print_date(date);
+			print_infected(infected);
 		}
 	}
 
