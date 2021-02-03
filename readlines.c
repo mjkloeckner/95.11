@@ -31,8 +31,8 @@ status_t readlines(char *src, char *dest)
 	unsigned long infected;
 
 
-// Abre el archivo de entrada en modo lectura si por algun motivo no se puede
-// abrir devuelve un codigo de error;
+//	Abre el archivo de entrada en modo lectura si por algun motivo no se puede
+//	abrir devuelve un codigo de error;
 	if((fp = fopen(src, "r")) == NULL)
 			return ERROR_READING_FILE;
 
@@ -128,8 +128,11 @@ status_t print_country(size_t country_code, char country_codes[COUNTRIES_NUMBER]
 status_t print_date(size_t date)
 {
 	char time_c[TIME_MAX_DIGITS];
-	
-	time_translator(date, time_c, sizeof(time_c));
+	status_t st;
+
+	if((st = time_translator(date, time_c, sizeof(time_c))) != OK)
+		return st;
+
 	printf("Fecha: %s\n", time_c);
 
 	return OK;
@@ -149,7 +152,7 @@ status_t clean_buffer(char *buffer)
 
 	while(*buffer != '\0')
 	{
-		(*buffer) = ' ';
+		(*buffer) = '\0';
 		buffer++;
 	}
 	return OK;
@@ -158,6 +161,9 @@ status_t clean_buffer(char *buffer)
 
 status_t time_translator(time_t unix_time, char *res, size_t size) 
 {
+	if(res == NULL)
+		return ERROR_NULL_POINTER;
+
 	const char *format = date_print_format;
 	struct tm *tmp = gmtime(&unix_time);
 

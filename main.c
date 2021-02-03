@@ -59,5 +59,6 @@ int main(int argc, char * argv[])
 		return st;
 	}	
 
+	printf(MSG_OK);
 	return OK;
 }

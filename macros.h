@@ -19,17 +19,24 @@
 										"\t$ ./main -out <output file -in <input file>\n"\
 										"Read documentation to know more"
 
-#define MSG_FILE_NOT_FOUND "No se ha encontrado dicho archivo\n"
+#define MSG_FILE_NOT_FOUND 	"FILE_NOT_FOUND\n"\
+							"No se ha encontrado dicho archivo"
 
-#define MSG_ERROR_LOADING_COUNTRY_CODES
+#define MSG_ERROR_LOADING_COUNTRY_CODES "Ha ocurrido un error al cargar los codigos de los paises\n"\
+										"compruebe que el archivo \"iso3166-1.csv\" se encuentre\n"\
+										"disponible en el directorio en el el programa ha sido ejecutado"
 #define MSG_ERROR_PRINTING
-#define MSG_ERROR_READING_FILE
-#define MSG_ERROR_ALLOCATING_TIME
+#define MSG_ERROR_READING_FILE			"\nERROR_READING_FILE\n"\
+										"El archivo de entrada no pudo ser leido, compruebe que el nombre este\n"\
+										"escrito correctamente y la existencia de el mismo"
+
+#define MSG_ERROR_ALLOCATING_TIME		"\nstrftime(3): el formato especificado "
+
 #define MSG_ERROR_DATA_ON_FILE_MISSING	"\nERROR_DATA_ON_FILE_MISSING\n"\
 										"En alguna linea de el archivo de entrada falta un dato,\n"\
 										"compruebe que dicho archivo no esta corrupto y ejecute\n"\
 										"el programa nuevamente"
 
-#define MSG_OK "Everything executed correctly\n"
+#define MSG_OK "\nEverything executed correctly.\n"
 
 #endif
