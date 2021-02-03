@@ -3,6 +3,8 @@
 
 #include "readlines.h"
 
+const char formato_de_la_fecha[] = "%d %b %Y";
+
 status_t readlines(char *src, char *dest)
 {
 	size_t line, i, j;
@@ -172,7 +174,7 @@ status_t time_translator(time_t unix_time, char *res, size_t size)
 	if(res == NULL)
 		return ERROR_NULL_POINTER;
 
-	const char *format = date_output_format;
+	const char *format = formato_de_la_fecha;
 	struct tm *tmp = gmtime(&unix_time);
 
 	if (strftime(res, size, format, tmp) == 0) {

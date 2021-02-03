@@ -3,8 +3,6 @@
 // a dicho arreglo con los codigos cargados;
 
 
-#include "main.h"
-#include "macros.h"
 #include "load_country_codes.h"
 
 

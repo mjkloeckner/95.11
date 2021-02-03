@@ -1,16 +1,10 @@
-#ifndef MACROS_H
-#define MACROS_H
+#ifndef DATA_H
+#define DATA_H
 
-#define NO_CMD_ARGUMENTS	1
-#define ONE_CMD_ARGUMENT	2
-#define MAX_CMD_ARGUMENTS	5
+#include "main.h"
 
-#define INPUT_ARGUMENT			"-in"
-#define OUTPUT_ARGUMENT			"-out"
+void print_error(status_t error);
 
-#define INITIAL_SIZE		1000
-
-/*
 #define MSG_ERROR_NULL_POINTER	"ERROR_NULL_POINTER\n"\
 								"An unexpected error has occured during the execution\n"\
 								"of the program"
@@ -44,5 +38,5 @@
 										"el programa nuevamente"
 
 #define MSG_OK "\nEverything executed correctly.\n"
-*/
+
 #endif

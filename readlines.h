@@ -12,7 +12,7 @@
 #define INITIAL_SIZE 1000
 #define TIME_MAX_DIGITS 1000
 
-const char date_output_format[] = "%d %b %Y";
+extern const char formato_de_la_fecha[];
 
 typedef enum {
 	PAIS,

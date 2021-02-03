@@ -1,6 +1,5 @@
+#include "perrors.h"
 #include "main.h"
-#include "macros.h"
-
 
 //	The switch below the order of the error must be in the same as "main.h" 
 //	status_t structure, in order to print the correct errors;
