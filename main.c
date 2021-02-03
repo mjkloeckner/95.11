@@ -31,11 +31,6 @@ int main(int argc, char * argv[])
 	status_t st;
 
 	char src[32], dest[32];
-//	char dest[32];
-
-
-	FILE *fpi;
-//		, *fpo;
 
 	char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH];
 
@@ -55,10 +50,5 @@ int main(int argc, char * argv[])
 
 	readlines();
 
-	fpi = fopen(src, "r");
-//	fpo = fopen(dest, "w");
-
-	fclose(fpi);
-//	fclose(fpo);
 	return OK;
 }
