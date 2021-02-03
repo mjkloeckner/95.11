@@ -47,17 +47,19 @@ int main(int argc, char * argv[])
 		return st;
 	}
 	
-
 //	Carga los codigos de error de los paises de acuerdo al standard iso3166 en el
 //	arreglo mencionado previamente 'country_codes', en caso de haber algun error 
 //	en el proceso devuelve dicho codigo e impreme por stderr un mensaje de error; 
-	if(load_country_codes(country_codes) != OK)
+	if((st = load_country_codes(country_codes)) != OK) {
+		print_error(st);
 		return ERROR_LOADING_COUNTRY_CODES;	
+	}
 
 	if((st = readlines(src, dest)) != OK) {
 		print_error(st);
 		return st;
 	}	
 
+	printf(MSG_OK);
 	return OK;
 }
