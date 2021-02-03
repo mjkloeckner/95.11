@@ -1,11 +1,20 @@
+// Carga en memoria los codigos de los paises de el archivo de nombre 
+// "COUNTRY_CODES_FILE_NAME" definido en macros.h y devuelve un puntero
+// a dicho arreglo con los codigos cargados;
+
+
 #include "main.h"
 #include "macros.h"
 #include "load_country_codes.h"
 
 status_t clean (char *buffer, size_t size)
 {
-    size_t i;
+	size_t i;
     i = 0;
+
+	if(buffer == NULL)
+		return ERROR_NULL_POINTER;
+
     while(i < size) {
         buffer[i] = '\0';
         i++;
@@ -13,7 +22,7 @@ status_t clean (char *buffer, size_t size)
     return OK;
 }
 
-
+//	Inicializa el arreglo alocando el caracter '\0' en todas las posiciones;
 status_t empty_country_codes(char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH]) 
 {
 	size_t i, j;
@@ -27,6 +36,12 @@ status_t empty_country_codes(char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH]
 	return OK;
 }
 
+
+// Abre el archivo "COUNTRY_CODES_FILE_NAME" y lee linea por linea hasta llegar
+// al final, mientras lee lo va guardando en un buffer que recorre caracter por
+// caracter en busqueda de el character separador de datos, en este caso ',', 
+// mientras recorre el buffer va separando los datos y los guarda en la variable
+// que corresponda;
 status_t load_country_codes(char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH])
 {
 	FILE *fp;
@@ -68,15 +83,11 @@ status_t load_country_codes(char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH])
 			}
 		}
 		country_code = atoi(buff_2);
-//		printf("%d\n", country_code);
 		clean(buff_2, INITIAL_SIZE);
-
-
-//		printf("%s\n", country_name);
 		strcpy(country_codes[country_code], country_name);
-//		printf("n. %d is: %s\n", country_code, country_codes[country_code]);
 	}
 
+//	Cierra el archivo que contiene el codigo de los paises de acuerdo al estandar;
 	fclose(fp);
 	free(buff);
 	return OK;
