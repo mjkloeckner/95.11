@@ -1,0 +1,36 @@
+Pais: Argentina
+Fecha: 01 Jan 2020
+Infectados: 2342
+
+Pais: Argentina
+Fecha: 10 Jan 2020
+Infectados: 4923
+
+Pais: Argentina
+Fecha: 15 Jan 2020
+Infectados: 9324
+
+Pais: Colombia
+Fecha: 01 Jan 2020
+Infectados: 8234
+
+Pais: Colombia
+Fecha: 10 Jan 2020
+Infectados: 9234
+
+Pais: Colombia
+Fecha: 15 Jan 2020
+Infectados: 9423
+
+Pais: Germany
+Fecha: 01 Jan 2020
+Infectados: 8432
+
+Pais: Germany
+Fecha: 15 Jan 2020
+Infectados: 9129
+
+Pais: Germany
+Fecha: 20 Jan 2020
+Infectados: 4214
+

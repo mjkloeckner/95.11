@@ -6,6 +6,9 @@
 
 #define COUNTRY_PROMPT "Pais"
 
+#define SIZE_OF_BUFF1	32
+#define SIZE_OF_BUFF2	32	
+
 const char date_print_format[] = "%d %b %Y";
 
 status_t readlines(char *src, char *dest)
@@ -14,11 +17,15 @@ status_t readlines(char *src, char *dest)
 	status_t st;
 
 //	Puntero para el archivo de entrada y de salida respectivamente;	
-	FILE *fpi, *fpo;
+	FILE *fpi; 
+	FILE *fpo;
 
 
-	char buff1[] = "                          ";
-	char buff2[] = "                          ";
+	char buff1[SIZE_OF_BUFF1];
+	char buff2[SIZE_OF_BUFF2];
+
+	clean_buffer(buff1, SIZE_OF_BUFF1);
+	clean_buffer(buff2, SIZE_OF_BUFF2);
 
 //	Esta variable es para saber de que tipo de dato estamos hablando, si es un
 //	codigo de pais, una fecha o el numero de infectados;
@@ -41,15 +48,15 @@ status_t readlines(char *src, char *dest)
 	if((fpi = fopen(src, "r")) == NULL)
 			return ERROR_READING_FILE;
 
+	if((fpo = fopen(dest, "w")) == NULL)
+			return ERROR_READING_FILE;
 
 //	Lee de el archivo de entrada linea por linea y va guardando las 
 //	lineas en buff1 hasta que se terminen;
 	for(line = 0; fgets(buff1, sizeof(buff1), fpi) != NULL; line++)
 	{
-
 //	Este 'if' es para evitar la primer linea que no contiene ningun tipo de dato;
 		if(line != 0) {
-
 //			Recorre el buff1 separando los datos de acuerdo a si es el codigo de
 //			un pais, una fecha o el numero de infectados;
 			for(i = 0, j = 0, data = PAIS; buff1[i] != '\0'; i++)
@@ -58,8 +65,7 @@ status_t readlines(char *src, char *dest)
 //				Si encuentra una coma cambia el tipo de dato;
 				if((buff1[i] == ','))
 				{
-
-//					Se incrementa i para evitar que sea guardado en algun lado;
+//					Saltea la coma;					
 					i++;
 
 //					De acuerdo al tipo de dato que se guardo hasta llegar a la
@@ -71,8 +77,8 @@ status_t readlines(char *src, char *dest)
 					{
 						case PAIS: country = atoi(buff2); break;
 						case DATE: date = atol(buff2); j++; break;
-						case INFECTED: infected = atol(buff2); break;
 					}
+
 
 //					Como encontro una coma entonces el tipo de dato cambia;
 					data++;
@@ -82,7 +88,7 @@ status_t readlines(char *src, char *dest)
 					j = 0;
 
 //					Se limpia el buffer ya que se va a volver a utilizar;
-					clean_buffer(buff2);
+					clean_buffer(buff2, SIZE_OF_BUFF2);
 
 
 //				Si en lugar de una coma se encuentra un caracter de nueva line 
@@ -99,6 +105,8 @@ status_t readlines(char *src, char *dest)
 //					Si esta todo bien entonces el dato vuelve a ser PAIS que es 
 //					el primer dato de el archivo de entrada
 					data = PAIS;
+					infected = atol(buff2);
+					clean_buffer(buff2, SIZE_OF_BUFF2);
 				}
 
 				switch(data) 
@@ -106,60 +114,63 @@ status_t readlines(char *src, char *dest)
 					case PAIS: buff2[i] = buff1[i];	break;
 					case DATE: buff2[j] = buff1[i]; j++; break;
 					case INFECTED: buff2[j] = buff1[i]; j++; break;
-
 				}
 			}
-//			print_country(country, country_codes);
-//			print_date(date);
-//			print_infected(infected);
+			fprintf_country(fpo, country, country_codes);
+			fprintf_date(fpo, date);
+			fprintf_infected(fpo, infected);
 		}
 	}
 
 	fclose(fpi);
+	fclose(fpo);
 	return OK;
 }
 
 
 
-status_t print_country(size_t country_code, char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH])
+status_t fprintf_country(FILE *dest, size_t country_code, char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH])
 {
-	if(country_codes == NULL)
+	if((country_codes == NULL) || (dest == NULL))
 		return ERROR_NULL_POINTER;
 
-	printf(COUNTRY_PROMPT": %s\n", country_codes[country_code]);
+	fprintf(dest, COUNTRY_PROMPT": %s\n", country_codes[country_code]);
 	return OK;
 }
 
-status_t print_date(size_t date)
+status_t fprintf_date(FILE *dest, size_t date)
 {
 	char time_c[TIME_MAX_DIGITS];
 	status_t st;
 
+	if(dest == NULL)
+		return ERROR_NULL_POINTER;
+
 	if((st = time_translator(date, time_c, sizeof(time_c))) != OK)
 		return st;
 
-	printf("Fecha: %s\n", time_c);
-
+	fprintf(dest, "Fecha: %s\n", time_c);
 	return OK;
 }
 
-status_t print_infected(size_t infected)
+status_t fprintf_infected(FILE *dest, size_t infected)
 {
-	printf("Infectados: %lu\n\n", infected);
+	if(dest == NULL)
+		return ERROR_NULL_POINTER;
 
+	fprintf(dest, "Infectados: %lu\n\n", infected);
 	return OK;
 }
 
-status_t clean_buffer(char *buffer)
+status_t clean_buffer(char *buffer, size_t size)
 {
 	if(buffer == NULL)
 		return ERROR_NULL_POINTER;
 
-	while(*buffer != '\0')
-	{
-		(*buffer) = '\0';
-		buffer++;
-	}
+	size_t i;
+	for(i = 0; i < size; i++)
+		buffer[i] = '\0';
+	
 	return OK;
 }
 
