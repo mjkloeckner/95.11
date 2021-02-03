@@ -2,6 +2,7 @@
 #include "arguments.h"
 #include "macros.h"
 #include "load_country_codes.h"
+#include "readlines.h"
 
 #define CANTIDAD_DE_DATOS 3
 
@@ -34,7 +35,9 @@ int main(int argc, char * argv[])
 		return ERROR_LOADING_COUNTRY_CODES;	
 
 
-	printf("the country number 32 of iso 3166 is: %s\n", country_codes[32]);
+	putchar('\n');
+
+	readlines();
 
 	fpi = fopen(src, "r");
 //	fpo = fopen(dest, "w");

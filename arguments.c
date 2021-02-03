@@ -1,5 +1,10 @@
 #include "arguments.h"
 
+#define INPUT_ARGUMENT_FOUND_MSG 	"Encontre un -in\n"
+#define OUTPUT_ARGUMENT_FOUND_MSG 	"Encontre un -out\n"
+
+#define INPUT_FILE_NAME_MSG 	"\t -> Archivo de entrada: "
+#define OUTPUT_FILE_NAME_MSG 	"\t -> Archivo de salida: "
 
 //	Checks if the arguments are right;
 status_t validate_arguments(int argc, char * argv[])
@@ -17,27 +22,28 @@ status_t set_files_name(int argc, char * argv[], char * src, char * dest)
 {
 	int i;
 	status_t inputFile, outputFile;
-	inputFile = outputFile = NOT_FOUND;
+	inputFile = outputFile = FILE_NOT_FOUND;
 
 	for(i = 1; i < argc; i++) {
-		if(!strcmp(argv[i], SOURCE_ARGUMENT)) {
-			printf("Encontre un '-in'\n");
-			if(!strcmp(argv[i + 1], DESTINATION_ARGUMENT))
+		if(!strcmp(argv[i], INPUT_ARGUMENT)) {
+			printf(INPUT_ARGUMENT_FOUND_MSG);
+			if(!strcmp(argv[i + 1], OUTPUT_ARGUMENT))
 				return ERROR_INVOCATING_PROGRAM;
 
 			strcpy(src, argv[++i]);
-			printf("\tthen input file: '%s'\n", src);
+			printf(INPUT_FILE_NAME_MSG"'%s'\n", src);
 			inputFile = OK;
-		} else if(!strcmp(argv[i], DESTINATION_ARGUMENT)) {
-			printf("Encontre un '-out'\n");
-			if(!strcmp(argv[i + 1], SOURCE_ARGUMENT))
+		} else if(!strcmp(argv[i], OUTPUT_ARGUMENT)) {
+			printf(OUTPUT_ARGUMENT_FOUND_MSG);
+			if(!strcmp(argv[i + 1], INPUT_ARGUMENT))
 
 				return ERROR_INVOCATING_PROGRAM;
 			strcpy(dest, argv[++i]);
-			printf("\tthen output file: '%s'\n", argv[i]);
+			printf(OUTPUT_FILE_NAME_MSG"'%s'\n", argv[i]);
 			outputFile = OK;
 		}
 	}
+
 //	Return error if it could get input or output file names;
 	if((inputFile && outputFile) != OK)
 		return ERROR_INVOCATING_PROGRAM;
