@@ -38,11 +38,11 @@ status_t empty_country_codes(char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH]
 }
 
 
-// Abre el archivo "COUNTRY_CODES_FILE_NAME" y lee linea por linea hasta llegar
-// al final, mientras lee lo va guardando en un buffer que recorre caracter por
-// caracter en busqueda de el character separador de datos, en este caso ',', 
-// mientras recorre el buffer va separando los datos y los guarda en la variable
-// que corresponda;
+//	Abre el archivo "COUNTRY_CODES_FILE_NAME" y lee linea por linea hasta llegar
+//	al final, mientras lee lo va guardando en un buffer que recorre caracter por
+//	caracter en busqueda de el character separador de datos, en este caso ',', 
+//	mientras recorre el buffer va separando los datos y los guarda en la variable
+//	que corresponda;
 status_t load_country_codes(char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH])
 {
 	FILE *fp;

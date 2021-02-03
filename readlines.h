@@ -1,18 +1,24 @@
-#ifndef READLINES
-#define READLINES
+#ifndef READLINES_H
+#define READLINES_H
 
 #include "main.h"
 #include "load_country_codes.h"
 
+#define COUNTRY_PROMPT "Pais"
+
+#define SIZE_OF_BUFF1	32
+#define SIZE_OF_BUFF2	32	
+
 #define INITIAL_SIZE 1000
 #define TIME_MAX_DIGITS 1000
+
+const char date_output_format[] = "%d %b %Y";
 
 typedef enum {
 	PAIS,
 	DATE,
 	INFECTED
 } data_t;
-
 
 status_t readlines(char *src, char *dest);
 status_t fprintf_date(FILE *dest, size_t data);
