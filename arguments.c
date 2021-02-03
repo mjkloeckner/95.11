@@ -17,7 +17,8 @@ status_t validate_arguments(int argc, char * argv[])
 	return OK;
 }
 
-//	Set the files name acording to the arguments;
+//	Valida que los argumentos esten correctos y guardas los nombres de los 
+//	archivos de entrada y salida en src y dest respectivamente;
 status_t set_files_name(int argc, char * argv[], char * src, char * dest)
 {
 	int i;
