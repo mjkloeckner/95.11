@@ -30,25 +30,31 @@ int main(int argc, char * argv[])
 //	caso de que haya alguno;
 	status_t st;
 
+//	Las siguientes variables son para guardar los nombres de los archivos de 
+//	entrada y salida luego de validar que los argumentos recibidos sean correctos;
 	char src[32], dest[32];
 
+//	El siguiente arreglo de dos dimensiones es donde se van a guardar los codigos
+//	de los paises;
 	char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH];
 
-//	char **country_codes = (char**)malloc(COUNTRIES_NUMBER * ARRAYS_LENGTH * sizeof(char));
-
+//	Valida de que los argumentos sean correctos y guarda los nombres de los
+//	archivos de entrada y salida en src y dest respectivamente, de haber algun
+//	error en el proceso devuelve un codigo de error de tipo status_t (definido 
+//	en main.h);
 	if((st = validate_arguments(argc, argv, src, dest)) != OK) {
 		print_error(st);
 		return st;
 	}
 	
 
+//	Carga los codigos de error de los paises de acuerdo al standard iso3166 en el
+//	arreglo mencionado previamente 'country_codes', en caso de haber algun error 
+//	en el proceso devuelve dicho codigo e impreme por stderr un mensaje de error; 
 	if(load_country_codes(country_codes) != OK)
 		return ERROR_LOADING_COUNTRY_CODES;	
 
-
-	putchar('\n');
-
-	readlines();
+	readlines(src, dest);
 
 	return OK;
 }

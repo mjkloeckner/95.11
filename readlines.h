@@ -19,7 +19,7 @@ typedef enum {
 } data_t;
 
 
-status_t readlines(void);
+status_t readlines(char *src, char *dest);
 status_t print_date(size_t data);
 status_t print_infected(size_t data);
 status_t clean_buffer(char *buffer);

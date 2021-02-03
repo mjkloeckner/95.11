@@ -1,15 +1,25 @@
+//	Lee el archivo de entrada 
+
+
+
 #include "readlines.h"
 
 #define COUNTRY_PROMPT "Pais"
 
 const char date_print_format[] = "%d %b %Y";
 
-status_t readlines(void)
+status_t readlines(char *src, char *dest)
 {
 	size_t line, i, j;
+
+//	Puntero para el archivo de entrada;	
 	FILE *fp;
+
 	char buff1[] = "                          ";
 	char buff2[] = "                          ";
+
+//	Esta variable es para saber de que tipo de dato estamos hablando, si es un
+//	codigo de pais, una fecha o el numero de infectados;
 	data_t data;
 
 	char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH];
@@ -19,15 +29,27 @@ status_t readlines(void)
 	unsigned long date;
 	unsigned long infected;
 
-	if((fp = fopen(INPUT_FILE_NAME, "r")) == NULL)
+
+// Abre el archivo de entrada en modo lectura si por algun motivo no se puede
+// abrir devuelve un codigo de error;
+	if((fp = fopen(src, "r")) == NULL)
 			return ERROR_READING_FILE;
 
+
+//	Lee de el archivo de entrada linea por linea y va guardando las 
+//	lineas en buff1 hasta que se terminen;
 	for(line = 0; fgets(buff1, sizeof(buff1), fp) != NULL; line++)
 	{
-//	This 'if' is to skip the first line which doesn't contain information;
+
+//	Este 'if' es para evitar la primer linea que no contiene ningun tipo de dato;
 		if(line != 0) {
+
+//			Recorre el buff1 separando los datos de acuerdo a si es el codigo de
+//			un pais, una fecha o el numero de infectados;
 			for(i = 0, j = 0, data = PAIS; buff1[i] != '\0'; i++)
 			{
+
+//				Si encuentra una coma cambia el tipo de dato;
 				if((buff1[i] == ',') || (buff1[i] == '\n'))
 				{
 					i++;
@@ -40,6 +62,7 @@ status_t readlines(void)
 					data++;
 					j = 0;
 					clean_buffer(buff2);
+					printf("data: %d\n", data);
 				}
 
 				switch(data) 
@@ -50,22 +73,11 @@ status_t readlines(void)
 
 				}
 			}
-			print_country(country, country_codes);
-			print_date(date);
-			print_infected(infected);
+//			print_country(country, country_codes);
+//			print_date(date);
+//			print_infected(infected);
 		}
 	}
-
-//	char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH];
-
-//	if(load_country_codes(country_codes) != OK)
-//		return ERROR_LOADING_COUNTRY_CODES;
-//	empty_country_codes(country_codes);
-
-//	size_t i;
-//	for(i = 0; i < 500; i++)
-//		printf("%s", *(country_codes + i));
-
 
 	fclose(fp);
 	return OK;
@@ -75,6 +87,9 @@ status_t readlines(void)
 
 status_t print_country(size_t country_code, char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH])
 {
+	if(country_codes == NULL)
+		return ERROR_NULL_POINTER;
+
 	printf(COUNTRY_PROMPT": %s\n", country_codes[country_code]);
 	return OK;
 }
