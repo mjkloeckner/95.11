@@ -6,7 +6,7 @@
 #include <string.h>
 #include <time.h>
 
-#define COUNTRY_CODES_FILE_NAME "iso3166-1_numbers_and_countries.csv"
+#define COUNTRY_CODES_FILE_NAME "iso3166-1.csv"
 
 typedef enum {
 	OK,

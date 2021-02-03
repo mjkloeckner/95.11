@@ -13,8 +13,9 @@ status_t readlines(char *src, char *dest)
 	size_t line, i, j;
 	status_t st;
 
-//	Puntero para el archivo de entrada;	
-	FILE *fp;
+//	Puntero para el archivo de entrada y de salida respectivamente;	
+	FILE *fpi, *fpo;
+
 
 	char buff1[] = "                          ";
 	char buff2[] = "                          ";
@@ -32,18 +33,18 @@ status_t readlines(char *src, char *dest)
 
 //	Carga los datos al arreglo mencionado previamente, en caso de haber algun
 //	error devuelve el codigo de dicho error;
-	if((st = load_country_codes(country_codes)) != OK)
+	if((st = load_country_codes(country_codes)) != OK) 
 		return st;
-
+	
 //	Abre el archivo de entrada en modo lectura si por algun motivo no se puede
 //	abrir devuelve un codigo de error;
-	if((fp = fopen(src, "r")) == NULL)
+	if((fpi = fopen(src, "r")) == NULL)
 			return ERROR_READING_FILE;
 
 
 //	Lee de el archivo de entrada linea por linea y va guardando las 
 //	lineas en buff1 hasta que se terminen;
-	for(line = 0; fgets(buff1, sizeof(buff1), fp) != NULL; line++)
+	for(line = 0; fgets(buff1, sizeof(buff1), fpi) != NULL; line++)
 	{
 
 //	Este 'if' es para evitar la primer linea que no contiene ningun tipo de dato;
@@ -114,7 +115,7 @@ status_t readlines(char *src, char *dest)
 		}
 	}
 
-	fclose(fp);
+	fclose(fpi);
 	return OK;
 }
 

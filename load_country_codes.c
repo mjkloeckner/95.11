@@ -62,8 +62,9 @@ status_t load_country_codes(char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH])
 		
 	buff = malloc(INITIAL_SIZE);
 	
-	if((fp = fopen(COUNTRY_CODES_FILE_NAME, "r")) == NULL)
+	if((fp = fopen(COUNTRY_CODES_FILE_NAME, "r")) == NULL) {
 		return ERROR_LOADING_COUNTRY_CODES;
+	}
 
 
 	while(fgets(buff, INITIAL_SIZE, fp) != NULL) {

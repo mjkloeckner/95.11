@@ -22,10 +22,12 @@
 #define MSG_IO_FILE_NOT_FOUND 	"\nIO_FILE_NOT_FOUND\n"\
 								"Un de los archivos de entrada o salida no se ha especificado"\
 
-#define MSG_ERROR_LOADING_COUNTRY_CODES "ERROR_LOADING_COUNTRY_CODES\n"\
-										"Ha ocurrido un error al cargar los codigos de los paises\n"\
-										"compruebe que el archivo \"iso3166-1.csv\" se encuentre\n"\
-										"disponible en el directorio en el el programa ha sido ejecutado"
+#define MSG_ERROR_LOADING_COUNTRY_CODES "\nERROR_LOADING_COUNTRY_CODES\n"\
+										"Ha ocurrido un error al cargar los codigos de los paises.\n"\
+										"compruebe que el archivo \""COUNTRY_CODES_FILE_NAME"\" se encuentre\n"\
+										"disponible en el directorio de el programa ejecutado y que\n"\
+										"el nombre coincida con el de \"COUNTRY_CODES_FILE_NAME\" dentro\n"\
+										"de el archivo main.h\n"
 
 #define MSG_ERROR_PRINTING
 
