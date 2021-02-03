@@ -1,13 +1,14 @@
-$(CC)=gcc
+CC = gcc
+CFLAGS = -std=c99
 
 all: main clean
 
 
 main: main.o arguments.o data.o load_country_codes.o readlines.o
-	$(CC) main.o arguments.o data.o load_country_codes.o readlines.o -g -o main 
+	$(CC) $(CFLAGS) main.o arguments.o data.o load_country_codes.o readlines.o -o main 
 
 main.o: main.c main.h arguments.h macros.h
-	$(CC) -g -c main.c
+	$(CC) -c main.c
 
 arguments.o: arguments.c arguments.h macros.h
 	$(CC) -c arguments.c
