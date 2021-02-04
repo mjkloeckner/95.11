@@ -1,11 +1,5 @@
 #include "arguments.h"
 
-#define INPUT_ARGUMENT_FOUND_MSG 	"Encontre un '-in'\n"
-#define OUTPUT_ARGUMENT_FOUND_MSG 	"Encontre un '-out'\n"
-
-#define INPUT_FILE_NAME_MSG 	"\t -> Archivo de entrada: "
-#define OUTPUT_FILE_NAME_MSG 	"\t -> Archivo de salida: "
-
 //	Valida que los argumentos esten correctos y guarda los nombres de los 
 //	archivos de entrada y salida en src y dest respectivamente;
 status_t validate_arguments(int argc, char * argv[], char * src, char * dest)
@@ -38,6 +32,8 @@ status_t validate_arguments(int argc, char * argv[], char * src, char * dest)
 
 //			Marca el archivo de entrada como encontrado;
 			inputFile = OK;
+
+//		Procede de la misma forma pero para OUTPUT_ARGUMENT ('-out');
 		} else if(!strcmp(argv[i], OUTPUT_ARGUMENT)) {
 			printf(OUTPUT_ARGUMENT_FOUND_MSG);
 			if(!strcmp(argv[i + 1], INPUT_ARGUMENT))
@@ -49,7 +45,8 @@ status_t validate_arguments(int argc, char * argv[], char * src, char * dest)
 		}
 	}
 
-//	Return error if it could get input or output file names;
+//	Si uno o ambos de los argumentos no se encontro entonces imprime un codigo 
+//	de error;
 	if((inputFile && outputFile) != OK)
 		return IO_FILE_NOT_FOUND;
 

@@ -11,23 +11,21 @@
 //	Lee texto de un archivo con extension .csv cuyo nombre recibe 
 //	como argumento; el cual contiene solo numeros que representan 
 //	un pais, una fecha y una cantidad de infectados y lo guarda en
-//	un archivo de extension .csv que tambien recibe como argumento,
-//	si no recibe un archivo de salida crea uno con el nombre por
-//	defecto 'output.csv';
+//	un archivo de texto cuyo nombre tambien recibe como argumento.
 
 
 #include "main.h"
-#include "arguments.h"
 #include "macros.h"
+#include "arguments.h"
 #include "load_country_codes.h"
 #include "readlines.h"
+#include "perrors.h"
 
 
 int main(int argc, char * argv[])
 {
 
-//	Esta variable es para guardar los codigos de error en
-//	caso de que haya alguno;
+//	Esta variable es para guardar los codigos de error;
 	status_t st;
 
 //	Las siguientes variables son para guardar los nombres de los archivos de 

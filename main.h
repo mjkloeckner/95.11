@@ -6,6 +6,8 @@
 #include <string.h>
 #include <time.h>
 
+#include "macros.h"
+
 #define COUNTRY_CODES_FILE_NAME "iso3166-1.csv"
 
 typedef enum {
