@@ -3,8 +3,6 @@
 
 #include "main.h"
 
-void print_error(status_t error);
-
 #define MSG_ERROR_NULL_POINTER	"ERROR_NULL_POINTER\n"\
 								"An unexpected error has occured during the execution\n"\
 								"of the program"
@@ -38,5 +36,9 @@ void print_error(status_t error);
 										"el programa nuevamente"
 
 #define MSG_OK "\nEverything executed correctly.\n"
+
+
+void print_error(status_t error);
+
 
 #endif
