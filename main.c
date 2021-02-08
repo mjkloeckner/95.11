@@ -37,6 +37,10 @@ int main(int argc, char * argv[])
 	ulong country, date, infected;
 	country = date = infected = 0;
 
+	prev_month = prev_country = -1;
+
+	infected_monthly = 0;
+
 //	El siguiente arreglo de dos dimensiones es donde se van a guardar los
 //	codigos	de los paises;
 	char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH];
@@ -67,7 +71,6 @@ int main(int argc, char * argv[])
 	if((fpo = fopen(dest, "w")) == NULL)
 			return ERROR_READING_FILE;
 
-
 	size_t line;
 	for(line = 0; (st = read_file(fpi, &country, &date, &infected)) == OK; line++) {
 		if(line != 0)
@@ -78,6 +81,8 @@ int main(int argc, char * argv[])
 
 	if(st != OK && st != END_OF_INPUT_FILE)
 		return st;
+
+	fprintf(fpo, "Infectados por mes: %lu\n", infected_monthly);	
 
 	fclose(fpi);
 	fclose(fpo);

@@ -2,33 +2,36 @@
 
 const char formato_de_la_fecha[] = "%d %b %Y";
 
+int prev_month, prev_country;
+ulong infected_monthly;
+
 status_t print_file(FILE *dest, char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH], ulong *country, ulong *date, ulong *infected) {
 
-			
+	int month;
 	char time_s[TIME_MAX_DIGITS];
 	time_translator(*(date), time_s, sizeof(time_s), "%m");
-//	month = atoi(time_s);
-//	printf("%d\n", month);
-//
-//	if(prev_country == 0 && prev_month == -1) {
-//		prev_country = country;
-//		prev_month = month;
-//	}
-//
+
+	month = atoi(time_s);
+	if((prev_month == -1) || (prev_country == -1)) {
+		prev_month = month;
+		prev_country = *country;
+	}
+
 //	Imprime la suma de infectados por mes cada vez que cambia el pais;
-//	if(country == prev_country && month == prev_month) {
-//		infected_monthly += infected;
-//	}	
-//	else if(country != prev_country) {
-//		fprintf(fpo, "Infectados por mes: %lu\n\n", infected_monthly);	
-//		prev_country = country;
-//	}
+	if(*(country) == prev_country && month == prev_month) {
+		infected_monthly += *(infected);
+	}	
+	else if(*(country) != prev_country || month != prev_month) {
+		fprintf(dest, "Infectados por mes: %lu\n\n", infected_monthly);	
+		prev_country = *(country);
+	}
+
 
 //	Imprime datos segun el archivo de entrada;
 	fprintf_country(dest, *(country), country_codes);
 	fprintf_date(dest, *(date));
 	fprintf_infected(dest, *(infected), '\n');
-
+	
 	return OK;
 }
 
