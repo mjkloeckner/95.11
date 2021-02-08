@@ -27,4 +27,4 @@ clean:
 	rm -f *.o 
 
 run: 
-	./main -in input.csv
+	./main -in input.csv -out output.txt
