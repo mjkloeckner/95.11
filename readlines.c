@@ -115,6 +115,11 @@ status_t readlines(char *src, char *dest, char country_codes[COUNTRIES_NUMBER][A
 				}
 			}
 
+
+//			Imprime en el archivo de salida de acuerdo a un formato especifico,
+//			los valores obtenidos de el archivo de entrada;
+//			print_to_file(country, date, infected);
+
 			time_translator(date, time_s, sizeof(time_s), "%m");
 			month = atoi(time_s);
 			printf("%d\n", month);
@@ -123,7 +128,7 @@ status_t readlines(char *src, char *dest, char country_codes[COUNTRIES_NUMBER][A
 				prev_country = country;
 				prev_month = month;
 			}
-
+			
 //			Imprime la suma de infectados por mes cada vez que cambia el pais;
 			if(country == prev_country && month == prev_month) {
 				infected_monthly += infected;

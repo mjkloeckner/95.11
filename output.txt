@@ -10,8 +10,6 @@ Pais: Argentina
 Fecha: 15 Jan 2020
 Infectados: 9324
 
-Infectados por mes: 16589
-
 Pais: Colombia
 Fecha: 01 Jan 2020
 Infectados: 8234
@@ -23,8 +21,6 @@ Infectados: 9234
 Pais: Colombia
 Fecha: 15 Jan 2020
 Infectados: 9423
-
-Infectados por mes: 35246
 
 Pais: Germany
 Fecha: 01 Jan 2020
