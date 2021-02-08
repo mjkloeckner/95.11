@@ -53,7 +53,7 @@ int main(int argc, char * argv[])
 		return ERROR_LOADING_COUNTRY_CODES;	
 	}
 
-	if((st = readlines(src, dest)) != OK) {
+	if((st = readlines(src, dest, country_codes)) != OK) {
 		print_error(st);
 		return st;
 	}	

@@ -5,7 +5,7 @@
 
 const char formato_de_la_fecha[] = "%d %b %Y";
 
-status_t readlines(char *src, char *dest)
+status_t readlines(char *src, char *dest, char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH])
 {
 	size_t line, i, j;
 	status_t st;
@@ -29,13 +29,16 @@ status_t readlines(char *src, char *dest)
 	unsigned long date;
 	unsigned long infected;
 
-//	Arreglo para almacenar los codigos de los paises segun el standard iso3166-1,
-	char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH];
+	unsigned long prev_country;
 
-//	Carga los datos al arreglo mencionado previamente, en caso de haber algun
-//	error devuelve el codigo de dicho error;
-	if((st = load_country_codes(country_codes)) != OK) 
-		return st;
+	char time_s[TIME_MAX_DIGITS];
+	unsigned int month;
+	unsigned int prev_month;
+
+//	Inizializamos la variable country en cero;
+	prev_country = 0; 
+	prev_month = -1;
+	unsigned long infected_monthly;
 	
 //	Abre el archivo de entrada en modo lectura si por algun motivo no se puede
 //	abrir devuelve un codigo de error;
@@ -55,7 +58,6 @@ status_t readlines(char *src, char *dest)
 //			un pais, una fecha o el numero de infectados;
 			for(i = 0, j = 0, data = PAIS; buff1[i] != '\0'; i++)
 			{
-
 //				Si encuentra una coma cambia el tipo de dato;
 				if((buff1[i] == ','))
 				{
@@ -66,7 +68,9 @@ status_t readlines(char *src, char *dest)
 //					coma va a guardarlo de distinta manera, ej: si el dato que
 //					se guardo en buff2 era el codigo de un PAIS, entonces lo 
 //					guarda en la variable country, si el tipo de dato que se 
-//					guardo en buff2 era una fecha entonces lo guarda en date, etc;
+//					guardo en buff2 era una fecha entonces lo guarda en date, etc.
+//					Solo puede ser PAIS o DATE, ya que INFECTADOS seria cuando
+//					ecuentra un caracter de nueva linea;
 					switch(data) 
 					{
 						case PAIS: country = atoi(buff2); break;
@@ -110,9 +114,30 @@ status_t readlines(char *src, char *dest)
 					case INFECTED: buff2[j] = buff1[i]; j++; break;
 				}
 			}
+
+			time_translator(date, time_s, sizeof(time_s), "%m");
+			month = atoi(time_s);
+			printf("%d\n", month);
+
+			if(prev_country == 0 && prev_month == -1) {
+				prev_country = country;
+				prev_month = month;
+			}
+
+//			Imprime la suma de infectados por mes cada vez que cambia el pais;
+			if(country == prev_country && month == prev_month) {
+				infected_monthly += infected;
+			}	
+			else if(country != prev_country) {
+				fprintf(fpo, "Infectados por mes: %lu\n\n", infected_monthly);	
+				prev_country = country;
+			}
+
+//			Imprime datos segun el archivo de entrada;
 			fprintf_country(fpo, country, country_codes);
 			fprintf_date(fpo, date);
-			fprintf_infected(fpo, infected);
+			fprintf_infected(fpo, infected, '\n');
+
 		}
 	}
 
@@ -120,7 +145,6 @@ status_t readlines(char *src, char *dest)
 	fclose(fpo);
 	return OK;
 }
-
 
 
 status_t fprintf_country(FILE *dest, size_t country_code, char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH])
@@ -140,19 +164,19 @@ status_t fprintf_date(FILE *dest, size_t date)
 	if(dest == NULL)
 		return ERROR_NULL_POINTER;
 
-	if((st = time_translator(date, time_c, sizeof(time_c))) != OK)
+	if((st = time_translator(date, time_c, sizeof(time_c), formato_de_la_fecha)) != OK)
 		return st;
 
 	fprintf(dest, "Fecha: %s\n", time_c);
 	return OK;
 }
 
-status_t fprintf_infected(FILE *dest, size_t infected)
+status_t fprintf_infected(FILE *dest, size_t infected, char newline)
 {
 	if(dest == NULL)
 		return ERROR_NULL_POINTER;
 
-	fprintf(dest, "Infectados: %lu\n\n", infected);
+	fprintf(dest, "Infectados: %lu\n%c", infected, newline);
 	return OK;
 }
 
@@ -169,12 +193,15 @@ status_t clean_buffer(char *buffer, size_t size)
 }
 
 
-status_t time_translator(time_t unix_time, char *res, size_t size) 
+
+//	Traduce de la fecha de formato unix a format y lo guarda en res como
+//	como una cadena de caracteres;
+status_t time_translator(time_t unix_time, char *res, size_t size, const char *format) 
 {
-	if(res == NULL)
+	if(res == NULL || format == NULL)
 		return ERROR_NULL_POINTER;
 
-	const char *format = formato_de_la_fecha;
+	
 	struct tm *tmp = gmtime(&unix_time);
 
 	if (strftime(res, size, format, tmp) == 0) {
