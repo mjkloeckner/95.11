@@ -18,14 +18,16 @@ status_t print_file(FILE *dest, char country_codes[COUNTRIES_NUMBER][ARRAYS_LENG
 	}
 
 //	Imprime la suma de infectados por mes cada vez que cambia el pais;
-	if(*(country) == prev_country && month == prev_month) {
+	if((*(country) == prev_country) && (month == prev_month)) {
 		infected_monthly += *(infected);
 	}	
 	else if(*(country) != prev_country || month != prev_month) {
-		fprintf(dest, "Infectados por mes: %lu\n\n", infected_monthly);	
+		fprintf(dest, "Infectados por mes: %lu\n", infected_monthly);	
+		fprintf(dest, "-------------------------\n\n");	
+		infected_monthly = *(infected);
+
 		prev_country = *(country);
 	}
-
 
 //	Imprime datos segun el archivo de entrada;
 	fprintf_country(dest, *(country), country_codes);

@@ -73,9 +73,9 @@ int main(int argc, char * argv[])
 
 	size_t line;
 	for(line = 0; (st = read_file(fpi, &country, &date, &infected)) == OK; line++) {
-		if(line != 0)
+		if(line != 0) {
 			print_file(fpo, country_codes, &country, &date, &infected);
-
+		}
 		st = OK;
 	}
 
@@ -83,6 +83,7 @@ int main(int argc, char * argv[])
 		return st;
 
 	fprintf(fpo, "Infectados por mes: %lu\n", infected_monthly);	
+	fprintf(fpo, "-------------------------\n\n");	
 
 	fclose(fpi);
 	fclose(fpo);
