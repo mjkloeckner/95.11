@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <stdbool.h>
 
 #include "macros.h"
 
@@ -45,5 +46,6 @@ typedef enum {
 	END_OF_INPUT_FILE,
 } status_t;
 
+void close_files(FILE *fpi, FILE *fpo);
 
 #endif

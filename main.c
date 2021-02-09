@@ -65,11 +65,15 @@ int main(int argc, char * argv[])
 
 //	Abre el archivo de entrada en modo lectura, y el de salida en modo 
 //	escritura, si por algun motivo falla imprime un codigo de error;
-	if((fpi = fopen(src, "r")) == NULL)
-			return ERROR_READING_FILE;
+	if((fpi = fopen(src, "r")) == NULL) {
+		fclose(fpi);
+		return ERROR_READING_FILE;
+	}
 
-	if((fpo = fopen(dest, "w")) == NULL)
-			return ERROR_READING_FILE;
+	if((fpo = fopen(dest, "w")) == NULL) {
+		fclose(fpo);
+		return ERROR_READING_FILE;
+	}
 
 	size_t line;
 	for(line = 0; (st = read_file(fpi, &country, &date, &infected)) == OK; line++) {
@@ -79,15 +83,20 @@ int main(int argc, char * argv[])
 		st = OK;
 	}
 
-	if(st != OK && st != END_OF_INPUT_FILE)
+	if(st != OK && st != END_OF_INPUT_FILE) {
+		close_files(fpi, fpo);
 		return st;
+	}
 
-	fprintf(fpo, "Infectados por mes: %lu\n", infected_monthly);	
-	fprintf(fpo, "-------------------------\n\n");	
+	fprintf_infected_monthly(fpo);
 
-	fclose(fpi);
-	fclose(fpo);
-
+	close_files(fpi, fpo);
 	printf(MSG_OK);
 	return OK;
+}
+
+void close_files(FILE *fpi, FILE *fpo)
+{
+	fclose(fpi);
+	fclose(fpo);
 }

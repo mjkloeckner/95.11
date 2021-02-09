@@ -53,3 +53,10 @@ status_t validate_arguments(int argc, char * argv[], char * src, char * dest)
 	return OK;
 }
 
+bool file_are_the_same(char *file1, char *file2)
+{
+	if(strcmp(file1, file2))
+		return true;
+
+	return false;
+}

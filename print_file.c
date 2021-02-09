@@ -21,12 +21,18 @@ status_t print_file(FILE *dest, char country_codes[COUNTRIES_NUMBER][ARRAYS_LENG
 	if((*(country) == prev_country) && (month == prev_month)) {
 		infected_monthly += *(infected);
 	}	
-	else if(*(country) != prev_country || month != prev_month) {
-		fprintf(dest, "Infectados por mes: %lu\n", infected_monthly);	
-		fprintf(dest, "-------------------------\n\n");	
+	else if(*(country) != prev_country) {
+		fprintf_infected_monthly(dest);
 		infected_monthly = *(infected);
 
 		prev_country = *(country);
+		prev_month = month;
+	}
+	else if(month != prev_month) {
+		prev_month = month;
+
+		fprintf_infected_monthly(dest);
+		infected_monthly = *(infected);
 	}
 
 //	Imprime datos segun el archivo de entrada;
@@ -92,4 +98,18 @@ status_t time_translator(time_t unix_time, char *res, size_t size, const char *f
 	return OK;
 }
 
+void fprintf_infected_monthly(FILE *dest) 
+{
+	char guion_medio[] = "-----------";
 
+	int length = snprintf( NULL, 0, "%lu", infected_monthly );
+	char* str_infected_monthly = (char *)malloc( length + 1 );
+	snprintf( str_infected_monthly, length + 1, "%lu", infected_monthly );
+
+
+	fprintf(dest, "Infectados por mes: %lu\n", infected_monthly);	
+	sprintf(str_infected_monthly, "%lu", 10);
+	fprintf(dest, "-------------------%.*s\n", (length + 1), guion_medio); 
+
+	free(str_infected_monthly);
+}
