@@ -2,15 +2,15 @@
 #include "read_file.h"
 
 
-status_t read_file(FILE *src, u_long *country, u_long *date, u_long *infected)
+status_t read_file(FILE *src, ulong *country, ulong *date, ulong *infected)
 {
 
 //	Esta variable es para saber de que tipo de dato estamos hablando, si es un
 //	codigo de pais, una fecha o el numero de infectados;
 	data_t data;
 
-	size_t line, i, j;
-	status_t st;
+	size_t i, j;
+//	status_t st;
 
 	char buff1[SIZE_OF_BUFF1];
 	char buff2[SIZE_OF_BUFF2];
@@ -18,7 +18,7 @@ status_t read_file(FILE *src, u_long *country, u_long *date, u_long *infected)
 	clean_buffer(buff1, SIZE_OF_BUFF1);
 	clean_buffer(buff2, SIZE_OF_BUFF2);
 
-	char time_s[TIME_MAX_DIGITS];
+//	char time_s[TIME_MAX_DIGITS];
 
 //	Lee de el archivo de entrada linea por linea y va guardando las 
 //	lineas en buff1 hasta que se terminen;
@@ -32,12 +32,12 @@ status_t read_file(FILE *src, u_long *country, u_long *date, u_long *infected)
 		if((buff1[i] == ','))
 		{
 			i++;
-			switch(data) 
-			{
-				case PAIS: *(country) = atoi(buff2); break;
-				case DATE: *(date) = atol(buff2); j++; break;
-			}
-
+			if(data == PAIS) 
+				*(country) = atoi(buff2);
+			
+			else if (data == DATE) 
+				*(date) = atol(buff2);
+			
 			data++;
 			j = 0;
 			clean_buffer(buff2, SIZE_OF_BUFF2);
