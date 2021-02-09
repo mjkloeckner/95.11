@@ -11,7 +11,21 @@ Fecha: 15 Jan 2020
 Infectados: 9324
 
 Infectados por mes: 16589
+-------------------------
+Pais: Argentina
+Fecha: 09 Feb 2020
+Infectados: 9324
 
+Pais: Argentina
+Fecha: 15 Feb 2020
+Infectados: 7324
+
+Pais: Argentina
+Fecha: 28 Feb 2020
+Infectados: 4324
+
+Infectados por mes: 20972
+-------------------------
 Pais: Colombia
 Fecha: 01 Jan 2020
 Infectados: 8234
@@ -24,8 +38,12 @@ Pais: Colombia
 Fecha: 15 Jan 2020
 Infectados: 9423
 
-Infectados por mes: 35246
+Pais: Colombia
+Fecha: 15 Jan 2020
+Infectados: 9423
 
+Infectados por mes: 36314
+-------------------------
 Pais: Germany
 Fecha: 01 Jan 2020
 Infectados: 8432
@@ -38,3 +56,47 @@ Pais: Germany
 Fecha: 20 Jan 2020
 Infectados: 4214
 
+Infectados por mes: 21775
+-------------------------
+Pais: Germany
+Fecha: 09 Feb 2020
+Infectados: 9324
+
+Pais: Germany
+Fecha: 15 Feb 2020
+Infectados: 7324
+
+Pais: Germany
+Fecha: 28 Feb 2020
+Infectados: 4324
+
+Infectados por mes: 20972
+-------------------------
+Pais: Australia
+Fecha: 01 Jan 2020
+Infectados: 3
+
+Pais: Australia
+Fecha: 15 Jan 2020
+Infectados: 7
+
+Pais: Australia
+Fecha: 20 Jan 2020
+Infectados: 16
+
+Infectados por mes: 26
+----------------------
+Pais: Australia
+Fecha: 09 Feb 2020
+Infectados: 33
+
+Pais: Australia
+Fecha: 15 Feb 2020
+Infectados: 88
+
+Pais: Australia
+Fecha: 28 Feb 2020
+Infectados: 162
+
+Infectados por mes: 283
+-----------------------
