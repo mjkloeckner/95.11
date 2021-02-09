@@ -83,7 +83,7 @@ int main(int argc, char * argv[])
 		st = OK;
 	}
 
-	if(st != OK && st != END_OF_INPUT_FILE) {
+	if((st != OK) && (st != END_OF_INPUT_FILE)) {
 		close_files(fpi, fpo);
 		return st;
 	}
