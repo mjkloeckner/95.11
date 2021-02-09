@@ -46,6 +46,4 @@ typedef enum {
 	END_OF_INPUT_FILE,
 } status_t;
 
-void close_files(FILE *fpi, FILE *fpo);
-
 #endif
