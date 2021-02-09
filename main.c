@@ -53,10 +53,11 @@ int main(int argc, char * argv[])
 		print_error(st);
 		return st;
 	}
-
-//	Carga los codigos de error de los paises de acuerdo al standard iso3166 en el
-//	arreglo mencionado previamente 'country_codes', en caso de haber algun error 
-//	en el proceso devuelve dicho codigo e impreme por stderr un mensaje de error; 
+	
+//	Carga los codigos de error de los paises de acuerdo al standard iso3166 en
+//	el arreglo mencionado previamente 'country_codes', en caso de haber algun
+//	error en el proceso devuelve dicho codigo e impreme por stderr un mensaje
+//	de error; 
 	if((st = load_country_codes(country_codes)) != OK) {
 		print_error(st);
 		return ERROR_LOADING_COUNTRY_CODES;	
@@ -83,21 +84,16 @@ int main(int argc, char * argv[])
 	}
 
 	if((st != OK) && (st != END_OF_INPUT_FILE)) {
-		close_files(fpi, fpo);
+		fclose(fpi);
+		fclose(fpo);
 		return st;
 	}
 
 	fprintf_infected_monthly(fpo);
 
-	close_files(fpi, fpo);
+	fclose(fpi);
+	fclose(fpo);
+
 	printf(MSG_OK);
 	return OK;
 }
-
-void close_files(FILE *fpi, FILE *fpo)
-{
-	fclose(fpi);
-	fclose(fpo);
-}
-
-

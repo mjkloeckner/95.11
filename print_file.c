@@ -108,7 +108,7 @@ void fprintf_infected_monthly(FILE *dest)
 
 
 	fprintf(dest, "Infectados por mes: %lu\n", infected_monthly);	
-	sprintf(str_infected_monthly, "%lu", 10);
+	sprintf(str_infected_monthly, "%u", 10);
 	fprintf(dest, "-------------------%.*s\n", (length + 1), guion_medio); 
 
 	free(str_infected_monthly);

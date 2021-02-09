@@ -10,7 +10,7 @@ typedef enum {
 	INFECTED
 } data_t;
 
-status_t read_file(FILE *src, u_long *country, u_long *date, u_long *infected);
+status_t read_file(FILE *src, ulong *country, ulong *date, ulong *infected);
 
 status_t fprintf_date(FILE *dest, size_t data);
 status_t fprintf_infected(FILE *dest, size_t data, char newline);
