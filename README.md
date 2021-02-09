@@ -14,17 +14,31 @@ Bibliography:
 
 "The C programming language" - Brian W. Kernighan & Dennis Ritchie.
 
+
 Linux installation:
-	Arch based distros:
+
+Arch based distros:
+	
 		.Install base-devel, git(not neccesary unless you want to clone
 		 the repo).
+		 
 		.Clone repo from terminal or download the .zip file and unzip
 		 it.
+		 
 		.Navigate to the folder and open a terminal there, run
 		'make install'.
 
-	Debian based distros:
-		.Install gcc
+Windows installation:
+
+You need to have installed gcc in order to compile the application.  
+Install it and make shure you have gcc added to path to execute it from
+cmd.
+
+Installing in windows:
+
+	.Downlaod .zip file and unzip it or clone repo.
+	
+	.Execute 'make.bat'.
 
 	
 NAME
