@@ -3,8 +3,6 @@
 
 #include "main.h"
 
-#define COUNTRIES_NUMBER	1000
-#define ARRAYS_LENGTH		100
 
 typedef enum {
 	CODE,
