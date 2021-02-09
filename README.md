@@ -1,4 +1,4 @@
-# PROJECT NUMBER 1 - ALGORITHMS & PROGRAMMING I
+# PROJECT 01 - ALGORITHMS & PROGRAMMING I (95.11)
 
 This folder contains the first project of "Algoritmos y 
 Programacion I" a subject from Facultad de Ingenieria de la
