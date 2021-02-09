@@ -20,8 +20,6 @@ NOTE: You need to have installed gcc in order to compile the application.
 Install it and make shure you have gcc added to path to execute it from
 terminal/cmd.
 
-Linux installation:
-
 Arch based distros:
 	
 	Install base-devel, git(not neccesary unless you want to clone the repo).
