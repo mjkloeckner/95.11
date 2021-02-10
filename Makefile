@@ -3,7 +3,6 @@ CFLAGS = -std=c99 -Wall -pedantic
 
 all: main clean
 
-
 main: main.o arguments.o perrors.o load_country_codes.o read_file.o print_file.o
 	$(CC) $(CFLAGS) main.o arguments.o perrors.o load_country_codes.o read_file.o print_file.o -o main 
 
