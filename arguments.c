@@ -40,6 +40,7 @@ status_t validate_arguments(int argc, char * argv[], char * src, char * dest)
 				return ERROR_INVOCATING_PROGRAM;
 
 			strcpy(dest, argv[++i]);
+
 			printf(OUTPUT_ARGUMENT_FOUND_MSG);
 			printf(OUTPUT_FILE_NAME_MSG"'%s'\n", dest);
 
