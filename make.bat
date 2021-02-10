@@ -1,8 +1,6 @@
 SET CC=gcc
 SET CFLAGS=-std=c99 -Wall -pedantic
 
-
-echo %CFLAGS%
 %CC% %CFLAGS% -c print_file.c
 %CC% %CFLAGS% -c read_file.c
 %CC% %CFLAGS% -c load_country_codes.c
