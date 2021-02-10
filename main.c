@@ -26,57 +26,53 @@
 int main(int argc, char * argv[])
 {
 
-//	Esta variable es para guardar los codigos de error;
 	status_t st;
 
 //	Las siguientes variables son para guardar los nombres de los archivos de 
-//	entrada y salida luego de validar que los argumentos recibidos sean correctos;
+//	entrada y salida luego de validar los argumentos
 	char src[32], dest[32];
 
 	FILE *fpi, *fpo;
-	ulong country, date, infected;
+	uint country, date, infected;
+
 	country = date = infected = 0;
-
 	prev_month = prev_country = -1;
-
 	infected_monthly = 0;
 
-//	El siguiente arreglo de dos dimensiones es donde se van a guardar los
-//	codigos	de los paises;
+//	Arreglo de arreglos de caracteres para guardar los codigos de los paises
 	char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH];
+	
 
 //	Valida de que los argumentos sean correctos y guarda los nombres de los
-//	archivos de entrada y salida en src y dest respectivamente, de haber algun
-//	error en el proceso devuelve un codigo de error de tipo status_t (definido
-//	en main.h);
+//	archivos de entrada y salida en src y dest respectivamente
 	if((st = validate_arguments(argc, argv, src, dest)) != OK) {
 		print_error(st);
 		return st;
 	}
 	
 //	Carga los codigos de error de los paises de acuerdo al standard iso3166 en
-//	el arreglo mencionado previamente 'country_codes', en caso de haber algun
-//	error en el proceso devuelve dicho codigo e impreme por stderr un mensaje
-//	de error; 
+//	el arreglo mencionado previamente 'country_codes'  
 	if((st = load_country_codes(country_codes)) != OK) {
 		print_error(st);
 		return ERROR_LOADING_COUNTRY_CODES;	
 	}
 
-//	Abre el archivo de entrada en modo lectura, y el de salida en modo 
-//	escritura, si por algun motivo falla imprime un codigo de error;
+//	Abre el archivo de entrada en modo lectura
 	if((fpi = fopen(src, "r")) == NULL) {
 		fclose(fpi);
 		return ERROR_READING_FILE;
 	}
 
+//	Abre el archivo de salida en modo escritura
 	if((fpo = fopen(dest, "w")) == NULL) {
 		fclose(fpo);
 		return ERROR_READING_FILE;
 	}
 
+//	Lee el archivo de entrada y va imprimiendo linea por linea en el de salida
 	size_t line;
-	for(line = 0; (st = read_file(fpi, &country, &date, &infected)) == OK; line++) {
+	for(line = 0; (st = read_file(fpi, &country, &date, &infected)) == OK; line++)
+	{
 		if(line != 0) {
 			print_file(fpo, country_codes, &country, &date, &infected);
 		}

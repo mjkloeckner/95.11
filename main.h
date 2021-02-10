@@ -26,7 +26,7 @@
 
 extern const char formato_de_la_fecha[];
 
-extern ulong country, date, infected;
+extern uint country, date, infected;
 
 extern ulong infected_monthly;
 

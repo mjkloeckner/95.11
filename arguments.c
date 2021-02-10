@@ -48,7 +48,8 @@ status_t validate_arguments(int argc, char * argv[], char * src, char * dest)
 //	Si uno o ambos de los argumentos no se encontro entonces imprime un codigo 
 //	de error;
 	if((inputFile && outputFile) != OK)
-		return IO_FILE_NOT_FOUND;
+		return ERROR_INVOCATING_PROGRAM;
+//		return IO_FILE_NOT_FOUND;
 
 	return OK;
 }

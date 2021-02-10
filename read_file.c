@@ -2,7 +2,7 @@
 #include "read_file.h"
 
 
-status_t read_file(FILE *src, ulong *country, ulong *date, ulong *infected)
+status_t read_file(FILE *src, uint *country, uint *date, uint *infected)
 {
 
 //	Esta variable es para saber de que tipo de dato estamos hablando, si es un

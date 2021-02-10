@@ -10,6 +10,7 @@
 
 #define INITIAL_SIZE		1000
 
+typedef unsigned int uint;
 typedef unsigned long ulong;
 
 #endif
