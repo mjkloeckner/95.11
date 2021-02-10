@@ -1,3 +1,5 @@
+:: Compile and build 'analisis_covid' on windows using cmd or PowerShell
+
 SET CC=gcc
 SET CFLAGS=-std=c99 -Wall -pedantic
 
@@ -7,4 +9,6 @@ SET CFLAGS=-std=c99 -Wall -pedantic
 %CC% %CFLAGS% -c perrors.c
 %CC% %CFLAGS% -c arguments.c
 %CC% %CFLAGS% -c main.c
-%CC% %CFLAGS% main.o arguments.o perrors.o load_country_codes.o read_file.o print_file.o -o main
+%CC% %CFLAGS% main.o arguments.o perrors.o load_country_codes.o read_file.o print_file.o -o analisis_covid
+
+del .\*.o
