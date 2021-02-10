@@ -1,4 +1,4 @@
-# PROJECT NUMBER 1 - ALGORITHMS & PROGRAMMING I
+# PROJECT 01 - ALGORITHMS & PROGRAMMING I (95.11)
 
 This folder contains the first project of "Algoritmos y 
 Programacion I" a subject from Facultad de Ingenieria de la
@@ -14,17 +14,27 @@ Bibliography:
 
 "The C programming language" - Brian W. Kernighan & Dennis Ritchie.
 
-Linux installation:
-	Arch based distros:
-		.Install base-devel, git(not neccesary unless you want to clone
-		 the repo).
-		.Clone repo from terminal or download the .zip file and unzip
-		 it.
-		.Navigate to the folder and open a terminal there, run
-		'make install'.
+Installation:
 
-	Debian based distros:
-		.Install gcc
+NOTE: You need to have installed gcc in order to compile the application.  
+Install it and make shure you have gcc added to path to execute it from
+terminal/cmd.
+
+Arch based distros:
+	
+	Install base-devel, git(not neccesary unless you want to clone the repo).
+		 
+	Clone repo from terminal or download the .zip file and unzip it.
+		 
+	Navigate to the folder and open a terminal there, run 'make install'.
+
+Windows installation:
+
+	Downlaod .zip file and unzip it or clone repo.
+	
+	Navigate to the downloaded folder.
+	
+	Execute 'make.bat'.
 
 	
 NAME
