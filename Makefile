@@ -30,3 +30,6 @@ clean:
 
 run: 
 	./main -in input.csv -out output.txt
+
+run2: 
+	./main -out output.txt -in input.csv 

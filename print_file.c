@@ -5,7 +5,7 @@ const char formato_de_la_fecha[] = "%d %b %Y";
 int prev_month, prev_country;
 ulong infected_monthly;
 
-status_t print_file(FILE *dest, char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH], ulong *country, ulong *date, ulong *infected) {
+status_t print_file(FILE *dest, char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH], uint *country, uint *date, uint *infected) {
 
 	int month;
 	char time_s[TIME_MAX_DIGITS];
@@ -68,12 +68,12 @@ status_t fprintf_date(FILE *dest, size_t date)
 	return OK;
 }
 
-status_t fprintf_infected(FILE *dest, size_t infected, char newline)
+status_t fprintf_infected(FILE *dest, uint infected, char newline)
 {
 	if(dest == NULL)
 		return ERROR_NULL_POINTER;
 
-	fprintf(dest, "Infectados: %lu\n%c", infected, newline);
+	fprintf(dest, "Infectados: %u\n%c", infected, newline);
 	return OK;
 }
 
