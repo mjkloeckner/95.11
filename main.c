@@ -69,8 +69,7 @@ int main(int argc, char * argv[])
 
 //	Lee el archivo de entrada y va imprimiendo linea por linea en el de salida
 	size_t line;
-	for(line = 0; (st = read_file(fpi, &country, &date, &infected)) == OK; line++)
-	{
+	for(line = 0; (st = read_file(fpi, &country, &date, &infected)) == OK; line++) {
 		if(line != 0) {
 			print_file(fpo, country_codes, &country, &date, &infected);
 		}
