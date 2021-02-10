@@ -42,8 +42,9 @@ NAME
 	readable format.
 
 SYNOPSIS
-	analisis_covid [-in] SOURCE [-out] DEST
-	analisis_covid [-out] DEST [-in] SOURCE
+
+	analisis_covid -in SOURCE -out DEST
+	analisis_covid -out DEST -in SOURCE
 
 DESCRIPTION
 	Process RAW data from a .csv(comma separated values) file,
