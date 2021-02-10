@@ -25,7 +25,6 @@
 
 int main(int argc, char * argv[])
 {
-
 	status_t st;
 
 //	Las siguientes variables son para guardar los nombres de los archivos de 
@@ -42,7 +41,6 @@ int main(int argc, char * argv[])
 //	Arreglo de arreglos de caracteres para guardar los codigos de los paises
 	char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH];
 	
-
 //	Valida de que los argumentos sean correctos y guarda los nombres de los
 //	archivos de entrada y salida en src y dest respectivamente
 	if((st = validate_arguments(argc, argv, src, dest)) != OK) {
