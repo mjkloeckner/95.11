@@ -1,13 +1,13 @@
-NAME
+NAME:
 	analisis_covid - analyze RAW data and export it with a human 
 	readable format.
 
-SYNOPSIS
+SYNOPSIS:
 
 	analisis_covid -in SOURCE -out DEST
 	analisis_covid -out DEST -in SOURCE
 
-DESCRIPTION
+DESCRIPTION:
 	Process RAW data from a .csv(comma separated values) file,
 	and export it to a plain text if the output file doesn't
 	exist then it creates one with the specified name.
@@ -16,8 +16,8 @@ DESCRIPTION
 	it's considered corrupt.
 
 
-AUTHOR
-	Written by Martin J. Klöckner - Argentina - December 2020.
+AUTHOR:
+	Written by Martin J. Klöckner - Argentina - Dec 2020 / Jan 2021
 
 
 
