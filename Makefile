@@ -4,7 +4,7 @@ CFLAGS = -std=c99 -Wall -pedantic
 all: main clean
 
 main: main.o arguments.o perrors.o load_country_codes.o read_file.o print_file.o
-	$(CC) $(CFLAGS) main.o arguments.o perrors.o load_country_codes.o read_file.o print_file.o -o main 
+	$(CC) $(CFLAGS) main.o arguments.o perrors.o load_country_codes.o read_file.o print_file.o -o analisis_covid 
 
 main.o: main.c main.h arguments.h macros.h
 	$(CC) $(CFLAGS) -c main.c
@@ -29,25 +29,25 @@ clean:
 	rm -f *.o 
 
 run: 
-	./main -in input.csv -out output.txt
+	./analisis_covid -in input.csv -out output.txt
 
 run2: 
-	./main -out output.txt -in input.csv 
+	./analisis_covid -out output.txt -in input.csv 
 
 run3: 
-	./main -in -out
+	./analisis_covid -in -out
 
 run4: 
-	./main -out output.txt -in 
+	./analisis_covid -out output.txt -in 
 
 run5: 
-	./main -in input.csv -out
+	./analisis_covid -in input.csv -out
 
 run6: 
-	./main -out -in input.csv 
+	./analisis_covid -out -in input.csv 
 
 run7: 
-	./main -in -out output.txt
+	./analisis_covid -in -out output.txt
 
 run8: 
-	./main -in input.csv 
+	./analisis_covid -in input.csv 
