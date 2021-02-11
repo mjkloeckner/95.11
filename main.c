@@ -26,7 +26,6 @@
 
 int main(int argc, char * argv[])
 {
-	puts(argv[1]);
 	status_t st;
 
 //	Las siguientes variables son para guardar los nombres de los archivos de 
