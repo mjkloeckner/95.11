@@ -88,13 +88,9 @@ status_t time_translator(time_t unix_time, char *res, size_t size, const char *f
 	
 	struct tm *tmp = gmtime(&unix_time);
 
-	if (strftime(res, size, format, tmp) == 0) {
-		(void) fprintf(stderr,  "strftime(3): cannot format supplied "
-								"date/time into buffer of size %u "
-								"using: '%s'\n",
-								(unsigned int)sizeof(res), format);
+	if (strftime(res, size, format, tmp) == 0) 
 		return ERROR_ALLOCATING_TIME;
-	}
+
 	return OK;
 }
 
