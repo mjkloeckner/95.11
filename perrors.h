@@ -10,7 +10,7 @@
 #define MSG_ERROR_INVOCATING_PROGRAM	"\nERROR_INVOCATING_PROGRAM (2)\n"\
 										"Usage:\t$ ./main -in <input file> -out <outputfile>\n"\
 										"\t$ ./main -out <output file -in <input file>\n"\
-										"Read documentation to know more"
+										"Read README.md to know more"
 
 #define MSG_IO_FILE_NOT_FOUND 	"\nIO_FILE_NOT_FOUND (1)\n"\
 								"Un de los archivos de entrada o salida no se ha especificado"\

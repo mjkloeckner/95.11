@@ -48,9 +48,12 @@ SYNOPSIS
 
 DESCRIPTION
 	Process RAW data from a .csv(comma separated values) file,
-	and export it to another .csv file, if the output file doesn't
+	and export it to a plain text if the output file doesn't
 	exist then it creates one with the specified name.
-	When you invoke analisis_covid, expects.. to be continued
+	When you invoke analisis_covid, expects as input a .csv 
+	file with three columns separated by a comma (','), otherwise
+	it's considered corrupt.
+
 
 
 AUTHOR

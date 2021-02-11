@@ -36,7 +36,7 @@ status_t read_file(FILE *src, uint *country, uint *date, uint *infected)
 				*(country) = atoi(buff2);
 			
 			else if (data == DATE) 
-				*(date) = atol(buff2);
+				*(date) = atoi(buff2);
 			
 			data++;
 			j = 0;
@@ -47,7 +47,7 @@ status_t read_file(FILE *src, uint *country, uint *date, uint *infected)
 				return ERROR_DATA_ON_FILE_MISSING;
 
 			data = PAIS;
-			*(infected) = atol(buff2);
+			*(infected) = atoi(buff2);
 			clean_buffer(buff2, SIZE_OF_BUFF2);
 		}
 			switch(data) 
