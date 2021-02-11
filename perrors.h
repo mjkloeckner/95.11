@@ -9,7 +9,7 @@
 
 #define MSG_ERROR_INVOCATING_PROGRAM	"\nERROR_INVOCATING_PROGRAM (2)\n"\
 										"Uso:\t$ ./main -in <input file> -out <outputfile>\n"\
-										"\t$     ./main -out <output file -in <input file>\n"\
+										"\t    $ ./main -out <output file -in <input file>\n\n"\
 										"Lee el archivo README.md para saber mas"
 
 #define MSG_IO_FILE_NOT_FOUND 	"\nIO_FILE_NOT_FOUND (1)\n"\

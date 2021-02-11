@@ -26,8 +26,13 @@ print_file.o: print_file.h main.h
 
 
 clean:
-	rm -f *.o 
+	rm -f *.o
 
+clear:
+	rm -f analisis_covid
+
+
+# Para probar la invocacion de el programa;
 run: 
 	./analisis_covid -in input.csv -out output.txt
 
@@ -51,3 +56,6 @@ run7:
 
 run8: 
 	./analisis_covid -in input.csv 
+
+run9:
+	./analisis_covid output.txt -out input.csv -in

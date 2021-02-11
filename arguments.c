@@ -9,6 +9,10 @@ status_t validate_arguments(int argc, char * argv[], char * src, char * dest)
 	else if(argv == NULL)
 		return ERROR_NULL_POINTER;
 
+	if((strcmp(argv[1], INPUT_ARGUMENT)) && (strcmp(argv[3], OUTPUT_ARGUMENT)))
+		if((strcmp(argv[1], OUTPUT_ARGUMENT)) && (strcmp(argv[3], INPUT_ARGUMENT)))
+			return ERROR_INVOCATING_PROGRAM;
+
 	status_t inputFile, outputFile;
 	inputFile = outputFile = IO_FILE_NOT_FOUND;
 
