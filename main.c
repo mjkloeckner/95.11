@@ -11,7 +11,8 @@
 //	Lee texto de un archivo con extension .csv cuyo nombre recibe 
 //	como argumento; el cual contiene solo numeros que representan 
 //	un pais, una fecha y una cantidad de infectados y lo guarda en
-//	un archivo de texto cuyo nombre tambien recibe como argumento.
+//	un archivo de texto cuyo nombre tambien recibe como argumento 
+//	con un formato humanamente entendible.
 
 
 #include "main.h"
@@ -29,7 +30,7 @@ int main(int argc, char * argv[])
 
 //	Las siguientes variables son para guardar los nombres de los archivos de 
 //	entrada y salida luego de validar los argumentos
-	char src[32], dest[32];
+	char src[MAX_NAME_LENGTH], dest[MAX_NAME_LENGTH];
 
 	FILE *fpi, *fpo;
 	uint country, date, infected;
@@ -77,6 +78,8 @@ int main(int argc, char * argv[])
 		}
 	}
 
+
+//	Si hubo algun error al leer o escribir el archivo va a imprimir un error
 	if((st != OK) && (st != END_OF_INPUT_FILE)) {
 		fclose(fpi);
 		fclose(fpo);
@@ -84,6 +87,7 @@ int main(int argc, char * argv[])
 		return st;
 	}
 
+//	El la ultima linea de 'infectados por mes'
 	fprintf_infected_monthly(fpo);
 
 	fclose(fpi);

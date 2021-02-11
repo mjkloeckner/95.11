@@ -9,7 +9,7 @@
 #define OUTPUT_ARGUMENT			"-out"
 
 #define INITIAL_SIZE		1000
-
+#define MAX_NAME_LENGTH 	32
 typedef unsigned int uint;
 typedef unsigned long ulong;
 
