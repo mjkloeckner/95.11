@@ -58,12 +58,14 @@ int main(int argc, char * argv[])
 //	Abre el archivo de entrada en modo lectura
 	if((fpi = fopen(src, "r")) == NULL) {
 		fclose(fpi);
+		print_error(ERROR_READING_FILE);
 		return ERROR_READING_FILE;
 	}
 
 //	Abre el archivo de salida en modo escritura
 	if((fpo = fopen(dest, "w")) == NULL) {
 		fclose(fpo);
+		print_error(ERROR_READING_FILE);
 		return ERROR_READING_FILE;
 	}
 
@@ -73,12 +75,12 @@ int main(int argc, char * argv[])
 		if(line != 0) {
 			print_file(fpo, country_codes, &country, &date, &infected);
 		}
-		st = OK;
 	}
 
 	if((st != OK) && (st != END_OF_INPUT_FILE)) {
 		fclose(fpi);
 		fclose(fpo);
+		print_error(st);
 		return st;
 	}
 

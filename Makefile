@@ -33,3 +33,21 @@ run:
 
 run2: 
 	./main -out output.txt -in input.csv 
+
+run3: 
+	./main -in -out
+
+run4: 
+	./main -out output.txt -in 
+
+run5: 
+	./main -in input.csv -out
+
+run6: 
+	./main -out -in input.csv 
+
+run7: 
+	./main -in -out output.txt
+
+run8: 
+	./main -in input.csv 
