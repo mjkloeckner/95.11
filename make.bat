@@ -11,4 +11,5 @@ SET CFLAGS=-std=c99 -Wall -pedantic
 %CC% %CFLAGS% -c main.c
 %CC% %CFLAGS% main.o arguments.o perrors.o load_country_codes.o read_file.o print_file.o -o analisis_covid
 
+:: Deletes unnecessary .o files after the compile ends;
 del .\*.o
