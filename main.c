@@ -30,7 +30,12 @@ int main(int argc, char * argv[])
 
 //	Las siguientes variables son para guardar los nombres de los archivos de 
 //	entrada y salida luego de validar los argumentos
-	char src[MAX_NAME_LENGTH], dest[MAX_NAME_LENGTH];
+//	char src[MAX_NAME_LENGTH], dest[MAX_NAME_LENGTH];
+	char *src;
+	char *dest;
+
+	src = (char *)malloc(MAX_NAME_LENGTH);
+	dest = (char *)malloc(MAX_NAME_LENGTH);
 
 	FILE *fpi, *fpo;
 	uint country, date, infected;
@@ -41,7 +46,7 @@ int main(int argc, char * argv[])
 
 //	Arreglo de arreglos de caracteres para guardar los codigos de los paises
 	char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH];
-	
+
 //	Valida de que los argumentos sean correctos y guarda los nombres de los
 //	archivos de entrada y salida en src y dest respectivamente
 	if((st = validate_arguments(argc, argv, src, dest)) != OK) {
