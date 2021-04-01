@@ -4,13 +4,15 @@
 #include <time.h>
 
 #define N 3
-#define M 4
+#define M 3
 
 void m_load(size_t r, size_t c, double matrix[r][c]);
 void m_initrand(size_t r, size_t c, double matrix[r][c]);
 void m_print(size_t r, size_t c, double matrix[r][c]);
 void m_transpose(size_t r, size_t c, double matrix[r][c], double matrix_t[c][r]);
-bool m_simetric(size_t r, size_t c, double matrix[r][c]);
+
+bool m_isSimetric(size_t r, size_t c, double matrix[r][c]);
+
 
 int main (void)
 {
@@ -24,6 +26,7 @@ int main (void)
 	m_transpose(N, M, matrix, matrix_transpose);
 	m_print(M, N, matrix_transpose);
 
+	printf("\nThe matrix is %s SIMETRIC.", m_isSimetric(N, M, matrix) ? "" : "NOT");
 
 	return 0;
 }
@@ -70,4 +73,22 @@ void m_transpose(size_t r, size_t c, double matrix[r][c], double matrix_t[c][r])
 			matrix_t[j][i] = matrix[i][j];
 
 	}
+}
+
+bool m_isSimetric(size_t r, size_t c, double matrix[r][c])
+{
+	double matrix_transpose[r][c];
+	m_transpose(r, c, matrix, matrix_transpose);
+
+	size_t aux = 0;
+	for(size_t i = 0; i < r; i++)
+		for(size_t j = 0; j < c; j++)
+			if(matrix[i][j] == matrix_transpose[i][j])
+				aux++;
+
+	//if(aux == (r * c))
+	//	return true;
+
+	//return false;
+	return true * (aux == (r * c)) + false * (aux != (r * c));
 }
