@@ -10,13 +10,13 @@ void m_load(size_t r, size_t c, double matrix[r][c]);
 void m_initrand(size_t r, size_t c, double matrix[r][c]);
 void m_print(size_t r, size_t c, double matrix[r][c]);
 void m_transpose(size_t r, size_t c, double matrix[r][c], double matrix_t[c][r]);
+bool m_simetric(size_t r, size_t c, double matrix[r][c]);
 
 int main (void)
 {
 	double matrix[N][M];
 	double matrix_transpose[M][N];
 
-//	m_initrand(N, M, matrix);
 	m_load(N, M, matrix);
 	m_print(N, M, matrix);
 	putchar('\n');
