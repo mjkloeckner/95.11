@@ -5,6 +5,7 @@
 #define N 3
 #define M 4
 
+void m_load(size_t r, size_t c, double matrix[r][c]);
 void m_initrand(size_t r, size_t c, double matrix[r][c]);
 void m_print(size_t r, size_t c, double matrix[r][c]);
 void m_transpose(size_t r, size_t c, double matrix[r][c], double matrix_t[c][r]);
@@ -14,7 +15,8 @@ int main (void)
 	double matrix[N][M];
 	double matrix_transpose[M][N];
 
-	m_initrand(N, M, matrix);
+//	m_initrand(N, M, matrix);
+	m_load(N, M, matrix);
 	m_print(N, M, matrix);
 	putchar('\n');
 	
@@ -23,6 +25,17 @@ int main (void)
 
 
 	return 0;
+}
+
+void m_load(size_t r, size_t c, double matrix[r][c])
+{
+	char buf[20];
+	for(size_t i = 0; i < r; i++) {
+		for(size_t j = 0; j < c; j++) {
+			fgets(buf, 20, stdin);
+			matrix[i][j] = strtod(buf, NULL);	/*	value from stdin	*/ 
+		}
+	}
 }
 
 void m_initrand(size_t r, size_t c, double matrix[r][c])
