@@ -19,8 +19,7 @@ void m_load(matrix_t *matrix);
 void m_initrand(matrix_t *matrix);
 void m_print(matrix_t *matrix);
 void m_transpose(matrix_t *matrix, matrix_t *matrix_transpose);
-
-matrix_t * m_multiply(matrix_t *matrixA, matrix_t *matrixB);
+void m_multiply(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result);
 
 bool m_isSimetric(size_t r, size_t c, double matrix[r][c]);
 
@@ -28,27 +27,43 @@ bool m_isSimetric(size_t r, size_t c, double matrix[r][c]);
 int main (void)
 {
 	matrix_t matrix;
+	matrix_t matrix2;
 	matrix_t matrix_result;
 	matrix_t matrix_transpose;
 
-	m_create(3, 4, &matrix);
-	m_create(4, 3, &matrix_result);
-	m_create(4, 3, &matrix_transpose);
+	m_create(2, 2, &matrix);
+	m_create(2, 3, &matrix2);
+	m_create(2, 3, &matrix_result);
+	m_create(2, 2, &matrix_transpose);
 
-	(&matrix_result) = m_multiply(&matrix, &matrix_transpose);
-
-	//m_load(N, M, matrix);
-	//m_print(N, M, matrix);
-	
-	m_initrand(&matrix);
-	m_print(&matrix);
+	/*
+	m_load(N, M, matrix);
+	m_print(N, M, matrix);
 
 	putchar('\n');
 	
 	m_transpose(&matrix, &matrix_transpose);
 	m_print(&matrix_transpose);
 
+	*/
+	m_initrand(&matrix);
+	m_print(&matrix);
+
+	putchar('\n');
+
+	m_initrand(&matrix2);
+	m_print(&matrix2);
+
+	putchar('\n');
+
+	m_initrand(&matrix2);
+
+	m_multiply(&matrix, &matrix2, &matrix_result);
+	m_print(&matrix_result);
+
 	m_destroy(&matrix);
+	m_destroy(&matrix2);
+	m_destroy(&matrix_result);
 	m_destroy(&matrix_transpose);
 
 	return 0;
@@ -70,7 +85,7 @@ void m_print(matrix_t *matrix)
 void m_initrand(matrix_t *matrix)
 {
 	srand((unsigned int)time(NULL));
-
+	
 	for(size_t i = 0; i < matrix->rows; i++) {
 		for(size_t j = 0; j < matrix->columns; j++) {
 			matrix->array[i][j] = ((double)rand()/(double)(RAND_MAX)) * 20;
@@ -98,22 +113,23 @@ void m_transpose(matrix_t *matrix, matrix_t *matrix_transpose)
 	}
 }
 
-matrix_t *m_multiply(matrix_t *matrixA, matrix_t *matrixB)
+void m_multiply(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result)
 {
 	if(matrixA->columns != matrixB->rows)
-		return NULL;
+		return;
 
-	matrix_t matrix_aux;
-	m_create(matrixA->rows, matrixB->columns, &matrix_aux);
-
+	double aux;
 	for(size_t i = 0; i < matrixA->rows; i++) {
-		for(size_t j = 0; j < matrixA->columns; j++)
-			//matrix_aux->array[i][j] = matrixA->array[i][j] matrix[];
-
+		for(size_t j = 0; j < matrixB->columns; j++) {
+			for(size_t k = aux = 0; k < matrixA->columns; k++)
+				aux += ((matrixA->array[i][k])*(matrixB->array[k][j]));
+			
+			result->array[i][j] = aux;
+		}	
 	}
-	return &matrix_aux;
-//	m_destroy(&matrix_aux);
 }
+
+
 
 void m_create(size_t rows, size_t columns, matrix_t *matrix)
 {
