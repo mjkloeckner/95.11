@@ -8,52 +8,51 @@
 
 typedef struct {
 	size_t rows, columns;
-	double array[N][M];
+	double **array;
 } matrix_t;
 
-/*
-bool m_isSimetric(size_t r, size_t c, double matrix[r][c]);
-*/
+
+void m_create(size_t rows, size_t columns, matrix_t *matrix);
+void m_destroy(matrix_t *matrix);
 
 void m_load(matrix_t *matrix);
 void m_initrand(matrix_t *matrix);
 void m_print(matrix_t *matrix);
 void m_transpose(matrix_t *matrix, matrix_t *matrix_transpose);
 
+matrix_t * m_multiply(matrix_t *matrixA, matrix_t *matrixB);
+
+bool m_isSimetric(size_t r, size_t c, double matrix[r][c]);
+
+
 int main (void)
 {
 	matrix_t matrix;
-	matrix.rows = N;
-	matrix.columns = M;
+	matrix_t matrix_result;
+	matrix_t matrix_transpose;
 
-	m_initrand(&matrix);
-	m_print(&matrix);
+	m_create(3, 4, &matrix);
+	m_create(4, 3, &matrix_result);
+	m_create(4, 3, &matrix_transpose);
+
+	(&matrix_result) = m_multiply(&matrix, &matrix_transpose);
 
 	//m_load(N, M, matrix);
 	//m_print(N, M, matrix);
-	//putchar('\n');
 	
-	//m_transpose(N, M, matrix, matrix_transpose);
-	//m_print(M, N, matrix_transpose);
+	m_initrand(&matrix);
+	m_print(&matrix);
 
+	putchar('\n');
+	
+	m_transpose(&matrix, &matrix_transpose);
+	m_print(&matrix_transpose);
+
+	m_destroy(&matrix);
+	m_destroy(&matrix_transpose);
 
 	return 0;
 }
-/*
-void m_print(size_t r, size_t c, double matrix[r][c])
-{
-	for(size_t i = 0; i < r; i++) {
-		putchar('(');
-		putchar(' ');
-		for(size_t j = 0; j < c; j++) {
-			printf("%6.2f ", matrix[i][j]);
-		}
-		putchar(')');
-		putchar('\n');
-	}
-}
-
-*/
 
 void m_print(matrix_t *matrix)
 {
@@ -90,11 +89,47 @@ void m_load(matrix_t *matrix)
 	}
 }
 
-void m_transpose(size_t r, size_t c, double matrix[r][c], double matrix_t[c][r])
+void m_transpose(matrix_t *matrix, matrix_t *matrix_transpose)
 {
-	for(size_t i = 0; i < r; i++) {
-		for(size_t j = 0; j < c; j++)
-			matrix_t[j][i] = matrix[i][j];
+	for(size_t i = 0; i < matrix->rows; i++) {
+		for(size_t j = 0; j < matrix->columns; j++)
+			matrix_transpose->array[j][i] = matrix->array[i][j];
 
 	}
+}
+
+matrix_t *m_multiply(matrix_t *matrixA, matrix_t *matrixB)
+{
+	if(matrixA->columns != matrixB->rows)
+		return NULL;
+
+	matrix_t matrix_aux;
+	m_create(matrixA->rows, matrixB->columns, &matrix_aux);
+
+	for(size_t i = 0; i < matrixA->rows; i++) {
+		for(size_t j = 0; j < matrixA->columns; j++)
+			//matrix_aux->array[i][j] = matrixA->array[i][j] matrix[];
+
+	}
+	return &matrix_aux;
+//	m_destroy(&matrix_aux);
+}
+
+void m_create(size_t rows, size_t columns, matrix_t *matrix)
+{
+	matrix->rows = rows;
+	matrix->columns = columns;
+
+	matrix->array = (double **)malloc((rows) * sizeof(double));
+
+	for (size_t i = 0; i < rows; i++)
+		 matrix->array[i] = (double *)malloc(columns * sizeof(double));
+}
+
+void m_destroy(matrix_t *matrix)
+{
+	for (size_t i = 0; i < matrix->rows; i++)
+		 free(matrix->array[i]);
+
+	free(matrix->array);
 }
