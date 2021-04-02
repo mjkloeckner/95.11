@@ -6,89 +6,146 @@
 #define N 3
 #define M 3
 
-void m_load(size_t r, size_t c, double matrix[r][c]);
-void m_print(size_t r, size_t c, double matrix[r][c]);
-void m_initrand(size_t r, size_t c, double matrix[r][c]);
-void m_transpose(size_t r, size_t c, double matrix[r][c], double matrix_t[c][r]);
+typedef struct {
+	size_t rows, columns;
+	double **array;
+} matrix_t;
+
+
+void m_create(size_t rows, size_t columns, matrix_t *matrix);
+void m_destroy(matrix_t *matrix);
+
+void m_load(matrix_t *matrix);
+void m_initrand(matrix_t *matrix);
+void m_print(matrix_t *matrix);
+void m_transpose(matrix_t *matrix, matrix_t *matrix_transpose);
+void m_multiply(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result);
 
 bool m_isSimetric(size_t r, size_t c, double matrix[r][c]);
 
 
 int main (void)
 {
-	double matrix[N][M];
-	double matrix_transpose[M][N];
+	matrix_t matrix;
+	matrix_t matrix2;
+	matrix_t matrix_result;
+	matrix_t matrix_transpose;
 
+	m_create(2, 2, &matrix);
+	m_create(2, 3, &matrix2);
+	m_create(2, 3, &matrix_result);
+	m_create(2, 2, &matrix_transpose);
+
+	/*
 	m_load(N, M, matrix);
 	m_print(N, M, matrix);
+
 	putchar('\n');
 	
-	m_transpose(N, M, matrix, matrix_transpose);
-	m_print(M, N, matrix_transpose);
+	m_transpose(&matrix, &matrix_transpose);
+	m_print(&matrix_transpose);
 
-	printf("\nThe matrix is %s SIMETRIC.", m_isSimetric(N, M, matrix) ? "" : "NOT");
+	*/
+	m_initrand(&matrix);
+	m_print(&matrix);
+
+	putchar('\n');
+
+	m_initrand(&matrix2);
+	m_print(&matrix2);
+
+	putchar('\n');
+
+	m_initrand(&matrix2);
+
+	m_multiply(&matrix, &matrix2, &matrix_result);
+	m_print(&matrix_result);
+
+	m_destroy(&matrix);
+	m_destroy(&matrix2);
+	m_destroy(&matrix_result);
+	m_destroy(&matrix_transpose);
 
 	return 0;
 }
 
-void m_load(size_t r, size_t c, double matrix[r][c])
+void m_print(matrix_t *matrix)
 {
-	char buf[20];
-	for(size_t i = 0; i < r; i++) {
-		for(size_t j = 0; j < c; j++) {
-			fgets(buf, 20, stdin);
-			matrix[i][j] = strtod(buf, NULL);	/*	value from stdin	*/ 
-		}
-	}
-}
-
-void m_initrand(size_t r, size_t c, double matrix[r][c])
-{
-	srand((unsigned int)time(NULL));
-
-	for(size_t i = 0; i < N; i++) {
-		for(size_t j = 0; j < M; j++) {
-			matrix[i][j] = ((double)rand()/(double)(RAND_MAX)) * 20;
-		}
-	}
-}
-
-void m_print(size_t r, size_t c, double matrix[r][c])
-{
-	for(size_t i = 0; i < r; i++) {
+	for(size_t i = 0; i < matrix->rows; i++) {
 		putchar('(');
 		putchar(' ');
-		for(size_t j = 0; j < c; j++) {
-			printf("%6.2f ", matrix[i][j]);
+		for(size_t j = 0; j < matrix->columns; j++) {
+			printf("%6.2f ", matrix->array[i][j]);
 		}
 		putchar(')');
 		putchar('\n');
 	}
 }
 
-void m_transpose(size_t r, size_t c, double matrix[r][c], double matrix_t[c][r])
+void m_initrand(matrix_t *matrix)
 {
-	for(size_t i = 0; i < r; i++) {
-		for(size_t j = 0; j < c; j++)
-			matrix_t[j][i] = matrix[i][j];
+	srand((unsigned int)time(NULL));
+	
+	for(size_t i = 0; i < matrix->rows; i++) {
+		for(size_t j = 0; j < matrix->columns; j++) {
+			matrix->array[i][j] = ((double)rand()/(double)(RAND_MAX)) * 20;
+		}
+	}
+}
+
+void m_load(matrix_t *matrix)
+{
+	char buf[20];
+	for(size_t i = 0; i < matrix->rows; i++) {
+		for(size_t j = 0; j < matrix->columns; j++) {
+			fgets(buf, 20, stdin);
+			matrix->array[i][j] = strtod(buf, NULL);
+		}
+	}
+}
+
+void m_transpose(matrix_t *matrix, matrix_t *matrix_transpose)
+{
+	for(size_t i = 0; i < matrix->rows; i++) {
+		for(size_t j = 0; j < matrix->columns; j++)
+			matrix_transpose->array[j][i] = matrix->array[i][j];
 
 	}
 }
 
-bool m_isSimetric(size_t r, size_t c, double matrix[r][c])
+void m_multiply(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result)
 {
-	double matrix_transpose[r][c];
-	m_transpose(r, c, matrix, matrix_transpose);
+	if(matrixA->columns != matrixB->rows)
+		return;
 
-	size_t aux = 0;
-	for(size_t i = 0; i < r; i++)
-		for(size_t j = 0; j < c; j++)
-			if(matrix[i][j] == matrix_transpose[i][j])
-				aux++;
+	double aux;
+	for(size_t i = 0; i < matrixA->rows; i++) {
+		for(size_t j = 0; j < matrixB->columns; j++) {
+			for(size_t k = aux = 0; k < matrixA->columns; k++)
+				aux += ((matrixA->array[i][k])*(matrixB->array[k][j]));
+			
+			result->array[i][j] = aux;
+		}	
+	}
+}
 
-	//if(aux == (r * c))
-	//	return true;
 
-	//return false;
-	return true * (aux == (r * c)) + false * (aux != (r * c));
+
+void m_create(size_t rows, size_t columns, matrix_t *matrix)
+{
+	matrix->rows = rows;
+	matrix->columns = columns;
+
+	matrix->array = (double **)malloc((rows) * sizeof(double));
+
+	for (size_t i = 0; i < rows; i++)
+		 matrix->array[i] = (double *)malloc(columns * sizeof(double));
+}
+
+void m_destroy(matrix_t *matrix)
+{
+	for (size_t i = 0; i < matrix->rows; i++)
+		 free(matrix->array[i]);
+
+	free(matrix->array);
 }
