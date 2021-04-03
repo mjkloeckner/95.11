@@ -34,18 +34,7 @@ int main (void)
 	m_create(2, 2, &matrix);
 	m_create(2, 3, &matrix2);
 	m_create(2, 3, &matrix_result);
-	m_create(2, 2, &matrix_transpose);
 
-	/*
-	m_load(N, M, matrix);
-	m_print(N, M, matrix);
-
-	putchar('\n');
-	
-	m_transpose(&matrix, &matrix_transpose);
-	m_print(&matrix_transpose);
-
-	*/
 	m_initrand(&matrix);
 	m_print(&matrix);
 
@@ -56,15 +45,12 @@ int main (void)
 
 	putchar('\n');
 
-	m_initrand(&matrix2);
-
 	m_multiply(&matrix, &matrix2, &matrix_result);
 	m_print(&matrix_result);
 
 	m_destroy(&matrix);
 	m_destroy(&matrix2);
 	m_destroy(&matrix_result);
-	m_destroy(&matrix_transpose);
 
 	return 0;
 }
@@ -128,8 +114,6 @@ void m_multiply(matrix_t *matrixA, matrix_t *matrixB, matrix_t *result)
 		}	
 	}
 }
-
-
 
 void m_create(size_t rows, size_t columns, matrix_t *matrix)
 {
