@@ -5,7 +5,7 @@
 typedef enum { TRUE, FALSE } bool_t;
 
  
-bool_t is_empty_string(const char *str); 
+bool_t is_empty_string(const char *); 
  
 int main (void)
 {

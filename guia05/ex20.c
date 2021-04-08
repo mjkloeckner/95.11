@@ -6,8 +6,8 @@ typedef enum {
 	ERROR_NULL_POINTER
 } status_t;
 
-status_t string_reverse(char *str);
-status_t swap_char(char *a, char *b);
+status_t string_reverse(char *);
+void swap_char(char *a, char *b);
 
 int main (void)
 {
