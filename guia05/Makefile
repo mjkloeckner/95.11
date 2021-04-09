@@ -2,13 +2,18 @@ CC = gcc
 FLAGS = -Wall
 
 ex09: ex09.o main.o
-	echo "this executes first"
-	$(CC) ex09.o main.o
+	$(CC) -lm ex09.o main.o
 
 ex09.o: ex09.h
 	$(CC) -c ex09.c
 
-main.o: ex09.h
+ex10: ex09.o ex10.o main.o
+	$(CC) -lm ex09.o ex10.o main.o
+
+ex10.o: ex10.h
+	$(CC) -lm -c ex10.c
+
+main.o: 
 	$(CC) -c main.c
 
 clean:
