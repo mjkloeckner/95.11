@@ -1,5 +1,5 @@
-#ifndef DATA_H
-#define DATA_H
+#ifndef PRINT_ERROR_H
+#define PRINT_ERROR_H
 
 #include "main.h"
 

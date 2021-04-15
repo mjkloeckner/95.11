@@ -21,8 +21,15 @@
 #include "load_country_codes.h"
 #include "read_file.h"
 #include "print_file.h"
-#include "perrors.h"
+#include "print_error.h"
 
+void free_array(char **arr)
+{
+	for (size_t i = 0; i < COUNTRIES_NUMBER; i++)
+		 free(arr[i]);
+
+	free(arr);
+}
 
 int main(int argc, char * argv[])
 {
@@ -31,32 +38,37 @@ int main(int argc, char * argv[])
 //	Las siguientes variables son para guardar los nombres de los archivos de 
 //	entrada y salida luego de validar los argumentos
 //	char src[MAX_NAME_LENGTH], dest[MAX_NAME_LENGTH];
-	char *src;
-	char *dest;
+	char src[MAX_NAME_LENGTH];
+	char dest[MAX_NAME_LENGTH];
 
-	src = (char *)malloc(MAX_NAME_LENGTH);
-	dest = (char *)malloc(MAX_NAME_LENGTH);
+	//src = (char *)malloc(MAX_NAME_LENGTH);
+	//dest = (char *)malloc(MAX_NAME_LENGTH);
 
 	FILE *fpi, *fpo;
 	uint country, date, infected;
 
 	country = date = infected = 0;
+
 	prev_month = prev_country = -1;
 	infected_monthly = 0;
 
 //	Arreglo de arreglos de caracteres para guardar los codigos de los paises
-	char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH];
+//	char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH];
+	char **country_codes = (char **)malloc(COUNTRIES_NUMBER * sizeof(char *));
+	for (size_t i = 0; i < COUNTRIES_NUMBER; i++)
+		 country_codes[i] = (char *)malloc(ARRAYS_LENGTH * sizeof(double));
 
 //	Valida de que los argumentos sean correctos y guarda los nombres de los
 //	archivos de entrada y salida en src y dest respectivamente
 	if((st = validate_arguments(argc, argv, src, dest)) != OK) {
+		free_array(country_codes);
 		print_error(st);
 		return st;
 	}
-	
 //	Carga los codigos de error de los paises de acuerdo al standard iso3166 en
 //	el arreglo mencionado previamente 'country_codes'  
 	if((st = load_country_codes(country_codes)) != OK) {
+		free_array(country_codes);
 		print_error(st);
 		return ERROR_LOADING_COUNTRY_CODES;	
 	}
@@ -65,12 +77,15 @@ int main(int argc, char * argv[])
 	if((fpi = fopen(src, "r")) == NULL) {
 		fclose(fpi);
 		print_error(ERROR_READING_FILE);
+		free_array(country_codes);
 		return ERROR_READING_FILE;
 	}
 
 //	Abre el archivo de salida en modo escritura
 	if((fpo = fopen(dest, "w")) == NULL) {
+		fclose(fpi);
 		fclose(fpo);
+		free_array(country_codes);
 		print_error(ERROR_READING_FILE);
 		return ERROR_READING_FILE;
 	}
@@ -79,13 +94,14 @@ int main(int argc, char * argv[])
 	size_t line;
 	for(line = 0; (st = read_file(fpi, &country, &date, &infected)) == OK; line++) {
 		if(line != 0) {
-			print_file(fpo, country_codes, &country, &date, &infected);
+//			print_file(fpo, country_codes, &country, &date, &infected);
 		}
 	}
 
 
 //	Si hubo algun error al leer o escribir el archivo va a imprimir un error
 	if((st != OK) && (st != END_OF_INPUT_FILE)) {
+		free_array(country_codes);
 		fclose(fpi);
 		fclose(fpo);
 		print_error(st);
@@ -97,7 +113,7 @@ int main(int argc, char * argv[])
 
 	fclose(fpi);
 	fclose(fpo);
-
+	free_array(country_codes);
 	printf(MSG_OK);
 	return OK;
 }

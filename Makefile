@@ -1,10 +1,10 @@
 CC = gcc
-CFLAGS = -std=c99 -Wall -pedantic
+CFLAGS = -std=c99 -Wall -pedantic -g
 
 all: main clean
 
-main: main.o arguments.o perrors.o load_country_codes.o read_file.o print_file.o
-	$(CC) $(CFLAGS) main.o arguments.o perrors.o load_country_codes.o read_file.o print_file.o -g -o analisis_covid 
+main: main.o arguments.o print_error.o load_country_codes.o read_file.o print_file.o
+	$(CC) $(CFLAGS) main.o arguments.o print_error.o load_country_codes.o read_file.o print_file.o -o analisis_covid 
 
 main.o: main.c main.h arguments.h macros.h
 	$(CC) $(CFLAGS) -c main.c
@@ -12,11 +12,11 @@ main.o: main.c main.h arguments.h macros.h
 arguments.o: arguments.c arguments.h macros.h
 	$(CC) $(CFLAGS) -c arguments.c
 
-perrors.o: main.c main.h
-	$(CC) $(CFLAGS) -c perrors.c
-
 load_country_codes.o: load_country_codes.h main.h
 	$(CC) $(CFLAGS) -c load_country_codes.c 
+
+print_error.o: main.c main.h
+	$(CC) $(CFLAGS) -c print_error.c
 
 read_file.o: read_file.h main.h
 	$(CC) $(CFLAGS) -c read_file.c

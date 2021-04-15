@@ -99,7 +99,7 @@ void fprintf_infected_monthly(FILE *dest)
 	char guion_medio[] = "-----------";
 
 	int length = snprintf( NULL, 0, "%lu", infected_monthly );
-	char* str_infected_monthly = (char *)malloc( length + 1 );
+	char* str_infected_monthly = (char *)malloc( length + 1 * sizeof(char) );
 	snprintf( str_infected_monthly, length + 1, "%lu", infected_monthly );
 
 

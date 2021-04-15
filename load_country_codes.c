@@ -6,7 +6,7 @@
 #include "load_country_codes.h"
 
 
-status_t load_country_codes(char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH])
+status_t load_country_codes(char **country_codes)
 {
 	FILE *fp;
 
@@ -75,7 +75,7 @@ status_t clean (char *buffer, size_t size)
 }
 
 //	Inicializa el arreglo alocando el caracter '\0' en todas las posiciones;
-status_t empty_country_codes(char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH]) 
+status_t empty_country_codes(char **country_codes) 
 {
 	size_t i, j;
 	for(i = 0; i < COUNTRIES_NUMBER; i++)
