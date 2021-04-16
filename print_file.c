@@ -5,7 +5,7 @@ const char formato_de_la_fecha[] = "%d %b %Y";
 int prev_month, prev_country;
 ulong infected_monthly;
 
-status_t print_file(FILE *dest, char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH], uint *country, uint *date, uint *infected) {
+status_t print_file(FILE *dest, char **country_codes, uint *country, uint *date, uint *infected) {
 
 	int month;
 	char time_s[TIME_MAX_DIGITS];
@@ -44,7 +44,7 @@ status_t print_file(FILE *dest, char country_codes[COUNTRIES_NUMBER][ARRAYS_LENG
 }
 
 
-status_t fprintf_country(FILE *dest, size_t country_code, char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH])
+status_t fprintf_country(FILE *dest, size_t country_code, char **country_codes)
 {
 	if((country_codes == NULL) || (dest == NULL))
 		return ERROR_NULL_POINTER;
@@ -99,7 +99,7 @@ void fprintf_infected_monthly(FILE *dest)
 	char guion_medio[] = "-----------";
 
 	int length = snprintf( NULL, 0, "%lu", infected_monthly );
-	char* str_infected_monthly = (char *)malloc( length + 1 * sizeof(char) );
+	char* str_infected_monthly = (char *)malloc(length + 1 * sizeof(char));
 	snprintf( str_infected_monthly, length + 1, "%lu", infected_monthly );
 
 

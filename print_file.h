@@ -3,11 +3,9 @@
 
 #include "main.h"
 
-//extern const char formato_de_la_fecha[];
+status_t print_file(FILE *dest, char **country_codes, uint *country, uint *date, uint *infected);
 
-status_t print_file(FILE *dest, char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH], uint *country, uint *date, uint *infected);
-
-status_t fprintf_country(FILE *dest, size_t country_code, char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH]);
+status_t fprintf_country(FILE *dest, size_t country_code, char **country_codes);
 status_t fprintf_date(FILE *dest, size_t date);
 status_t fprintf_infected(FILE *dest, uint infected, char newline);
 

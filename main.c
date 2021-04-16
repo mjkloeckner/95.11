@@ -37,12 +37,8 @@ int main(int argc, char * argv[])
 
 //	Las siguientes variables son para guardar los nombres de los archivos de 
 //	entrada y salida luego de validar los argumentos
-//	char src[MAX_NAME_LENGTH], dest[MAX_NAME_LENGTH];
 	char src[MAX_NAME_LENGTH];
 	char dest[MAX_NAME_LENGTH];
-
-	//src = (char *)malloc(MAX_NAME_LENGTH);
-	//dest = (char *)malloc(MAX_NAME_LENGTH);
 
 	FILE *fpi, *fpo;
 	uint country, date, infected;
@@ -53,7 +49,6 @@ int main(int argc, char * argv[])
 	infected_monthly = 0;
 
 //	Arreglo de arreglos de caracteres para guardar los codigos de los paises
-//	char country_codes[COUNTRIES_NUMBER][ARRAYS_LENGTH];
 	char **country_codes = (char **)malloc(COUNTRIES_NUMBER * sizeof(char *));
 	for (size_t i = 0; i < COUNTRIES_NUMBER; i++)
 		 country_codes[i] = (char *)malloc(ARRAYS_LENGTH * sizeof(double));
@@ -65,6 +60,7 @@ int main(int argc, char * argv[])
 		print_error(st);
 		return st;
 	}
+
 //	Carga los codigos de error de los paises de acuerdo al standard iso3166 en
 //	el arreglo mencionado previamente 'country_codes'  
 	if((st = load_country_codes(country_codes)) != OK) {
@@ -94,7 +90,7 @@ int main(int argc, char * argv[])
 	size_t line;
 	for(line = 0; (st = read_file(fpi, &country, &date, &infected)) == OK; line++) {
 		if(line != 0) {
-//			print_file(fpo, country_codes, &country, &date, &infected);
+			print_file(fpo, country_codes, &country, &date, &infected);
 		}
 	}
 

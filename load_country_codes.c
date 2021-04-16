@@ -16,19 +16,21 @@ status_t load_country_codes(char **country_codes)
 	char buff2[INITIAL_SIZE];
 	buff2[INITIAL_SIZE] = '\0';
 
-	int country_code;
+	clean(buff2, INITIAL_SIZE);
+
+	int country_code = 0;
 	char country_name[INITIAL_SIZE];
 	country_name[INITIAL_SIZE - 1] = '\0';
 
 	size_t i, j;
 	part_t part;
 		
-	buff = (char *)malloc(INITIAL_SIZE);
+	buff = (char *)malloc(INITIAL_SIZE * sizeof(char));
 	
 	if((fp = fopen(COUNTRY_CODES_FILE_NAME, "r")) == NULL) {
+		free(buff);
 		return ERROR_LOADING_COUNTRY_CODES;
 	}
-
 
 	while(fgets(buff, INITIAL_SIZE, fp) != NULL) {
 		clean(country_name, INITIAL_SIZE);
@@ -80,7 +82,7 @@ status_t empty_country_codes(char **country_codes)
 	size_t i, j;
 	for(i = 0; i < COUNTRIES_NUMBER; i++)
 		for(j = 0; j < (ARRAYS_LENGTH - 1); j++) {
-			country_codes[i][j] = '\0';
+			country_codes[i][j] = 'a';
 		
 		country_codes[i][ARRAYS_LENGTH - 1] = '\n';
 		}
