@@ -11,7 +11,6 @@ typedef struct {
 	double **array;
 } matrix_t;
 
-
 void m_create(size_t rows, size_t columns, matrix_t *matrix);
 void m_destroy(matrix_t *matrix);
 
