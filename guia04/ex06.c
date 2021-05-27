@@ -1,4 +1,4 @@
-/*	G04E06 - Print elements of a 2D array using pointer	
+/*	G04E06 - Print elements of a 2D array using a pointer
  *	by Martin J. Kloeckner	
  *	github.com/klewer-martin	*/
 
@@ -9,9 +9,9 @@ int main (void)
 	int *dos_ptr; 
 	int (*ptr2vector)[4]; 
 
-	int dos_vector[3][4] = { { 1, 2, 3, 4 }, 
-							 { 5, 6, 7, 8 },
-							 { 9,10,11,12 } }; 
+	int dos_vector[3][4] = {{ 1, 2, 3, 4 }, 
+                            { 5, 6, 7, 8 },
+                            { 9,10,11,12 }}; 
 
 	dos_ptr = dos_vector[0];
 	for(size_t i = 0; i < 3 * 4; i++)
