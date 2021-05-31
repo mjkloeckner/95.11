@@ -7,9 +7,9 @@ int main(void)
 	int i;
 	char aux;
 
-	for(i = 0; (aux = str[i]) != '\0'; i++)
-		if(isupper(aux))
-			str[i] = tolower(aux);
+	for(i = 0; aux = str[i]; i++)
+		if((aux > 64) && (aux < 91))
+			str[i] = aux + 32;
 
 	printf("%s\n", str);
 	return 0;
