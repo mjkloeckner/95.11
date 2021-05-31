@@ -5,8 +5,8 @@ size_t str_len(const char *str) {
 	if(str == NULL)
 		return 1;
 
-	size_t i;
-	for(i = 0; str[i] != '\0'; i++)
+	size_t i = 0;
+	while(str[i++])
 		; 
 
 	return i;
@@ -33,6 +33,7 @@ int main(void) {
 				cmp += (s1[i] - s2[i]);
 			}
 	}	
+
 	printf("%d\n", cmp);
 	return 0;
 }

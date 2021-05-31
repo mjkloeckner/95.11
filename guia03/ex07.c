@@ -2,13 +2,13 @@
 #include <string.h>
 
 
-int main(void) {
+int main(void)
+{
+	int i, s1_len, s2_len, cat_len;
 
 	char s1[] = "Hello world!";
 	char s2[] = "Hola mundo!";
 
-
-	int i, s1_len, s2_len, cat_len;
 	s1_len = strlen(s1);
 	s2_len = strlen(s2);
 

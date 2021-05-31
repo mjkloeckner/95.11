@@ -12,7 +12,7 @@ int main(void) {
 	puts(s);
 
 	printf("> ");
-	// gets(s); removed from std C11 because it's very unsecure
+	/* gets(s); removed from std C11 because it's very unsecure */
 	fgets(s, MAX_LEN, stdin);
 	puts(s);
 

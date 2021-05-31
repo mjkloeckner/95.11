@@ -4,11 +4,10 @@
 int main(void) {
 
 	char s[] = "Hello world!\n";
-	char aux;
-	int n;
+	int i, aux;
 
-	for(n = strlen(s); n >= 0; n--) {
-		aux = s[n];
+	for(i = strlen(s); i >= 0; i--) {
+		aux = s[i];
 		if(aux != '\n')
 			putchar(aux);
 	}
