@@ -14,10 +14,10 @@ int main ( void ) {
 
 	num = atoi(buffer);
 
-//	Converts num to octal and stores it on num2 str;
+	/* Converts num to octal and stores it on num2 str; */
 	sprintf(num2, "%o\n", num);
 
-//	prints the string with the octal number;
+	/* prints the string with the octal number; */
 	printf("%s", num2);
 	return 0;
 }

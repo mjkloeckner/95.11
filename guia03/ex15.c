@@ -9,13 +9,14 @@ int main(void) {
 
 	fgets(str, MAX_LEN, stdin);
 
-	j = 0;
-	while(str[j] == ' ')
-		j++;
+	/* Count consecutive starting blank spaces */
+	for(i = 0; str[i] == 32; i++)
+		;
 
-	for(i = 0; str[i] != '\0'; i++) {
-		str[i] = str[i + j];
-	}
-	puts(str);
+	/* Shift the string i times to the left */
+	for(j = 0; str[j]; j++)
+		str[j] = str[j + i];
+
+	printf("%s", str);
 	return 0;
 }

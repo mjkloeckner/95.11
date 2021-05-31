@@ -1,33 +1,28 @@
+/*	Makes a case sensitive search of the s2 in s1	*/
+
 #include <stdio.h>
 #include <string.h>
 
 #define MAX_LEN 100
 
-
-int main ( void ) {
-
-	int i, j;
-	
+int
+main (void)
+{
 	char s1[MAX_LEN];
 	char s2[MAX_LEN];
-	
-	if(fgets(s1, MAX_LEN, stdin) == NULL)
-		return 1;
 
-	if(fgets(s2, MAX_LEN, stdin) == NULL)
-		return 1;
+	/* Get two strings from stdin */
+	if(!fgets(s1, MAX_LEN, stdin)) return 1;
+	if(!fgets(s2, MAX_LEN, stdin)) return 1;
 
-	if(strlen(s2) > strlen(s1))
-		return 1;
+	if(strlen(s2) > strlen(s1)) return 1;
 
-	for(i = 0; s1[i] != '\0'; i++)
+	for(size_t i = 0; s1[i]; i++)
 		if(s1[i] == s2[0])
-			for(j = 0; (s2[j] != '\0'); j++)
-				if(s1[i] == s2[j]) {
-					putchar(s1[i]);
-					i++;
-				}
-	putchar('\n');
+			for(size_t j = 0; s2[j]; j++)
+				if(s1[i] == s2[j])
+					putchar(s1[i++]);
+				
 	return 0;
 }
 
