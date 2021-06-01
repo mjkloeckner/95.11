@@ -11,7 +11,6 @@ int main (void)
 	char *cadena2 = "Hola"; 
 	/* The difference is that cadena1 is an array that contains the secuence of chars "Hola", and cadena2 is a pointer which points to an array of chars that contains "Hola"; */
 
-
 	char meses1 [12][] = {"Enero", "Febrero", ... , "Diciembre"}; 
 	char * meses2 [12] = {"Enero", "Febrero", ... , "Diciembre"}; 
 	/* Similar as the previous example, meses1 is an array of arrays of chars, and meses2 is a pointer to an array of chars which the maximum length is 12; */
