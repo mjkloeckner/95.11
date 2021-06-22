@@ -1,9 +1,11 @@
+/*	Populates the direction in memory pointed by every element of an array
+ *	of 10 pointers to float	with 10 numbers entered via stdin.	*/
+ 
 #include <stdio.h>
 #include <stdlib.h>
 #include <float.h>
 
 #define BUFFER_LEN 10
-#define MAX_IN_LEN 6
 
 int main (void)
 {
@@ -29,9 +31,9 @@ int main (void)
 	}
 
 	/*	Populates the array with user input converted to float, computes the sume of all
-	 *	the converted numbers and then frees the memmory since it's not longer needed	*/
+	 *	the converted numbers and then frees the memmory since it's no longer needed	*/
 	for(i = *sum = 0; i < 10 ; i++) {
-		if(!fgets(buffer, MAX_IN_LEN, stdin)) return 2;
+		if(!fgets(buffer, BUFFER_LEN, stdin)) return 2;
 		*sum += (*pf[i] = strtof(buffer, NULL));
 
 		printf("%p: %5f\n", pf[i], *pf[i]);
