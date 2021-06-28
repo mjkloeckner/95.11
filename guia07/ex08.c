@@ -1,3 +1,8 @@
+/* guia07/ej08.c 
+ * por Martin J. Klöckner
+ * github.com/klewer-martin
+ */
+
 #include <stdio.h>
 
 #define MASK_RED	0xFF0000
@@ -58,7 +63,7 @@ uchar get_blue(uint color)
 	return (uchar)((color & MASK_BLUE) >> SHIFT_BLUE);
 }
 
-/* This implementation its independent from other functions */
+/* This implementation its independendent from other functions */
 status_t rgb_components(uint color, uchar *red, uchar *green, uchar *blue)
 {
 	if(!red || !green || !blue) return ERROR_NULL_POINTER;
@@ -70,7 +75,7 @@ status_t rgb_components(uint color, uchar *red, uchar *green, uchar *blue)
 	return OK;
 }
 
-/* This implementation insted its dependent from other functions */
+/* This implementation insted depends from other functions */
 status_t rgb_components2(uint color, uchar *red, uchar *green, uchar *blue)
 {
 	if(!red || !green || !blue) return ERROR_NULL_POINTER;

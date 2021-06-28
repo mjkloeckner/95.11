@@ -60,6 +60,7 @@ void getCOMControl(uchar control, uchar *prescalingFactor, uchar *divisionFactor
 {
 	if(!prescalingFactor || !divisionFactor) return;
 
+	/* static because otherwise it would have to load the array into memmory everytime the function is called */
 	static uchar divFactor[4] = { 2, 4, 16, 32 };
 
 	*prescalingFactor = ((control & (MASK_SPR0 + MASK_SPR1)) >> SHIFT_SPR0);

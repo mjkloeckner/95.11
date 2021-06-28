@@ -47,6 +47,8 @@ char *fread_line(FILE *fp)
 	int aux;
 	size_t i, alloc_size;
 
+	if(!fp) return NULL;
+
 	alloc_size = INIT_SIZE;
 
 	if(!(dst = (char *)calloc(alloc_size, sizeof(char)))) return NULL;
