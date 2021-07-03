@@ -1,4 +1,4 @@
-/* guia08/ej11.c + CLA
+/* guia08/ej12.c + CLA
  * por Martin J. Klöckner
  * github.com/klewer-martin
  */
@@ -7,15 +7,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define ARGS	2	/* Program name and file to read name */
 #define FILE_NAME_POS	1
+#define ARGS			2
 
-#define MSG_USAGE	"Usage: ./a.out <file name>"
-
-#define ARR_INIT_SIZE	3
-#define STR_INIT_SIZE	10
+#define MSG_USAGE		"Usage: ./a.out <file name>"
 
 #define GROWTH_FACTOR	2
+
+#define ARR_INIT_SIZE	1000
+#define STR_INIT_SIZE	2
 
 #define LOAD_FILE_BUFFER_SIZE 100
 
@@ -30,7 +30,7 @@ typedef enum {
 status_t validate_arguments(int argc, char *argv[]);
 
 status_t load_file(const char *file_name, char **array);
-char **split(const char *s, char delim, size_t *fields);
+status_t split(const char *s, char ***array, char delim, size_t *fields);
 
 int main (int argc, char *argv[])
 {
@@ -45,7 +45,9 @@ int main (int argc, char *argv[])
 
 	if((st = load_file(argv[FILE_NAME_POS], &input))) return st;
 
-	if(!(arr = split(input, ',', &len))) return 1;
+	if((st = split(input, &arr, ',', &len))) return st;
+
+	free(input);
 
 	for(i = 0; i <= len; i++)
 		printf("%s\n", arr[i]);
@@ -53,7 +55,6 @@ int main (int argc, char *argv[])
 	while(len + 1) free(arr[len--]);
 
 	free(arr);
-	free(input);
 
 	return 0;
 }
@@ -93,64 +94,58 @@ status_t load_file(const char *file_name, char **array)
 }
 
 /* Recibe una cadena de caracteres de longitud desconocida, con valores separados por un caracter delimitador y los separa en cadenas de caracteres de longitud dinamica */
-char **split(const char *s, char delim, size_t *fields)
+status_t split(const char *s, char ***array, char delim, size_t *fields)
 {
-	if(!s || !fields) return NULL;
+	if(!s || !fields) return ERROR_NULL_POINTER;
 
-	char **arr;
 	size_t i, arr_size, str_size;
 
 	arr_size = ARR_INIT_SIZE;
 	str_size = STR_INIT_SIZE;
 
-	if(!(arr = (char **)calloc(sizeof(char *), arr_size))) return NULL;
+	if(!(*array = (char **)calloc(sizeof(char *), arr_size))) return ERROR_ALLOC_MEMORY;
 
-	if(!(*arr = (char *)calloc(sizeof(char), str_size))) {
-		free(arr);
-		return NULL;
-	}
+	if(!(**array = (char *)calloc(sizeof(char), str_size))) { free(*array); return ERROR_ALLOC_MEMORY; }
 
 	for(*fields = i = 0; *s; i++, s++) {
 		/* If the array doesn't have any memory left then it gets more memory */
 		if(*fields == (arr_size - 1)) {
 			/* Exponential growth of the array */
 			arr_size *= GROWTH_FACTOR;
-
-			if(!(arr = (char **)realloc(arr, arr_size * sizeof(char *)))) {
+			if(!(*array = (char **)realloc(*array, arr_size * sizeof(char *)))) {
 				/* If it can't get more memory then all the previous allocations gets freed */
-				while((*fields) + 1) free(arr[(*fields)--]);
-				free(arr);
-				return NULL;
+				while((*fields) + 1) free((*array)[(*fields)--]);
+				free(*array);
+				return ERROR_ALLOC_MEMORY;
 			}
 		}
-		if((*s == delim) || (*s == '\n')) {	
-			if(!(arr[++(*fields)] = (char *)calloc(sizeof(char), str_size))) {
+		if((*s == delim) || (*s == '\n')) {
+			str_size = STR_INIT_SIZE;
+			if(!((*array)[++(*fields)] = (char *)calloc(sizeof(char), str_size))) {
 				/* If it can't get more memory then all the previous allocations gets freed */
 				while(*fields)
-					free(arr[(*fields)--]);
+					free((*array)[(*fields)--]);
 
-				free(arr);
-				return NULL;
+				free(*array);
+				return ERROR_ALLOC_MEMORY;
 			}
-			i = 0;
-			s++;
+			s++; i = 0;
 		}
 		/* This makes sure that the current string has available memory, if not then it gets more */
 		if(i == (str_size - 2)) {
 			str_size *= GROWTH_FACTOR;
-			if(!(arr[*fields] = (char *)realloc(arr[*fields], str_size))) {
+			if(!((*array)[*fields] = (char *)realloc((*array)[*fields], str_size))) {
 				/* If it can't get more memory all the previous used memmory gets freed */
 				while((*fields) + 1)
-					free(arr[(*fields)--]);
+					free((*array)[(*fields)--]);
 
-				free(arr);
-				return NULL;
+				free(*array);
+				return ERROR_ALLOC_MEMORY;
 			}
-			/* Sets all the new memory to the null character */
-			for(size_t j = i; j < str_size; j++) (*arr)[j] = '\0';
 		}
-		arr[*fields][i] = (*s);
-	}
-	free(arr[(*fields)--]);
-	return arr;
+		(*array)[*fields][i] = (*s);
+	} /* End for loop */
+
+	free((*array)[(*fields)--]);
+	return OK;
 }

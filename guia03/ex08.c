@@ -2,12 +2,10 @@
 #include <string.h>
 
 size_t str_len(const char *str) {
-	if(str == NULL)
-		return 1;
+	if(str == NULL) return 1;
 
 	size_t i = 0;
-	while(str[i++])
-		; 
+	while(str[i++]); 
 
 	return i;
 }
