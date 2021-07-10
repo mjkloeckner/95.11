@@ -1,36 +1,30 @@
 #include "../include/cla.h"
 #include "../include/errors.h"
+#include "../include/io.h" /* output_gen() */
 
-typedef struct {
-	int id, credit, debt;
-} user_t, *user;
-
-typedef struct {
-	char *fmt, *fi, fo;
-	unsigned long ti, tf;
-} cla_t, *cla;
-
-/* user_create */
-/* user_destroy */
-/* user_assign_amount */
-/* user_get_amount */
+#include <stdlib.h>
 
 int main (int argc, char *argv[])
 {
 	status_t st;
+	cla_t cla;
 
 	if((st = validate_arguments(argc, argv)) != OK) {
 		show_status(st);
 		return st;
 	}
 
-	/* parse_arguments(argc, argv); */
+	if((st = setup(argc, argv, &cla))) {
+		show_status(st);
+		return st;
+	}
+	/* En este punto ya tengo todos los datos que necesito, el nombre de los archivos de entrada, el tiempo inicial y final, y el formato de el archivo de salida */
 
-	/* get_argument(argc, argv); */
-	/* if((st = parse_file())) { */
-	/* 	show_error(st); */
-	/* 	return st; */
-	/* } */
+	if((st = output_gen(cla))) {
+		show_status(st);
+		return st;
+	}
 
+	clean(cla);
 	return OK;
 }

@@ -54,3 +54,37 @@ status_t check_flags_repeated(int argc, char **argv)
 	}
 	return OK;
 }
+
+status_t setup(int argc, char **argv, cla_t *cla)
+{
+	/* Falta validar memoria */
+	*cla = (cla_t)malloc(sizeof(ADT_cla_t));
+
+	(*cla)->fmt = calloc(sizeof(char), 100);
+	(*cla)->fo = calloc(sizeof(char), 100);
+	(*cla)->fi = calloc(sizeof(char), 100);
+
+	for(size_t i = 1; i < argc; i += 2) {
+		for(flags_t f = FLAG_FMT; f < FLAGS_MAX; f++) {
+			if(!strcmp(available_flags[f], argv[i])) {
+				switch (f) {
+					case FLAG_FMT: strcpy((*cla)->fmt, argv[i + 1]); break;
+					case FLAG_OUT: strcpy((*cla)->fo, argv[i + 1]); break;
+					case FLAG_IN: strcpy((*cla)->fi, argv[i + 1]); break;
+					case FLAG_TI: (*cla)->ti = strtoul(argv[i + 1], NULL, 10); break;
+					case FLAG_TF: (*cla)->tf = strtoul(argv[i + 1], NULL, 10); break;
+					default: return ERROR_FLAG_NOT_FOUND;
+				}
+			}
+		}
+	}
+	return OK;
+}
+
+void clean(cla_t cla)
+{
+	free(cla->fmt);
+	free(cla->fi);
+	free(cla->fo);
+	free(cla);
+}
