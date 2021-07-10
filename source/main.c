@@ -7,6 +7,7 @@
 int main (int argc, char *argv[])
 {
 	status_t st;
+	FILE *tmp_file;
 	cla_t cla;
 
 	if((st = validate_arguments(argc, argv)) != OK) {
@@ -14,13 +15,20 @@ int main (int argc, char *argv[])
 		return st;
 	}
 
-	if((st = setup(argc, argv, &cla))) {
+	if((st = setup(argc, argv, &cla)) != OK) {
 		show_status(st);
 		return st;
 	}
 	/* En este punto ya tengo todos los datos que necesito, el nombre de los archivos de entrada, el tiempo inicial y final, y el formato de el archivo de salida */
 
-	if((st = output_gen(cla))) {
+	/* Genera un archivo binario temporal con los datos parseados ordenado y listo para ser impresos */
+	if((st = tmp_gen(cla, tmp_file)) != OK) {
+		show_status(st);
+		return st;
+	}
+
+	/* Exporta el archivo temporal a un archivo de texto con formato de acuerdo a la flag recibida como argumento */
+	if((st = export_data(cla, tmp_file)) != OK) {
 		show_status(st);
 		return st;
 	}

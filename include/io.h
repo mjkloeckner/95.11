@@ -19,9 +19,12 @@ typedef enum {
 	POS_DESC
 } csv_pos_t;
 
-status_t output_gen(cla_t cla);
+status_t tmp_gen(cla_t cla);
 status_t set_data(user_t *user, char **data);
+status_t tmp_sort(FILE *tmp);
 
 status_t split(char *s, char **data);
+
+status_t export_data(cla_t cla, FILE *bfp);
 
 #endif
