@@ -1,6 +1,8 @@
 #ifndef TYPES__H
 #define TYPES__H
 
+#define STATUS_T_MAX 6
+
 typedef enum {
 	OK,
 	ERROR_MISSING_ARGS,

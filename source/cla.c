@@ -1,7 +1,7 @@
-#include "cla.h"
-#include "types.h"
+#include "../include/cla.h"
 
-#include <stdio.h>
+const char *available_flags[] = { "-fmt", "-out", "-in", "-ti", "-tf" };
+const char *available_formats[] = { "csv", "xml" };
 
 status_t validate_arguments(int argc,  char **argv)
 {
@@ -12,8 +12,7 @@ status_t validate_arguments(int argc,  char **argv)
 		return ERROR_MISSING_ARGS;
 
 	if((st = check_flags_position(argc, argv))) return st;
-
-	if((st = check_flags_repeated(argc, argv))) return st;	
+	if((st = check_flags_repeated(argc, argv))) return st;
 
 	return OK;
 }
@@ -55,4 +54,3 @@ status_t check_flags_repeated(int argc, char **argv)
 	}
 	return OK;
 }
-
