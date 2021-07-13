@@ -6,8 +6,8 @@ PROGNAME=main
 
 all: main clean
 
-main: main.o cla.o errors.o io.o
-	$(CC) $(CFLAGS) main.o cla.o errors.o io.o -o $(PROGNAME)
+main: main.o cla.o errors.o io.o sort.o
+	$(CC) $(CFLAGS) main.o cla.o errors.o io.o sort.o -o $(PROGNAME)
 
 main.o: $(HFOLDER)/cla.h $(HFOLDER)/errors.h
 	$(CC) $(CFLAGS) -c $(SRCFOLDER)/main.c
@@ -20,6 +20,9 @@ errors.o: $(HFOLDER)/types.h
 
 io.o: $(HFOLDER)/types.h
 	$(CC) $(CFLAGS) -c $(SRCFOLDER)/io.c
+
+sort.o: $(HFOLDER)/types.h
+	$(CC) $(CFLAGS) -c $(SRCFOLDER)/sort.c
 
 clean:
 	rm *.o

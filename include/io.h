@@ -19,7 +19,7 @@ typedef enum {
 	POS_DESC
 } csv_pos_t;
 
-status_t tmp_gen(cla_t cla);
+status_t tmp_gen(cla_t cla, FILE **bfp);
 status_t set_data(user_t *user, char **data);
 status_t tmp_sort(FILE *tmp);
 

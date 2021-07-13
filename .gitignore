@@ -1,0 +1,7 @@
+*.docx
+*.docx#
+*.o
+*.csv
+*.xml
+*.bin
+main

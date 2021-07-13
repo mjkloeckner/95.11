@@ -3,6 +3,8 @@
 
 #define STATUS_T_MAX 6
 
+#define TMP_FILE_NAME "tmp.bin"
+
 typedef enum {
 	OK,
 	ERROR_MISSING_ARGS,
