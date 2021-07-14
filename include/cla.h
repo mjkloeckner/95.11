@@ -20,6 +20,11 @@ typedef enum {
 	FLAG_TF
 } flags_t;
 
+typedef struct {
+	char *fmt, *fi, *fo;
+	unsigned long ti, tf;
+} ADT_cla_t, *cla_t;
+
 status_t validate_arguments(int argc, char **argv);
 status_t check_flags_position(int argc, char **argv);
 status_t check_flags_repeated(int argc, char **argv);

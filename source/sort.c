@@ -8,7 +8,7 @@ int minmax(const void *a, const void *b)
 	return (*A > *B) ? *A : (*A - *B);
 }
 
-int maxmix(const void *a, const void *b)
+int maxmin(const void *a, const void *b)
 {
 	int *A = (int *)a;
 	int *B = (int *)b;
@@ -16,12 +16,15 @@ int maxmix(const void *a, const void *b)
 	return (*A > *B) ? *A : (*A - *B);
 }
 
-status_t sort_tmp_file(FILE *bfp, char *sort_order)
+status_t tmp_file_sort(FILE *tmp, size_t len, char order)
 {
-	if(bfp == NULL || sort_order == NULL)
-		return ERROR_NULL_POINTER;
+	if(tmp == NULL) return ERROR_NULL_POINTER;
 
-	/* qsort(bfp, sizeof); */
+	switch (order)
+	{
+		case 'a': qsort(tmp, len, sizeof(ADT_cla_t), minmax); break;
+		case 'd': qsort(tmp, len, sizeof(ADT_cla_t), maxmin); break;
+	}
 
 	return OK;
 }

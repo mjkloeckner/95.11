@@ -16,11 +16,6 @@ typedef enum {
 } status_t;
 
 typedef struct {
-	char *fmt, *fi, *fo;
-	unsigned long ti, tf;
-} ADT_cla_t, *cla_t;
-
-typedef struct {
 	int id, credit, debt;
 } ADT_user_t, *user_t;
 

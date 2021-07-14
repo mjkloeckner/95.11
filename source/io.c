@@ -1,16 +1,12 @@
 #include "../include/io.h"
 
-void print_user(const user_t user);
-status_t write_tmp_file(FILE *bfp, const user_t user);
-status_t read_tmp_file(FILE *bfp, user_t user);
-status_t load_values(FILE *);
-
 /* Lee los datos de el archivo de entrada linea por linea 
  * y los imprime en un archivo binario temporal */
-status_t tmp_gen(cla_t cla, FILE **bfp)
+status_t tmp_file_gen(cla_t cla, FILE **bfp)
 {
 	FILE *fpi, *fpo;
 	char *buffer, **data;
+	size_t i;
 	user_t user;
 	status_t st;
 
@@ -22,18 +18,28 @@ status_t tmp_gen(cla_t cla, FILE **bfp)
 
 	data = (char **)malloc(sizeof(char *) * INPUT_FILE_FIELDS);
 
-	for(size_t i = 0; i < INPUT_FILE_FIELDS; i++)
+	for(i = 0; i < INPUT_FILE_FIELDS; i++)
 		data[i] = calloc(sizeof(char), BUFFER_SIZE);
 
 	buffer = calloc(sizeof(char), BUFFER_SIZE);
 
 	/* Lee los datos de el archivo de entrada linea por linea 
 	 * y los imprime en un archivo binario temporal */
-	while(fgets(buffer, BUFFER_SIZE, fpi) != NULL) {
+	for(i = 0; (fgets(buffer, BUFFER_SIZE, fpi) != NULL); i++) {
 		if((st = split(buffer, data))) return st;
 		if((st = set_data(&user, data))) return st;
-		write_tmp_file((*bfp), user);
+		tmp_file_write(*bfp, user);
 	}
+
+	/* tmp_file_sort(*bfp, i, 'd'); */
+
+	/* tmp_file_read(*bfp, user); */
+
+	/* print_user(user); */
+
+	/* rewind(*bfp); */
+	/* for(i = 0; fread(user, 1, sizeof(ADT_user_t), *bfp); i++) */
+	/* 	print_user(user); */
 
 	fclose(fpi);
 	fclose(fpo);
@@ -70,7 +76,7 @@ void print_user(const user_t user)
 	printf("ID: %5d CREDITS: %5d DEBITS: %5d\n", user->id, user->credit, user->debt);
 }
 
-status_t write_tmp_file(FILE *bfp, const user_t user)
+status_t tmp_file_write(FILE *bfp, const user_t user)
 {
 	if(bfp == NULL) return ERROR_NULL_POINTER;
 
@@ -79,7 +85,7 @@ status_t write_tmp_file(FILE *bfp, const user_t user)
 	return OK;
 }
 
-status_t read_tmp_file(FILE *bfp, user_t user)
+status_t tmp_file_read(FILE *bfp, user_t user)
 {
 	if(bfp == NULL || user == NULL) return ERROR_NULL_POINTER;
 

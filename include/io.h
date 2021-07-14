@@ -5,7 +5,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "cla.h"
 #include "types.h"
+#include "sort.h"
 
 #define INPUT_FILE_FIELDS 6
 #define BUFFER_SIZE		1000
@@ -19,12 +21,17 @@ typedef enum {
 	POS_DESC
 } csv_pos_t;
 
-status_t tmp_gen(cla_t cla, FILE **bfp);
 status_t set_data(user_t *user, char **data);
-status_t tmp_sort(FILE *tmp);
+
+status_t tmp_file_write(FILE *bfp, const user_t user);
+status_t tmp_file_read(FILE *bfp, user_t user);
 
 status_t split(char *s, char **data);
 
+status_t load_values(FILE *);
 status_t export_data(cla_t cla, FILE *bfp);
 
+void print_user(const user_t user);
+
+status_t tmp_file_gen(cla_t cla, FILE **bfp);
 #endif

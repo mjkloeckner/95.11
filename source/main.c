@@ -25,13 +25,10 @@ int main (int argc, char *argv[])
 	/* En este punto ya tengo todos los datos que necesito, el nombre de los archivos de entrada, el tiempo inicial y final, y el formato de el archivo de salida */
 
 	/* Genera un archivo binario temporal con los datos parseados  */
-	if((st = tmp_gen(cla, &tmp_file)) != OK) {
+	if((st = tmp_file_gen(cla, &tmp_file)) != OK) {
 		show_status(st);
 		return st;
 	}
-
-	/* Ordena el archivo binario */
-	sort_tmp_file(tmp_file, SORTING_ORDER);
 
 	/* Exporta el archivo temporal a un archivo de texto con formato de acuerdo a la flag recibida como argumento */
 	/* if((st = export_data(cla, tmp_file)) != OK) { */
