@@ -7,6 +7,10 @@
 
 #define SORTING_ORDER	"a"
 
+status_t create_array(int *arr, size_t len);
+status_t load_values(int **arr, size_t len);
+status_t destroy_array(int *arr, size_t len);
+
 int main (int argc, char *argv[])
 {
 	status_t st;
