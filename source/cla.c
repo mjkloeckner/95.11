@@ -31,13 +31,12 @@ status_t check_flags_position(int argc, char **argv)
 	return OK;
 }
 
-/* Need to add a record for already founded flags */
 status_t check_flags_repeated(int argc, char **argv)
 {
 	size_t i, j, fflags_index;
 	int founded_flags[FLAGS_MAX];
 
-	/* Inicializa a -1 para evitar confuciones con 0 */
+	/* Inicializa a -1 para evitar confusiones con 0 */
 	for(i = 0; i < FLAGS_MAX; i++) founded_flags[i] = -1;
 
 	for(i = 1, fflags_index = 0; i <= (argc - 2); i += 2) {
@@ -55,14 +54,9 @@ status_t check_flags_repeated(int argc, char **argv)
 	return OK;
 }
 
-status_t setup(int argc, char **argv, cla_t *cla)
+status_t cla_setup(int argc, char **argv, cla_t *cla)
 {
-	/* Falta validar memoria */
-	*cla = (cla_t)malloc(sizeof(ADT_cla_t));
-
-	(*cla)->fmt = calloc(sizeof(char), 100);
-	(*cla)->fo = calloc(sizeof(char), 100);
-	(*cla)->fi = calloc(sizeof(char), 100);
+	char *endptr;
 
 	for(size_t i = 1; i < argc; i += 2) {
 		for(flags_t f = FLAG_FMT; f < FLAGS_MAX; f++) {
@@ -71,20 +65,65 @@ status_t setup(int argc, char **argv, cla_t *cla)
 					case FLAG_FMT: strcpy((*cla)->fmt, argv[i + 1]); break;
 					case FLAG_OUT: strcpy((*cla)->fo, argv[i + 1]); break;
 					case FLAG_IN: strcpy((*cla)->fi, argv[i + 1]); break;
-					case FLAG_TI: (*cla)->ti = strtoul(argv[i + 1], NULL, 10); break;
-					case FLAG_TF: (*cla)->tf = strtoul(argv[i + 1], NULL, 10); break;
+					case FLAG_TI: 
+								  (*cla)->ti = strtoul(argv[i + 1], &endptr, 10); 
+								  if(*endptr != '\0') return ERROR_WRONG_TIME;
+								  break;
+					case FLAG_TF: 
+								  (*cla)->tf = strtoul(argv[i + 1], &endptr, 10); 
+								  if(*endptr != '\0') return ERROR_WRONG_TIME;
+								  break;
 					default: return ERROR_FLAG_NOT_FOUND;
 				}
 			}
 		}
 	}
+
 	return OK;
 }
 
-void clean(cla_t cla)
+
+status_t cla_create(cla_t *cla)
 {
-	free(cla->fmt);
-	free(cla->fi);
-	free(cla->fo);
-	free(cla);
+	if(cla == NULL) return ERROR_NULL_POINTER;
+
+	if((*cla = (cla_t)malloc(sizeof(ADT_cla_t))) == NULL)
+		return ERROR_MEMORY;
+
+	if(((*cla)->fmt = calloc(sizeof(char), 100)) == NULL) {
+		free(cla);
+		cla = NULL;
+		return ERROR_MEMORY;
+	}
+
+	if(((*cla)->fo = calloc(sizeof(char), 100)) == NULL) {
+		free((*cla)->fmt);
+		free(cla);
+		cla = NULL;
+		return ERROR_MEMORY;
+	}
+
+	if(((*cla)->fi = calloc(sizeof(char), 100)) == NULL) {
+		free((*cla)->fo);
+		free((*cla)->fmt);
+		free(cla);
+		cla = NULL;
+		return ERROR_MEMORY;
+	}
+
+	return OK;
+}
+
+status_t cla_destroy(cla_t *cla)
+{
+	if(cla == NULL) return ERROR_NULL_POINTER;
+
+	free((*cla)->fmt);
+	free((*cla)->fo);
+	free((*cla)->fi);
+	free(*cla);
+
+	cla = NULL;
+
+	return OK;
 }

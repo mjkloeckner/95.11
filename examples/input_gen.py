@@ -2,7 +2,7 @@ from string import digits
 from time import strftime, gmtime
 from random import randint, choice
 
-LINES = 2000
+LINES = 5000
 
 # OUTPUT:
 #     ID_TRANSACCION, ID_USUARIO, FECHA, MONTO, NUMERO DE TRAJETA, DESCRIPCION
@@ -16,14 +16,14 @@ def card_number_generator():
 def generate_file(max_lines):
     id_transaction_base = 123400
     id_user_base = 1
-    id_user_max = 2000
-    amount_base = 10
+    id_user_max = 200
+    amount_base = 1
     amount_max = 10000
     for i in range(max_lines):
         id_transaction = (i + id_transaction_base)
         id_user = randint(id_user_base, id_user_max)
         card_nr = card_number_generator() 
-        date = strftime("%d/%m/%Y %H:%M:%S", gmtime(1320487200 + i))
+        date = strftime("%d.%m.%Y %H:%M:%S", gmtime(1320487200 + i))
         
         j = randint(1, len(descs) - 1)
         desc = descs[j] 

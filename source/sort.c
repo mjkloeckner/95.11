@@ -1,30 +1,53 @@
 #include "../include/sort.h"
 
-int minmax(const void *a, const void *b)
+int credit_minmax(const void *a, const void *b)
 {
-	int *A = (int *)a;
-	int *B = (int *)b;
+	user_t *A = (user_t *)a;
+	user_t *B = (user_t *)b;
 
-	return (*A > *B) ? *A : (*A - *B);
+	return ((*A)->credit > (*B)->credit) ? 1 : 0;
 }
 
-int maxmin(const void *a, const void *b)
+int credit_maxmin(const void *a, const void *b)
 {
-	int *A = (int *)a;
-	int *B = (int *)b;
+	user_t *A = (user_t *)a;
+	user_t *B = (user_t *)b;
 
-	return (*A > *B) ? *A : (*A - *B);
+	return ((*A)->credit > (*B)->credit) ? 0 : 1;
 }
 
-status_t tmp_file_sort(FILE *tmp, size_t len, char order)
+int debt_minmax(const void *a, const void *b)
 {
-	if(tmp == NULL) return ERROR_NULL_POINTER;
+	user_t *A = (user_t *)a;
+	user_t *B = (user_t *)b;
 
-	switch (order)
-	{
-		case 'a': qsort(tmp, len, sizeof(ADT_cla_t), minmax); break;
-		case 'd': qsort(tmp, len, sizeof(ADT_cla_t), maxmin); break;
-	}
+	return ((*A)->debt > (*B)->debt) ? 1 : 0;
+}
+
+int debt_maxmin(const void *a, const void *b)
+{
+	user_t *A = (user_t *)a;
+	user_t *B = (user_t *)b;
+
+	return ((*A)->debt > (*B)->debt) ? 0 : 1;
+}
+
+status_t sort_users(user_t *users, size_t l, char *order)
+{
+	if(users == NULL || order == NULL)
+		return ERROR_NULL_POINTER;
+
+	if(!strcmp(order, "ca"))
+		qsort(users, l, sizeof(user_t), credit_minmax);
+
+	if(!strcmp(order, "cd"))
+		qsort(users, l, sizeof(user_t), credit_maxmin);
+
+	if(!strcmp(order, "da"))
+		qsort(users, l, sizeof(user_t), debt_minmax);
+
+	if(!strcmp(order, "dd"))
+		qsort(users, l, sizeof(user_t), debt_maxmin);
 
 	return OK;
 }

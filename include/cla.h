@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-#include "types.h"
+#include "status.h"
 
 #define NO_ARGS_ENTERED 1
 #define NORMAL_AMOUNT_ARGS 11
@@ -22,14 +22,17 @@ typedef enum {
 
 typedef struct {
 	char *fmt, *fi, *fo;
-	unsigned long ti, tf;
+	unsigned long ti, tf, parsed_lines;
 } ADT_cla_t, *cla_t;
 
 status_t validate_arguments(int argc, char **argv);
 status_t check_flags_position(int argc, char **argv);
 status_t check_flags_repeated(int argc, char **argv);
 
-status_t setup(int argc, char **argv, cla_t *cla);
+status_t cla_create(cla_t *cla);
+status_t cla_setup(int argc, char **argv, cla_t *cla);
+status_t cla_destroy(cla_t *cla);
+
 void clean(cla_t cla);
 
 extern const char *available_flags[FLAGS_MAX];
