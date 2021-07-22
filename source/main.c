@@ -2,6 +2,7 @@
 #include "../include/status.h"
 #include "../include/io.h" /* output_gen() */
 #include "../include/sort.h"
+#include "../include/user.h"
 
 /* "ca" - creditos ascendentes | "cd" - creditos descendentes
  * "da" - debitos ascendentes  | "dd" - debitos descendentes */
