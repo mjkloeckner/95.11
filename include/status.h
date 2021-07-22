@@ -6,6 +6,9 @@
 #include <stdarg.h>
 
 #define ERROR_RETRY_MSG "Verifique y vuelva a intentar"
+#define EXIT_SUCCESS_MSG "Ejecución terminada exitosamente"
+#define USERS_REGISTERED_MSG	"Usuarios registrados: "
+#define PROCESED_LINES_MSG		"Lineas procesadas: "
 
 #define STATUS_T_MAX 12
 
