@@ -8,10 +8,6 @@
  * "da" - debitos ascendentes  | "dd" - debitos descendentes */
 #define SORTING_ORDER	"cd"
 
-#define EXIT_SUCCESS_MSG "Ejecución terminada exitosamente"
-#define USERS_REGISTERED_MSG	"Usuarios registrados: "
-#define PROCESED_LINES_MSG		"Lineas procesadas: "
-
 int main (int argc, char *argv[])
 {
 	status_t st;
