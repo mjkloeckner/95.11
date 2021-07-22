@@ -29,30 +29,3 @@ user.o: $(HFOLDER)/status.h
 
 clean:
 	rm *.o
-
-run20:
-	./main -fmt csv -out output.csv -in examples/test_file_20.csv -ti 1320498000 -tf 1320498046
-
-run2k:
-	./main -fmt csv -out output.csv -in examples/test_file_2k.csv -ti 1320498000 -tf 1325499000
-
-run50:
-	./main -fmt csv -out output.csv -in examples/test_file_50.csv -ti 1320498000 -tf 1320498049
-
-run500:
-	./main -fmt csv -out output.csv -in examples/test_file_500.csv -ti 1320498000 -tf 1320529000
-
-run5k:
-	./main -fmt csv -out output.csv -in examples/test_file_5k.csv -ti 1320498000 -tf 1320529000
-
-run50k:
-	./main -fmt csv -out output.csv -in examples/test_file_50k.csv -ti 1320498000 -tf 1420529000
-
-run500k:
-	./main -fmt csv -out output.csv -in examples/test_file_500k.csv -ti 1320498000 -tf 1420529000
-
-run50xml:
-	./main -fmt xml -out output.xml -in examples/test_file_50.csv -ti 1320498000 -tf 1320498049
-
-run5kxml:
-	./main -fmt xml -out output.xml -in examples/test_file_5k.csv -ti 1320498000 -tf 1360498049

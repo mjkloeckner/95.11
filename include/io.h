@@ -14,8 +14,11 @@
 #define __USE_XOPEN
 #include <time.h>
 
+#define INIT_SIZE		1000
 #define INPUT_FILE_FIELDS 6
+
 #define BUFFER_SIZE		1000
+#define GROWTH_FACTOR 	2
 
 #define INPUT_FILE_DELIM ","
 #define CSV_OUTPUT_DELIM	","
@@ -52,8 +55,14 @@ status_t string_split(char *s, char **data, char *delim);
 status_t load_values(FILE *, cla_t *data);
 
 status_t export_data(cla_t cla, const user_t *users, size_t size);
+void clean_data(char **data);
 
 status_t export_data_as_csv(FILE *fo, const user_t *users, size_t size);
 status_t export_data_as_xml(FILE *fo, const user_t *users, size_t size);
+
+status_t destroy_data(char **data);
+status_t get_date(time_t *e, char **data);
+
+void clean_buffer(char *buf);
 
 #endif

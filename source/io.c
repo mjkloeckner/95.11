@@ -1,14 +1,5 @@
 #include "../include/io.h"
 
-#define INIT_SIZE		1000
-#define GROWTH_FACTOR 	2
-
-status_t destroy_data(char **data);
-status_t get_date(time_t *e, char **data);
-
-void clean_buffer(char *buf);
-void clean_data(char **data);
-
 /* Lee los datos del archivo de entrada linea por linea mientras los procesa y asigna a un arreglo de usuarios */
 status_t process_file(cla_t cla, user_t **users, size_t *size)
 {
