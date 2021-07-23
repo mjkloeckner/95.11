@@ -131,9 +131,11 @@ status_t string_split(char *s, char **data, char *delim)
 
 status_t destroy_data(char **data)
 {
+	size_t i;
+
 	if(data == NULL) return ERROR_NULL_POINTER;
 
-	for(size_t i = 0; i < INPUT_FILE_FIELDS; i++) {
+	for(i = 0; i < INPUT_FILE_FIELDS; i++) {
 		free(data[i]);
 		data[i] = NULL;
 	}
@@ -144,9 +146,9 @@ status_t destroy_data(char **data)
 
 status_t export_data(cla_t cla, const user_t *users, size_t size)
 {
-	if(users == NULL) return ERROR_NULL_POINTER;
-
 	FILE *fo;
+
+	if(users == NULL) return ERROR_NULL_POINTER;
 
 	if((fo = fopen(cla->fo, "wt")) == NULL)
 		return ERROR_OPENING_FILE;
@@ -163,10 +165,12 @@ status_t export_data(cla_t cla, const user_t *users, size_t size)
 
 status_t export_data_as_csv(FILE *fo, const user_t *users, size_t size)
 {
+	size_t i;
+
 	if(fo == NULL || users == NULL)
 		return ERROR_NULL_POINTER;
 
-	for(size_t i = 0; i < size; i++)
+	for(i = 0; i < size; i++)
 		fprintf(fo, "%ld%s%ld%s%ld\n", users[i]->id, CSV_OUTPUT_DELIM,\
 				users[i]->credit, CSV_OUTPUT_DELIM, users[i]->debt);
 
@@ -175,11 +179,13 @@ status_t export_data_as_csv(FILE *fo, const user_t *users, size_t size)
 
 status_t export_data_as_xml(FILE *fo, const user_t *users, size_t size)
 {
+	size_t i;
+
 	if(fo == NULL || users == NULL)
 		return ERROR_NULL_POINTER;
 
 	fprintf(fo, "%s\n%s\n", XML_HEADER, XML_ROOT_OPEN);
-	for(size_t i = 0; i < size; i++) {
+	for(i = 0; i < size; i++) {
 		fprintf(fo, "\t%s\n", XML_ROW_OPEN);
 		fprintf(fo, "\t\t%s%ld%s\n", XML_ID_OPEN, users[i]->id, XML_ID_CLOSE);
 		fprintf(fo, "\t\t%s%ld%s\n", XML_CREDIT_OPEN, users[i]->credit, XML_CREDIT_CLOSE);
@@ -193,13 +199,17 @@ status_t export_data_as_xml(FILE *fo, const user_t *users, size_t size)
 
 void clean_buffer(char *buf)
 {
-	for(size_t i = 0; i < BUFFER_SIZE; i++)
+	size_t i;
+
+	for(i = 0; i < BUFFER_SIZE; i++)
 		buf[i] = '\0';
 }
 
 void clean_data(char **data)
 {
-	for(size_t i = 0; i < INPUT_FILE_FIELDS; i++) {
+	size_t i;
+
+	for(i = 0; i < INPUT_FILE_FIELDS; i++) {
 		free(data[i]);
 		data[i] = NULL;
 	}
@@ -207,9 +217,9 @@ void clean_data(char **data)
 
 status_t get_date(time_t *e, char **data)
 {
-	if(e == NULL || data == NULL) return ERROR_NULL_POINTER;
-
 	struct tm tm;
+
+	if(e == NULL || data == NULL) return ERROR_NULL_POINTER;
 
 	/* Desactiva el horario de verano */
 	tm.tm_isdst = 0;

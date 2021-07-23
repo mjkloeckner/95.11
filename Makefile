@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-g -pedantic -Wall
+CFLAGS=-pedantic -Wall
 SRCFOLDER=source
 HFOLDER=include
 PROGNAME=main

@@ -7,6 +7,7 @@
 /* "ca" - creditos ascendentes | "cd" - creditos descendentes
  * "da" - debitos ascendentes  | "dd" - debitos descendentes */
 #define SORTING_ORDER	"cd"
+#define PRINT_EXIT_SUCCESS_MSG
 
 int main (int argc, char *argv[])
 {
@@ -57,10 +58,15 @@ int main (int argc, char *argv[])
 		return st;
 	}
 
+
+#ifdef PRINT_EXIT_SUCCESS_MSG
+
 	/* Imprime un mensaje para darle a conocer al usuario
 	 * que todo se ejecuto correctamente	*/
 	printf("\n%s\n%s%ld\n%s%ld\n", EXIT_SUCCESS_MSG, USERS_REGISTERED_MSG,\
 			size, PROCESED_LINES_MSG, cla->parsed_lines);
+
+#endif
 
 	cla_destroy(&cla);
 	destroy_users(users, size);

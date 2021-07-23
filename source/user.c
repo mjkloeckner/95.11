@@ -21,10 +21,10 @@ void user_clean(user_t usr)
 
 status_t user_set_data(user_t *user, char **data) 
 {
-	if(data == NULL || user == NULL) return ERROR_NULL_POINTER;
-
 	char *endptr;
 	long amount;
+
+	if(data == NULL || user == NULL) return ERROR_NULL_POINTER;
 
 	(*user)->id = strtol(data[POS_USER_ID], &endptr, 10);
 	if(*endptr != '\0') return ERROR_CORRUPT_DATA;
@@ -53,7 +53,8 @@ user_t user_dup(user_t src)
 
 user_t user_find(const user_t *users, int id, size_t size)
 {
-	for(size_t i = 0; i < size; i++) {
+	size_t i;
+	for(i = 0; i < size; i++) {
 		if(users[i]->id == id) {
 			return users[i];
 		}
@@ -63,9 +64,11 @@ user_t user_find(const user_t *users, int id, size_t size)
 
 status_t destroy_users(user_t *users, size_t size)
 {
+	size_t i;
+
 	if(users == NULL) return ERROR_NULL_POINTER;
 
-	for(size_t i = 0; i < size; i++)
+	for(i = 0; i < size; i++)
 		free(users[i]);
 
 	free(users);
