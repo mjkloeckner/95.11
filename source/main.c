@@ -1,15 +1,13 @@
 #include "../include/cla.h"
 #include "../include/status.h"
-#include "../include/io.h" /* output_gen() */
+#include "../include/io.h"
 #include "../include/sort.h"
+#include "../include/user.h"
 
 /* "ca" - creditos ascendentes | "cd" - creditos descendentes
  * "da" - debitos ascendentes  | "dd" - debitos descendentes */
 #define SORTING_ORDER	"cd"
-
-#define EXIT_SUCCESS_MSG "Ejecución terminada exitosamente"
-#define USERS_REGISTERED_MSG	"Usuarios registrados: "
-#define PROCESED_LINES_MSG		"Lineas procesadas: "
+#define PRINT_EXIT_SUCCESS_MSG
 
 int main (int argc, char *argv[])
 {
@@ -60,8 +58,15 @@ int main (int argc, char *argv[])
 		return st;
 	}
 
+
+#ifdef PRINT_EXIT_SUCCESS_MSG
+
+	/* Imprime un mensaje para darle a conocer al usuario
+	 * que todo se ejecuto correctamente	*/
 	printf("\n%s\n%s%ld\n%s%ld\n", EXIT_SUCCESS_MSG, USERS_REGISTERED_MSG,\
 			size, PROCESED_LINES_MSG, cla->parsed_lines);
+
+#endif
 
 	cla_destroy(&cla);
 	destroy_users(users, size);

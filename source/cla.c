@@ -20,9 +20,11 @@ status_t validate_arguments(int argc,  char **argv)
 /* No chequea argumentos ya que se considera subfuncion de validate_arguments */
 status_t check_flags_position(int argc, char **argv)
 {
+	size_t i;
 	bool prev_was_flag = 0;
 	bool current_arg_is_flag = 0;
-	for(size_t i = 1; i < argc; i++, prev_was_flag = current_arg_is_flag) {
+
+	for(i = 1; i < argc; i++, prev_was_flag = current_arg_is_flag) {
 		if(argv[i][0] == '-') current_arg_is_flag = 1;
 		else current_arg_is_flag = 0;
 
@@ -33,7 +35,7 @@ status_t check_flags_position(int argc, char **argv)
 
 status_t check_flags_repeated(int argc, char **argv)
 {
-	size_t i, j, fflags_index;
+	size_t i, j, k, fflags_index;
 	int founded_flags[FLAGS_MAX];
 
 	/* Inicializa a -1 para evitar confusiones con 0 */
@@ -42,7 +44,7 @@ status_t check_flags_repeated(int argc, char **argv)
 	for(i = 1, fflags_index = 0; i <= (argc - 2); i += 2) {
 		for(j = 0; j < FLAGS_MAX; j++) {
 			if(!strcmp(argv[i], available_flags[j])) {
-				for(size_t k = 0; k < FLAGS_MAX; k++) {
+				for(k = 0; k < FLAGS_MAX; k++) {
 					if(founded_flags[k] == j) return ERROR_FLAG_REPEATED;
 				}
 				founded_flags[fflags_index++] = j;
@@ -57,9 +59,11 @@ status_t check_flags_repeated(int argc, char **argv)
 status_t cla_setup(int argc, char **argv, cla_t *cla)
 {
 	char *endptr;
+	size_t i;
+	flags_t f;
 
-	for(size_t i = 1; i < argc; i += 2) {
-		for(flags_t f = FLAG_FMT; f < FLAGS_MAX; f++) {
+	for(i = 1; i < argc; i += 2) {
+		for(f = FLAG_FMT; f < FLAGS_MAX; f++) {
 			if(!strcmp(available_flags[f], argv[i])) {
 				switch (f) {
 					case FLAG_FMT: strcpy((*cla)->fmt, argv[i + 1]); break;

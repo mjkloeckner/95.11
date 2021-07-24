@@ -8,13 +8,17 @@
 #include "cla.h"
 #include "status.h"
 #include "sort.h"
+#include "user.h"
 
 #define _XOPEN_SOURCE
 #define __USE_XOPEN
 #include <time.h>
 
+#define INIT_SIZE		1000
 #define INPUT_FILE_FIELDS 6
+
 #define BUFFER_SIZE		1000
+#define GROWTH_FACTOR 	2
 
 #define INPUT_FILE_DELIM ","
 #define CSV_OUTPUT_DELIM	","
@@ -46,20 +50,19 @@ typedef enum {
 
 status_t process_file(cla_t cla, user_t **users, size_t *i);
 
-status_t set_data(user_t *user, char **data);
-
 status_t string_split(char *s, char **data, char *delim);
 
 status_t load_values(FILE *, cla_t *data);
 
 status_t export_data(cla_t cla, const user_t *users, size_t size);
+void clean_data(char **data);
 
 status_t export_data_as_csv(FILE *fo, const user_t *users, size_t size);
 status_t export_data_as_xml(FILE *fo, const user_t *users, size_t size);
 
-status_t destroy_users(user_t *users, size_t size);
+status_t destroy_data(char **data);
+status_t get_date(time_t *e, char **data);
 
-status_t user_create(user_t *usr);
-status_t user_set_data(user_t usr, int id, long credit, long debt);
+void clean_buffer(char *buf);
 
 #endif

@@ -1,19 +1,5 @@
 #include "../include/io.h"
 
-#define INIT_SIZE		1000
-#define GROWTH_FACTOR 	2
-
-user_t find_user(const user_t *users, int id, size_t size);
-status_t destroy_data(char **data);
-
-status_t get_date(time_t *e, char **data);
-
-void user_clean(user_t usr);
-void clean_buffer(char *buf);
-void clean_data(char **data);
-
-user_t user_dup(user_t src);
-
 /* Lee los datos del archivo de entrada linea por linea mientras los procesa y asigna a un arreglo de usuarios */
 status_t process_file(cla_t cla, user_t **users, size_t *size)
 {
@@ -81,7 +67,7 @@ status_t process_file(cla_t cla, user_t **users, size_t *size)
 		}
 
 		/* Asigna a 'user' id, creditos y debitos cargados en data */
-		if((st = set_data(&user, data)) != OK) {
+		if((st = user_set_data(&user, data)) != OK) {
 			destroy_data(data);
 			free(buffer);
 			fclose(fpi);
@@ -107,7 +93,7 @@ status_t process_file(cla_t cla, user_t **users, size_t *size)
 		}
 
 		/* Busca el numero de id en los usuarios ya ingresados, si no lo encuentra agrega un usuario nuevo al arreglo de usuarios */
-		if((user_found = find_user(*users, user->id, *size)) != NULL) {
+		if((user_found = user_find(*users, user->id, *size)) != NULL) {
 			user_found->credit += user->credit;
 			user_found->debt += user->debt;
 		} else {
@@ -128,24 +114,6 @@ status_t process_file(cla_t cla, user_t **users, size_t *size)
 	return OK;
 }
 
-status_t set_data(user_t *user, char **data) 
-{
-	if(data == NULL || user == NULL) return ERROR_NULL_POINTER;
-
-	char *endptr;
-	long amount;
-
-	(*user)->id = strtol(data[POS_USER_ID], &endptr, 10);
-	if(*endptr != '\0') return ERROR_CORRUPT_DATA;
-
-	amount = strtol(data[POS_AMOUNT], &endptr, 10);
-	if(*endptr != '\0') return ERROR_CORRUPT_DATA;
-
-	if(amount > 0) (*user)->credit = amount;
-	else if(amount < 0) (*user)->debt = -amount; /* '-=' Para eliminar el menos	*/
-
-	return OK;
-}
 
 status_t string_split(char *s, char **data, char *delim)
 {
@@ -161,23 +129,13 @@ status_t string_split(char *s, char **data, char *delim)
 	return OK;
 }
 
-
-status_t destroy_users(user_t *users, size_t size)
-{
-	if(users == NULL) return ERROR_NULL_POINTER;
-
-	for(size_t i = 0; i < size; i++)
-		free(users[i]);
-
-	free(users);
-	return OK;
-}
-
 status_t destroy_data(char **data)
 {
+	size_t i;
+
 	if(data == NULL) return ERROR_NULL_POINTER;
 
-	for(size_t i = 0; i < INPUT_FILE_FIELDS; i++) {
+	for(i = 0; i < INPUT_FILE_FIELDS; i++) {
 		free(data[i]);
 		data[i] = NULL;
 	}
@@ -188,9 +146,9 @@ status_t destroy_data(char **data)
 
 status_t export_data(cla_t cla, const user_t *users, size_t size)
 {
-	if(users == NULL) return ERROR_NULL_POINTER;
-
 	FILE *fo;
+
+	if(users == NULL) return ERROR_NULL_POINTER;
 
 	if((fo = fopen(cla->fo, "wt")) == NULL)
 		return ERROR_OPENING_FILE;
@@ -207,10 +165,12 @@ status_t export_data(cla_t cla, const user_t *users, size_t size)
 
 status_t export_data_as_csv(FILE *fo, const user_t *users, size_t size)
 {
+	size_t i;
+
 	if(fo == NULL || users == NULL)
 		return ERROR_NULL_POINTER;
 
-	for(size_t i = 0; i < size; i++)
+	for(i = 0; i < size; i++)
 		fprintf(fo, "%ld%s%ld%s%ld\n", users[i]->id, CSV_OUTPUT_DELIM,\
 				users[i]->credit, CSV_OUTPUT_DELIM, users[i]->debt);
 
@@ -219,11 +179,13 @@ status_t export_data_as_csv(FILE *fo, const user_t *users, size_t size)
 
 status_t export_data_as_xml(FILE *fo, const user_t *users, size_t size)
 {
+	size_t i;
+
 	if(fo == NULL || users == NULL)
 		return ERROR_NULL_POINTER;
 
 	fprintf(fo, "%s\n%s\n", XML_HEADER, XML_ROOT_OPEN);
-	for(size_t i = 0; i < size; i++) {
+	for(i = 0; i < size; i++) {
 		fprintf(fo, "\t%s\n", XML_ROW_OPEN);
 		fprintf(fo, "\t\t%s%ld%s\n", XML_ID_OPEN, users[i]->id, XML_ID_CLOSE);
 		fprintf(fo, "\t\t%s%ld%s\n", XML_CREDIT_OPEN, users[i]->credit, XML_CREDIT_CLOSE);
@@ -237,13 +199,17 @@ status_t export_data_as_xml(FILE *fo, const user_t *users, size_t size)
 
 void clean_buffer(char *buf)
 {
-	for(size_t i = 0; i < BUFFER_SIZE; i++)
+	size_t i;
+
+	for(i = 0; i < BUFFER_SIZE; i++)
 		buf[i] = '\0';
 }
 
 void clean_data(char **data)
 {
-	for(size_t i = 0; i < INPUT_FILE_FIELDS; i++) {
+	size_t i;
+
+	for(i = 0; i < INPUT_FILE_FIELDS; i++) {
 		free(data[i]);
 		data[i] = NULL;
 	}
@@ -251,9 +217,9 @@ void clean_data(char **data)
 
 status_t get_date(time_t *e, char **data)
 {
-	if(e == NULL || data == NULL) return ERROR_NULL_POINTER;
-
 	struct tm tm;
+
+	if(e == NULL || data == NULL) return ERROR_NULL_POINTER;
 
 	/* Desactiva el horario de verano */
 	tm.tm_isdst = 0;
@@ -278,53 +244,3 @@ status_t get_date(time_t *e, char **data)
 	return OK;
 }
 
-void user_clean(user_t usr)
-{
-	usr->id = 0;
-	usr->credit = 0;
-	usr->debt = 0;
-}
-
-status_t user_set_data(user_t usr, int id, long credit, long debt)
-{
-	usr->id = id;
-	usr->credit = credit;
-	usr->debt = debt;
-
-	return OK;
-}
-
-user_t user_dup(user_t src)
-{
-	user_t dst = NULL;
-
-	user_create(&dst);
-
-	dst->id = src->id;
-	dst->credit = src->credit;
-	dst->debt = src->debt;
-
-	return dst;
-}
-
-status_t user_create(user_t *usr)
-{
-	if(((*usr) = (user_t)malloc(sizeof(ADT_user_t))) == NULL)
-		return ERROR_MEMORY;
-
-	(*usr)->id = 0;
-	(*usr)->credit = 0;
-	(*usr)->debt = 0;
-
-	return OK;
-}
-
-user_t find_user(const user_t *users, int id, size_t size)
-{
-	for(size_t i = 0; i < size; i++) {
-		if(users[i]->id == id) {
-			return users[i];
-		}
-	}
-	return NULL;
-}
