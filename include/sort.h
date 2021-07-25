@@ -2,6 +2,7 @@
 #define SORT__H
 
 #include "cla.h"
+#include "user.h"
 #include "status.h"
 
 #include <stdio.h>
@@ -13,6 +14,5 @@ int credit_maxmix(const void *, const void *);
 int debt_minmax(const void *, const void *);
 int debt_maxmin(const void *, const void *);
 
-status_t sort_users(user_t *users, size_t size, char *order);
 
 #endif

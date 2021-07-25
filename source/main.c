@@ -1,8 +1,8 @@
-#include "../include/cla.h"
-#include "../include/status.h"
 #include "../include/io.h"
-#include "../include/sort.h"
+#include "../include/cla.h"
 #include "../include/user.h"
+#include "../include/sort.h"
+#include "../include/status.h"
 
 /* "ca" - creditos ascendentes | "cd" - creditos descendentes
  * "da" - debitos ascendentes  | "dd" - debitos descendentes */

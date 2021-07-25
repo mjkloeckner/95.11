@@ -6,9 +6,8 @@
 #include <string.h>
 
 #include "cla.h"
-#include "status.h"
-#include "sort.h"
 #include "user.h"
+#include "status.h"
 
 #define _XOPEN_SOURCE
 #define __USE_XOPEN
@@ -39,14 +38,14 @@
 #define XML_DEBT_OPEN	"<debits>"
 #define XML_DEBT_CLOSE	"</debits>"
 
-typedef enum {
-	POS_ID_TXN,
-	POS_USER_ID,
-	POS_TXN_DATE,
-	POS_AMOUNT,
-	POS_CARD_NUMBER,
-	POS_DESC
-} csv_pos_t;
+/* typedef enum { */
+/* 	POS_ID_TXN, */
+/* 	POS_USER_ID, */
+/* 	POS_TXN_DATE, */
+/* 	POS_AMOUNT, */
+/* 	POS_CARD_NUMBER, */
+/* 	POS_DESC */
+/* } csv_pos_t; */
 
 status_t process_file(cla_t cla, user_t **users, size_t *i);
 
