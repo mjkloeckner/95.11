@@ -185,6 +185,7 @@ status_t export_data_as_xml(FILE *fo, const user_t *users, size_t size)
 		return ERROR_NULL_POINTER;
 
 	fprintf(fo, "%s\n%s\n", XML_HEADER, XML_ROOT_OPEN);
+
 	for(i = 0; i < size; i++) {
 		fprintf(fo, "\t%s\n", XML_ROW_OPEN);
 		fprintf(fo, "\t\t%s%ld%s\n", XML_ID_OPEN, users[i]->id, XML_ID_CLOSE);

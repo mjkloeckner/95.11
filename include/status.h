@@ -27,10 +27,14 @@ typedef enum {
 	ERROR_NULL_POINTER
 } status_t;
 
-typedef struct {
-	size_t id;
-	long credit, debt;
-} ADT_user_t, *user_t;
+typedef enum {
+	POS_ID_TXN,
+	POS_USER_ID,
+	POS_TXN_DATE,
+	POS_AMOUNT,
+	POS_CARD_NUMBER,
+	POS_DESC
+} csv_pos_t;
 
 void show_status(status_t st);
 void free_arrays(size_t num,...);

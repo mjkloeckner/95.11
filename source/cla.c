@@ -41,12 +41,16 @@ status_t check_flags_repeated(int argc, char **argv)
 	/* Inicializa a -1 para evitar confusiones con 0 */
 	for(i = 0; i < FLAGS_MAX; i++) founded_flags[i] = -1;
 
+	/* Itera solo sobre las flags, guarda la posicion de la flag con respecto
+	 * a available_flags a forma de tener una manera de checkear por repeticiones,
+	 * si la posicion aparece multiples veces es un error */
 	for(i = 1, fflags_index = 0; i <= (argc - 2); i += 2) {
 		for(j = 0; j < FLAGS_MAX; j++) {
 			if(!strcmp(argv[i], available_flags[j])) {
-				for(k = 0; k < FLAGS_MAX; k++) {
-					if(founded_flags[k] == j) return ERROR_FLAG_REPEATED;
-				}
+				for(k = 0; k < fflags_index; k++)
+					if(founded_flags[k] == j)
+						return ERROR_FLAG_REPEATED;
+				
 				founded_flags[fflags_index++] = j;
 				break;
 			}
@@ -69,12 +73,10 @@ status_t cla_setup(int argc, char **argv, cla_t *cla)
 					case FLAG_FMT: strcpy((*cla)->fmt, argv[i + 1]); break;
 					case FLAG_OUT: strcpy((*cla)->fo, argv[i + 1]); break;
 					case FLAG_IN: strcpy((*cla)->fi, argv[i + 1]); break;
-					case FLAG_TI: 
-								  (*cla)->ti = strtoul(argv[i + 1], &endptr, 10); 
+					case FLAG_TI: (*cla)->ti = strtoul(argv[i + 1], &endptr, 10); 
 								  if(*endptr != '\0') return ERROR_WRONG_TIME;
 								  break;
-					case FLAG_TF: 
-								  (*cla)->tf = strtoul(argv[i + 1], &endptr, 10); 
+					case FLAG_TF: (*cla)->tf = strtoul(argv[i + 1], &endptr, 10); 
 								  if(*endptr != '\0') return ERROR_WRONG_TIME;
 								  break;
 					default: return ERROR_FLAG_NOT_FOUND;
@@ -82,7 +84,6 @@ status_t cla_setup(int argc, char **argv, cla_t *cla)
 			}
 		}
 	}
-
 	return OK;
 }
 
@@ -127,7 +128,7 @@ status_t cla_destroy(cla_t *cla)
 	free((*cla)->fi);
 	free(*cla);
 
-	cla = NULL;
+	*cla = NULL;
 
 	return OK;
 }
