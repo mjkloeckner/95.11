@@ -33,8 +33,6 @@ status_t cla_create(cla_t *cla);
 status_t cla_setup(int argc, char **argv, cla_t *cla);
 status_t cla_destroy(cla_t *cla);
 
-void clean(cla_t cla);
-
 extern const char *available_flags[FLAGS_MAX];
 extern const char *available_formats[FORMATS_MAX];
 
