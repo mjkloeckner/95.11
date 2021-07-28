@@ -22,7 +22,7 @@ typedef enum {
 
 typedef struct {
 	char *fmt, *fi, *fo;
-	unsigned long ti, tf, parsed_lines;
+	unsigned long ti, tf;
 } ADT_cla_t, *cla_t;
 
 status_t validate_arguments(int argc, char **argv);

@@ -14,12 +14,13 @@ int main (int argc, char *argv[])
 	status_t st;
 	cla_t cla;
 	ADT_Vector_t *v;
-	ADT_user_t *user, *user_tmp;
+	user_t user;
 	char *b, *endptr;
 	char **data;
 	size_t i, j;
 	FILE *fi;
-	long amount;
+	long id, amount;
+	void *up;
 
 	user = NULL;
 
@@ -28,6 +29,8 @@ int main (int argc, char *argv[])
 		show_status(st);
 		return st;
 	}
+
+	ADT_Vector_set_comparator(v, user_id_equal);
 
 	/* Asigna memoria a cla */
 	if((st = cla_create(&cla)) != OK) {
@@ -95,43 +98,37 @@ int main (int argc, char *argv[])
 		return ERROR_OPENING_FILE;
 	}
 
-	ADT_Vector_set_comparator(v, user_id_equal);
-
-	user_tmp = NULL;
-	user_create(&user_tmp);
-
 	while(fgets(b, BUFFER_INIT_SIZE, fi)) {
 		string_split(b, data, INPUT_FILE_DELIM);
-		user_set_data(user_tmp, data);
+
+		id = strtol(data[POS_USER_ID], &endptr, 10);
+		if(*endptr != '\0') return ERROR_CORRUPT_DATA;
 
 		amount = strtol(data[POS_AMOUNT], &endptr, 10);
 		if(*endptr != '\0') return ERROR_CORRUPT_DATA;
 
-		if((user = ADT_Vector_get_elem(v, user_tmp)) != NULL) {
+		if((user = (user_t)ADT_Vector_get_elem(v, user)) != NULL) {
 			/* El usuario ya existe */
-			user_add_amount(user, amount);
+			user_add_amount(&user, amount);
+			printf("el usuario ya existe: %ld\n", user->id);
 		}
 		else { 
 			/* El usuario no existe */
 			user_create(&user);
-			user_set_data(user, data);
-			ADT_Vector_add(&v, user);
+			user_set_data(&user, data);
+			/* user->id = id; */
+			/* user_add_amount(&user, amount); */
 		}
+
+		up = user;
+
+		ADT_Vector_add(&v, up);
+		/* printf("%ld\n", user->id); */
 	}
 
-	ADT_Vector_sort(v, user_comparator_credits_maxmin);
-
-	ADT_Vector_print(v, stdout);
-
-	for(j = 0; j < INPUT_FILE_FIELDS; j++)
-		free(data[j]);
-
-	free(data);
-	free(b);
-	free(user_tmp);
-	fclose(fi);
-	cla_destroy(&cla);
-	ADT_Vector_destroy(&v);
+	/* ADT_Vector_print(v, stdout); */
+	/* cla_destroy(&cla); */
+	/* ADT_Vector_destroy(&v); */
 	return OK;
 }
 

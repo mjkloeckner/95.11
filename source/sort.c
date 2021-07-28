@@ -5,7 +5,7 @@ int credit_minmax(const void *a, const void *b)
 	user_t *A = (user_t *)a;
 	user_t *B = (user_t *)b;
 
-	return ((*A)->credit > (*B)->credit) ? 1 : 0;
+	return ((*A)->c > (*B)->c) ? 1 : 0;
 }
 
 int credit_maxmin(const void *a, const void *b)
@@ -13,7 +13,7 @@ int credit_maxmin(const void *a, const void *b)
 	user_t *A = (user_t *)a;
 	user_t *B = (user_t *)b;
 
-	return ((*A)->credit > (*B)->credit) ? 0 : 1;
+	return ((*A)->c > (*B)->c) ? 0 : 1;
 }
 
 int debt_minmax(const void *a, const void *b)
@@ -21,7 +21,7 @@ int debt_minmax(const void *a, const void *b)
 	user_t *A = (user_t *)a;
 	user_t *B = (user_t *)b;
 
-	return ((*A)->debt > (*B)->debt) ? 1 : 0;
+	return ((*A)->d > (*B)->d) ? 1 : 0;
 }
 
 int debt_maxmin(const void *a, const void *b)
@@ -29,7 +29,7 @@ int debt_maxmin(const void *a, const void *b)
 	user_t *A = (user_t *)a;
 	user_t *B = (user_t *)b;
 
-	return ((*A)->debt > (*B)->debt) ? 0 : 1;
+	return ((*A)->d > (*B)->d) ? 0 : 1;
 }
 
 status_t sort_users(user_t *users, size_t l, char *order)

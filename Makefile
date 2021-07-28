@@ -1,19 +1,22 @@
 CC=gcc
-CFLAGS=-pedantic -Wall
+CFLAGS=-pedantic -Wall -g
 SRCFOLDER=source
 HFOLDER=include
 PROGNAME=main
 
 all: main clean
 
-main: cla.o status.o sort.o io.o main.o user.o 
-	$(CC) $(CFLAGS) main.o cla.o status.o io.o sort.o user.o -o $(PROGNAME)
+main: cla.o status.o sort.o io.o main.o user.o vector.o
+	$(CC) $(CFLAGS) main.o cla.o status.o io.o sort.o user.o vector.o -o $(PROGNAME)
 
 main.o: $(HFOLDER)/cla.h $(HFOLDER)/status.h $(HFOLDER)/user.h
 	$(CC) $(CFLAGS) -c $(SRCFOLDER)/main.c
 
 cla.o: $(HFOLDER)/cla.h $(HFOLDER)/status.h
 	$(CC) $(CFLAGS) -c $(SRCFOLDER)/cla.c
+
+vector.o: $(HFOLDER)/vector.h $(HFOLDER)/status.h
+	$(CC) $(CFLAGS) -c $(SRCFOLDER)/vector.c
 
 status.o: $(HFOLDER)/status.h
 	$(CC) $(CFLAGS) -c $(SRCFOLDER)/status.c
@@ -29,6 +32,9 @@ user.o: $(HFOLDER)/status.h $(HFOLDER)/user.h
 
 clean:
 	rm *.o
+
+run5:
+	./main -fmt csv -out output.csv -in examples/test_file_5.csv -ti 1320498000 -tf 1320498046
 
 run20:
 	./main -fmt csv -out output.csv -in examples/test_file_20.csv -ti 1320498000 -tf 1320498046
