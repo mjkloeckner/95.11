@@ -30,6 +30,7 @@ int main (int argc, char *argv[])
 	/* Valida que los argumentos sean correctos y asigna valores a cla */
 	if((st = validate_arguments(argc, argv, cla)) != OK) {
 		show_status(st);
+		cla_destroy(cla);
 		return st;
 	}
 
@@ -129,14 +130,26 @@ int main (int argc, char *argv[])
 		return st;
 	}
 
-	/* Imprime el vector con los usuarios */
-	if((st = ADT_Vector_export_as_xml(v, stdout, user_print_as_xml)) != OK) {
-		show_status(st);
-		free(user_tmp);
-		cla_destroy(cla);
-		ADT_Vector_destroy(&v);
-		array_destroy(data, IN_FILE_FIELDS);
-		return st;
+	/* Imprime el vector con los usuarios de acuerdo al argumento recibido */
+	if(!strcmp(cla->fmt, "xml")) {
+		if((st = ADT_Vector_export_as_xml(v, cla->fo, user_print_as_xml)) != OK) {
+			show_status(st);
+			free(user_tmp);
+			cla_destroy(cla);
+			ADT_Vector_destroy(&v);
+			array_destroy(data, IN_FILE_FIELDS);
+			return st;
+		}
+	}
+	else if(!strcmp(cla->fmt,"csv")) {
+		if((st = ADT_Vector_export_as_csv(v, cla->fo, user_print_as_csv)) != OK) {
+			show_status(st);
+			free(user_tmp);
+			cla_destroy(cla);
+			ADT_Vector_destroy(&v);
+			array_destroy(data, IN_FILE_FIELDS);
+			return st;
+		}
 	}
 
 	free(user_tmp);
