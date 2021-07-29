@@ -5,6 +5,9 @@ status_t string_split(char *s, char **data, char *delim)
 	char *p, *tmp;
 	size_t fields = 0;
 
+	if(s == NULL || data == NULL || delim == NULL)
+		return ERROR_NULL_POINTER;
+
 	for(p = s; (tmp = strtok(p, delim)); p = NULL)
 		strcpy(data[fields++], tmp);
 
@@ -74,4 +77,30 @@ status_t get_date(time_t *e, char **data)
 		default: return ERROR_CORRUPT_DATA; break;
 	}
 	return OK;
+}
+
+bool is_valid_card(char *card_no)
+{
+	size_t i, j, k;
+	int arr[4][4], sum;
+	char tmp[2];
+
+	if(card_no == NULL) return false;
+	if(strlen(card_no) != CARD_NO_VALID_LEN) return false;
+
+	for(i = 0, k = 0; i < 4; i++) {
+		for(j = 0; j < 4; j++) {
+			arr[i][j] = (card_no[k++] - '0');
+			if(j % 2) {
+				arr[i][j] *= 2;
+				sprintf(tmp, "%d", arr[i][j]);
+				if(!(strlen(tmp) - 1)) arr[i][j] = (tmp[0] - '0');
+				else arr[i][j] = ((tmp[0] - '0') + (tmp[1] - '0'));
+
+			}
+			sum += arr[i][j];
+		}
+	}
+
+	return (sum % 10) ? false : true;
 }

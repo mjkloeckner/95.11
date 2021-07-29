@@ -51,6 +51,9 @@ run5k:
 run50k:
 	./main -fmt csv -out output.csv -in examples/test_file_50k.csv -ti 1320498000 -tf 1420529000
 
+run100k:
+	./main -fmt csv -out output.csv -in examples/test_file_100k.csv -ti 1320498000 -tf 1420529000
+
 run500k:
 	./main -fmt csv -out output.csv -in examples/test_file_500k.csv -ti 1320498000 -tf 1420529000
 

@@ -18,27 +18,4 @@ const char *status_strings[] = {
 void show_status(status_t st)
 {
 	fprintf(stderr, "\n%s\n", status_strings[st]);
-	fprintf(stderr, "%s\n", ERROR_RETRY_MSG);
-}
-
-void free_arrays(size_t num,...)
-{
-	va_list valist;
-	size_t i;
-
-	va_start(valist, num);
-
-	for(i = 0; i < num; i++)
-		free(va_arg(valist, char *));
-}
-
-void close_streams(size_t num,...)
-{
-	va_list valist;
-	size_t i;
-
-	va_start(valist, num);
-
-	for(i = 0; i < num; i++)
-		free(va_arg(valist, FILE *));
 }

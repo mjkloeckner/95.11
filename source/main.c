@@ -4,11 +4,6 @@
 #include "../include/status.h"
 #include "../include/vector.h"
 
-#define IN_FILE_MAX_LEN	100
-#define IN_FILE_DELIM	","
-#define IN_FILE_FIELDS	6
-#define IN_FILE_FIELDS_MAX_LEN	50
-
 int main (int argc, char *argv[])
 {
 	status_t st;
@@ -68,6 +63,26 @@ int main (int argc, char *argv[])
 		return st;
 	}
 
+	/* Setea el impresor a ADT_Vector */
+	if(!strcmp(cla->fmt, STR_FMT_CSV)) {
+		if((st = ADT_Vector_set_printer(v, user_print_as_csv)) != OK) {
+			show_status(st);
+			cla_destroy(cla);
+			ADT_Vector_destroy(&v);
+			array_destroy(data, IN_FILE_FIELDS);
+			return st;
+		}
+	}
+	else if(!strcmp(cla->fmt, STR_FMT_XML)) {
+		if((st = ADT_Vector_set_printer(v, user_print_as_xml)) != OK) {
+			show_status(st);
+			cla_destroy(cla);
+			ADT_Vector_destroy(&v);
+			array_destroy(data, IN_FILE_FIELDS);
+			return st;
+		}
+	}
+
 	/* Crea un usuario temporal */
 	if((st = user_create(&user_tmp)) != OK) {
 		show_status(st);
@@ -81,10 +96,22 @@ int main (int argc, char *argv[])
 	while(fgets(buffer, IN_FILE_MAX_LEN, cla->fi)) {
 
 		/* Separa la linea leida segun un caracter delimitador */
-		string_split(buffer, data, IN_FILE_DELIM);
+		if((st = string_split(buffer, data, IN_FILE_DELIM)) != OK) {
+			show_status(st);
+			cla_destroy(cla);
+			ADT_Vector_destroy(&v);
+			array_destroy(data, IN_FILE_FIELDS);
+			return st;
+		}
 
 		/* Setea el usuario temporal con los datos obtenidos de la linea */
-		user_set_data(user_tmp, data);
+		if((st = user_set_data(user_tmp, data)) != OK) {
+			show_status(st);
+			cla_destroy(cla);
+			ADT_Vector_destroy(&v);
+			array_destroy(data, IN_FILE_FIELDS);
+			return st;
+		}
 
 		amount = strtol(data[POS_AMOUNT], &endptr, 10);
 		if(*endptr != '\0') return ERROR_CORRUPT_DATA;
@@ -96,15 +123,41 @@ int main (int argc, char *argv[])
 		if(epoch < cla->ti) continue;
 		else if(epoch > cla->tf) break;
 
+		/* Solo imprime en el archivo de salida las transacciones realizadas con una tarjeta valida */
+		if(!is_valid_card(data[POS_CARD_NUMBER])) {
+			fprintf(stderr, "%s: %s\n",STR_INVALID_CARD_NUMBER, data[POS_CARD_NUMBER]);
+			continue;
+		}
+
 		/* Busca el id del usuario en el vector */
 		if((user = ADT_Vector_get_elem(v, user_tmp)) != NULL) {
 			/* Si lo encuentra le suma el monto correspondiente */
-			user_add_amount(user, amount);
+			if((st = user_add_amount(user, amount)) != OK) {
+				show_status(st);
+				cla_destroy(cla);
+				ADT_Vector_destroy(&v);
+				array_destroy(data, IN_FILE_FIELDS);
+				return st;
+			}
 		}
+
+		/* Si no lo encuentra crea un usuario nuevo */
 		else { 
-			/* Si no lo encuentra crea un usuario nuevo */
-			user_create(&user);
-			user_set_data(user, data);
+			if((st = user_create(&user)) != OK) {
+				show_status(st);
+				cla_destroy(cla);
+				ADT_Vector_destroy(&v);
+				array_destroy(data, IN_FILE_FIELDS);
+				return st;
+			}
+
+			if((st = user_set_data(user, data))) {
+				show_status(st);
+				cla_destroy(cla);
+				ADT_Vector_destroy(&v);
+				array_destroy(data, IN_FILE_FIELDS);
+				return st;
+			}
 
 			/* Y lo agrega al vector */
 			if((st = ADT_Vector_add(&v, user)) != OK){
@@ -131,25 +184,13 @@ int main (int argc, char *argv[])
 	}
 
 	/* Imprime el vector con los usuarios de acuerdo al argumento recibido */
-	if(!strcmp(cla->fmt, "xml")) {
-		if((st = ADT_Vector_export_as_xml(v, cla->fo, user_print_as_xml)) != OK) {
-			show_status(st);
-			free(user_tmp);
-			cla_destroy(cla);
-			ADT_Vector_destroy(&v);
-			array_destroy(data, IN_FILE_FIELDS);
-			return st;
-		}
-	}
-	else if(!strcmp(cla->fmt,"csv")) {
-		if((st = ADT_Vector_export_as_csv(v, cla->fo, user_print_as_csv)) != OK) {
-			show_status(st);
-			free(user_tmp);
-			cla_destroy(cla);
-			ADT_Vector_destroy(&v);
-			array_destroy(data, IN_FILE_FIELDS);
-			return st;
-		}
+	if((st = ADT_Vector_print(v, cla->fo)) != OK) {
+		show_status(st);
+		free(user_tmp);
+		cla_destroy(cla);
+		ADT_Vector_destroy(&v);
+		array_destroy(data, IN_FILE_FIELDS);
+		return st;
 	}
 
 	free(user_tmp);

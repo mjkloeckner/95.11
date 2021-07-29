@@ -108,14 +108,16 @@ void *ADT_Vector_get_elem(const ADT_Vector_t *v, void *e)
 	return NULL;
 }
 
-status_t ADT_Vector_print(const ADT_Vector_t *v, FILE *fp, printer_t pf)
+status_t ADT_Vector_print(const ADT_Vector_t *v, FILE *fp)
 {
+	status_t st;
 	size_t i;
 
 	if(v == NULL) return ERROR_NULL_POINTER;
 
 	for(i = 0; i < v->size; i++)
-		(*pf)(v->a[i], fp);
+		if((st = v->printer(v->a[i], fp)) != OK)
+			return st;
 
 	putchar('\n');
 	return OK;

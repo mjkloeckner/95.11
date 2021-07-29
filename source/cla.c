@@ -74,23 +74,34 @@ status_t cla_setup(int argc, char **argv, cla_t cla)
 		for(f = FLAG_FMT; f < FLAGS_MAX; f++) {
 			if(!strcmp(available_flags[f], argv[i])) {
 				switch (f) {
-					case FLAG_FMT: strcpy(cla->fmt, argv[i + 1]); break;
-					case FLAG_OUT: if((fp = fopen(argv[i + 1], "wt")) == NULL)
-									   return ERROR_OPENING_FILE;
+					case FLAG_FMT: 
+						strcpy(cla->fmt, argv[i + 1]);
+					   break;
 
-								   cla->fo = fp; 
-								   break;
-					case FLAG_IN: if((fp = fopen(argv[i + 1], "rt")) == NULL)
-									  return ERROR_OPENING_FILE;
+					case FLAG_OUT:
+					   if((fp = fopen(argv[i + 1], "wt")) == NULL)
+						   return ERROR_OPENING_FILE;
 
-								   cla->fi = fp; 
-								   break;
-					case FLAG_TI: cla->ti = strtoul(argv[i + 1], &endptr, 10); 
-								  if(*endptr != '\0') return ERROR_WRONG_TIME;
-								  break;
-					case FLAG_TF: cla->tf = strtoul(argv[i + 1], &endptr, 10); 
-								  if(*endptr != '\0') return ERROR_WRONG_TIME;
-								  break;
+					   cla->fo = fp; 
+					   break;
+
+					case FLAG_IN:
+					   if((fp = fopen(argv[i + 1], "rt")) == NULL)
+						   return ERROR_OPENING_FILE;
+
+					   cla->fi = fp; 
+					   break;
+
+					case FLAG_TI:
+					   cla->ti = strtoul(argv[i + 1], &endptr, 10); 
+					   if(*endptr != '\0') return ERROR_WRONG_TIME;
+					   break;
+
+					case FLAG_TF:
+					   cla->tf = strtoul(argv[i + 1], &endptr, 10); 
+					   if(*endptr != '\0') return ERROR_WRONG_TIME;
+					   break;
+
 					default: return ERROR_FLAG_NOT_FOUND;
 				}
 			}
@@ -113,6 +124,9 @@ status_t cla_create(cla_t *cla)
 		return ERROR_MEMORY;
 	}
 
+	(*cla)->fi = NULL;
+	(*cla)->fo = NULL;
+
 	return OK;
 }
 
@@ -120,8 +134,8 @@ status_t cla_destroy(cla_t cla)
 {
 	if(cla == NULL) return ERROR_NULL_POINTER;
 
-	fclose(cla->fo);
-	fclose(cla->fi);
+	if(cla->fi != NULL) fclose(cla->fi);
+	if(cla->fo != NULL)	fclose(cla->fo);
 
 	free(cla->fmt);
 	free(cla);

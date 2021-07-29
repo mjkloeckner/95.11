@@ -5,10 +5,11 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
-#define ERROR_RETRY_MSG "Verifique y vuelva a intentar"
-#define EXIT_SUCCESS_MSG "Ejecución terminada exitosamente"
-#define USERS_REGISTERED_MSG	"Usuarios registrados: "
-#define PROCESED_LINES_MSG		"Lineas procesadas: "
+#define MSG_ERROR_RETRY				"Verifique y vuelva a intentar"
+#define MSG_EXIT_SUCCESS			"Ejecución terminada exitosamente"
+#define MSG_USERS_REGISTERED		"Usuarios registrados"
+#define MSG_PROCESED_LINES			"Lineas procesadas"
+#define STR_INVALID_CARD_NUMBER		"Número no válido"
 
 #define STATUS_T_MAX 12
 
@@ -38,7 +39,6 @@ typedef enum {
 } csv_pos_t;
 
 void show_status(status_t st);
-void free_arrays(size_t num,...);
 
 extern const char *status_strings[STATUS_T_MAX];
 
