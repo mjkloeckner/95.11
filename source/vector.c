@@ -74,8 +74,6 @@ status_t ADT_Vector_load(ADT_Vector_t *v, FILE *fi)
 		if(*endptr != '\n') return ERROR_CORRUPT_DATA;
 
 		ADT_Vector_add(&v, tmp);
-
-		ADT_Vector_print(v, stdout);
 	}
 
 	return OK;
@@ -134,14 +132,14 @@ void *ADT_Vector_get_elem(const ADT_Vector_t *v, void *e)
 	return NULL;
 }
 
-status_t ADT_Vector_print(const ADT_Vector_t *v, FILE *fp)
+status_t ADT_Vector_print(const ADT_Vector_t *v, FILE *fp, printer_t pf)
 {
 	size_t i;
 
 	if(v == NULL) return ERROR_NULL_POINTER;
 
 	for(i = 0; i < v->size; i++)
-		v->printer(v->a[i], fp);
+		(*pf)(v->a[i], fp);
 
 	putchar('\n');
 	return OK;

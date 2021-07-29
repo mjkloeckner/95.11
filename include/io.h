@@ -47,19 +47,18 @@
 /* 	POS_DESC */
 /* } csv_pos_t; */
 
-status_t process_file(cla_t cla, user_t **users, size_t *i);
-
 status_t string_split(char *s, char **data, char *delim);
 
 status_t load_values(FILE *, cla_t *data);
 
-status_t export_data(cla_t cla, const user_t *users, size_t size);
 void clean_data(char **data);
 
+/*
 status_t export_data_as_csv(FILE *fo, const user_t *users, size_t size);
 status_t export_data_as_xml(FILE *fo, const user_t *users, size_t size);
+*/
 
-status_t destroy_data(char **data);
+status_t destroy_data(char **, size_t);
 status_t get_date(time_t *e, char **data);
 
 void clean_buffer(char *buf);

@@ -1,120 +1,5 @@
 #include "../include/io.h"
 
-
-/*
-//Lee los datos del archivo de entrada linea por linea mientras los procesa y asigna a un arreglo de usuarios
-status_t process_file(cla_t cla, user_t **users, size_t *size)
-{
-	FILE *fpi;
-	char *buffer, **data;
-	time_t epoch;
-	size_t alloc_size;
-	user_t user, user_found, *tmp;
-	status_t st;
-
-	*size = 0;
-	alloc_size = INIT_SIZE;
-	user = user_found = NULL;
-
-	if((fpi = fopen(cla->fi, "rt")) == NULL) {
-		*users = NULL;
-		return ERROR_OPENING_FILE;
-	}
-
-	if((data = (char **)malloc(sizeof(char *) * INPUT_FILE_FIELDS)) == NULL) {
-		fclose(fpi);
-		return ERROR_MEMORY;
-	}
-
-	if((buffer = calloc(sizeof(char), BUFFER_SIZE)) == NULL) {
-		destroy_data(data);
-		fclose(fpi);
-		return ERROR_MEMORY;
-	}
-
-	if(user_create(&user) != OK) {
-		free(buffer);
-		destroy_data(data);
-		fclose(fpi);
-	}
-
-	//En caso de haber algun error users no es liberado, se libera luego en main
-	if(((*users) = (user_t *)malloc(sizeof(user_t) * INIT_SIZE)) == NULL) {
-		free(buffer);
-		free(user);
-		destroy_data(data);
-		fclose(fpi);
-	}
-
-	//Lee los datos de el archivo de entrada linea por linea 
-	while(fgets(buffer, BUFFER_SIZE, fpi) != NULL) {
-	//	Extiende el arreglo de usuarios en caso de que haya poca memoria
-		if(*size == alloc_size) {
-			alloc_size *= GROWTH_FACTOR;
-			if((tmp = realloc((*users), alloc_size * sizeof(user_t))) == NULL) {
-				fclose(fpi);
-				free(buffer);
-				destroy_data(data);
-				return ERROR_MEMORY;
-			}
-			(*users) = tmp;
-		}
-
-	//	Divide el buffer en subarreglos segun un caracter delimitador
-		if((st = string_split(buffer, data, INPUT_FILE_DELIM)) != OK) {
-			fclose(fpi);
-			free(buffer);
-			destroy_data(data);
-			return st;
-		}
-
-	//	Asigna a 'user' id, creditos y debitos cargados en data
-		if((st = user_set_data(&user, data)) != OK) {
-			destroy_data(data);
-			free(buffer);
-			fclose(fpi);
-			return st;
-		}
-
-	//	Transforma la fecha leida a tiempo UNIX en segundos
-		if((st = get_date(&epoch, data)) != OK) {
-			destroy_data(data);
-			free(buffer);
-			fclose(fpi);
-			return st;
-		}
-
-	//	Comprueba que la fecha leida este dentro del rango de fechas ingresadas en CLA
-		if(epoch < cla->ti) continue;
-		else if(epoch > cla->tf) {
-			free(user);
-			destroy_data(data);
-			free(buffer);
-			fclose(fpi);
-			return OK;
-		}
-
-	//	Busca el numero de id en los usuarios ya ingresados, si no lo encuentra agrega un usuario nuevo al arreglo de usuarios
-		if((user_found = user_find(*users, user->id, *size)) != NULL) {
-			user_found->c += user->c;
-			user_found->d += user->d;
-		} else {
-			(*users)[(*size)++] = user_dup(user);
-		}
-
-		user_clean(user);
-		clean_data(data);
-		clean_buffer(buffer);
-	} // End while 
-
-	free(user);
-	destroy_data(data);
-	free(buffer);
-	fclose(fpi);
-	return OK;
-}
-*/
-
 status_t string_split(char *s, char **data, char *delim)
 {
 	char *p, *tmp;
@@ -129,13 +14,13 @@ status_t string_split(char *s, char **data, char *delim)
 	return OK;
 }
 
-status_t destroy_data(char **data)
+status_t destroy_data(char **data, size_t fields)
 {
 	size_t i;
 
 	if(data == NULL) return ERROR_NULL_POINTER;
 
-	for(i = 0; i < INPUT_FILE_FIELDS; i++) {
+	for(i = 0; i < fields; i++) {
 		free(data[i]);
 		data[i] = NULL;
 	}
@@ -143,26 +28,7 @@ status_t destroy_data(char **data)
 	free(data);
 	return OK;
 }
-
-status_t export_data(cla_t cla, const user_t *users, size_t size)
-{
-	FILE *fo;
-
-	if(users == NULL) return ERROR_NULL_POINTER;
-
-	if((fo = fopen(cla->fo, "wt")) == NULL)
-		return ERROR_OPENING_FILE;
-
-	if(!strcmp(cla->fmt, "csv")) {
-		export_data_as_csv(fo, users, size);
-	} else if(!strcmp(cla->fmt, "xml")) {
-		export_data_as_xml(fo, users, size);
-	} else return ERROR_FORMAT_NOT_FOUND;
-
-	fclose(fo);
-	return OK;
-}
-
+/*
 status_t export_data_as_csv(FILE *fo, const user_t *users, size_t size)
 {
 	size_t i;
@@ -197,7 +63,7 @@ status_t export_data_as_xml(FILE *fo, const user_t *users, size_t size)
 	fprintf(fo, "%s\n", XML_ROOT_CLOSE);
 	return OK;
 }
-
+*/
 void clean_buffer(char *buf)
 {
 	size_t i;
@@ -244,4 +110,3 @@ status_t get_date(time_t *e, char **data)
 
 	return OK;
 }
-
