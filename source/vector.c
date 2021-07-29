@@ -55,30 +55,6 @@ status_t ADT_Vector_destroy(ADT_Vector_t **v)
 	return OK;
 }
 
-#define BUFFER_SIZE	100
-status_t ADT_Vector_load(ADT_Vector_t *v, FILE *fi)
-{
-	char *b, *endptr;
-	int  *tmp;
-
-	if(v == NULL || fi == NULL) return ERROR_NULL_POINTER;
-
-	if((b = calloc(sizeof(char), BUFFER_SIZE)) == NULL)
-		return ERROR_MEMORY;
-
-	while(fgets(b, BUFFER_SIZE, fi))
-	{
-		tmp = (int *)malloc(sizeof(int));
-
-		*tmp = (int)strtol(b, &endptr, 10);
-		if(*endptr != '\n') return ERROR_CORRUPT_DATA;
-
-		ADT_Vector_add(&v, tmp);
-	}
-
-	return OK;
-}
-
 status_t ADT_Vector_set(ADT_Vector_t **v, void *e, size_t pos)
 {
 	void ** aux;
@@ -173,7 +149,7 @@ status_t ADT_Vector_set_comparator(ADT_Vector_t *v, comparator_t pf)
 	return OK;
 }
 
-status_t ADT_Vector_export_as_csv(ADT_Vector_t *v, FILE *fp, printer_t pf)
+status_t ADT_Vector_export_as_csv(const ADT_Vector_t *v, FILE *fp, printer_t pf)
 {
 	status_t st;
 	size_t i;
@@ -187,20 +163,24 @@ status_t ADT_Vector_export_as_csv(ADT_Vector_t *v, FILE *fp, printer_t pf)
 	return OK;
 }
 
-status_t ADT_Vector_export_as_xml(ADT_Vector_t *v, FILE *fp, printer_t pf)
+status_t ADT_Vector_export_as_xml(const ADT_Vector_t *v, FILE *fp, printer_t pf)
 {
 	status_t st;
 	size_t i;
 
 	if(v == NULL) return ERROR_NULL_POINTER;
 
-	fprintf(fp, "%s\n", STR_XML_HEADER);
-	fprintf(fp, "<%s>\n", STR_XML_ROOT);
+	fprintf(fp, "%s\n", XML_STR_HEADER);
+	fprintf(fp, "<%s>\n", XML_STR_ROOT);
 
-	for(i = 0; i < v->size; i++)
-		if((st = (*pf)(v->a[i], fp)) != OK) 
+	for(i = 0; i < v->size; i++){
+		fprintf(fp, "\t<%s>\n", XML_STR_ROW);
+		if((st = (*pf)(v->a[i], fp)) != OK)
 			return st;
 
-	fprintf(fp, "</%s>\n", STR_XML_ROOT);
+		fprintf(fp, "\t</%s>\n", XML_STR_ROW);
+	}
+
+	fprintf(fp, "</%s>\n", XML_STR_ROOT);
 	return OK;
 }

@@ -72,7 +72,9 @@ status_t user_print_as_xml(const void *u, FILE *fp)
 
 	ADT_user_t *user = (ADT_user_t *)u;
 
-	fprintf(fp, "id: %6ld| credits: %6ld| debits: %6ld\n", user->id, user->c, user->d);
+	fprintf(fp, "\t\t<%s>%ld</%s>\n", XML_STR_ID, user->id, XML_STR_ID);
+	fprintf(fp, "\t\t<%s>%ld</%s>\n", XML_STR_CREDIT, user->c, XML_STR_CREDIT);
+	fprintf(fp, "\t\t<%s>%ld</%s>\n", XML_STR_DEBIT, user->d, XML_STR_DEBIT);
 
 	return OK;
 }

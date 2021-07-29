@@ -2,6 +2,7 @@
 #define USER__H
 
 #include "status.h"
+#include "utils.h"
 
 #define OUT_FILE_DELIM	","
 

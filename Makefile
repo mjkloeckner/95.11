@@ -6,8 +6,8 @@ PROGNAME=main
 
 all: main clean
 
-main: cla.o status.o io.o main.o user.o vector.o
-	$(CC) $(CFLAGS) main.o cla.o status.o io.o user.o vector.o -o $(PROGNAME)
+main: cla.o status.o utils.o main.o user.o vector.o
+	$(CC) $(CFLAGS) main.o cla.o status.o utils.o user.o vector.o -o $(PROGNAME)
 
 main.o: $(HFOLDER)/cla.h $(HFOLDER)/status.h $(HFOLDER)/user.h
 	$(CC) $(CFLAGS) -c $(SRCFOLDER)/main.c
@@ -21,8 +21,8 @@ vector.o: $(HFOLDER)/vector.h $(HFOLDER)/status.h
 status.o: $(HFOLDER)/status.h
 	$(CC) $(CFLAGS) -c $(SRCFOLDER)/status.c
 
-io.o: $(HFOLDER)/status.h $(HFOLDER)/user.h
-	$(CC) $(CFLAGS) -c $(SRCFOLDER)/io.c
+utils.o: $(HFOLDER)/status.h $(HFOLDER)/user.h
+	$(CC) $(CFLAGS) -c $(SRCFOLDER)/utils.c
 
 user.o: $(HFOLDER)/status.h $(HFOLDER)/user.h
 	$(CC) $(CFLAGS) -c $(SRCFOLDER)/user.c
