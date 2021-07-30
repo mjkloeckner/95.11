@@ -1,75 +1,221 @@
-#include "../include/io.h"
 #include "../include/cla.h"
 #include "../include/user.h"
-#include "../include/sort.h"
+#include "../include/utils.h"
 #include "../include/status.h"
-
-/* "ca" - creditos ascendentes | "cd" - creditos descendentes
- * "da" - debitos ascendentes  | "dd" - debitos descendentes */
-#define SORTING_ORDER	"cd"
-#define PRINT_EXIT_SUCCESS_MSG
+#include "../include/vector.h"
 
 int main (int argc, char *argv[])
 {
 	status_t st;
 	cla_t cla;
-	user_t *users;
-	size_t size;
+	ADT_Vector_t *v;
+	ADT_user_t *user, *user_tmp;
+	char buffer[IN_FILE_MAX_LEN];
+	char *endptr, **data;
+	size_t i;
+	long amount;
+	time_t epoch;
 
-	/* Valida que los argumentos sean correctos */
-	if((st = validate_arguments(argc, argv)) != OK) {
-		show_status(st);
-		return st;
-	}
-
-	/* Asigna memoria a cla */
+	/* Asigna memoria a cla (c.l.a.: "command line arguments") */
 	if((st = cla_create(&cla)) != OK) {
 		show_status(st);
 		return st;
 	}
 
-	/* Asigna a la estructura 'cla' los argumentos ingresados */
-	if((st = cla_setup(argc, argv, &cla)) != OK) {
+	/* Valida que los argumentos sean correctos y asigna valores a cla */
+	if((st = validate_arguments(argc, argv, cla)) != OK) {
 		show_status(st);
+		cla_destroy(cla);
 		return st;
 	}
 
-	/* Carga en users los usuarios desde el archivo de entrada */
-	if((st = process_file(cla, &users, &size)) != OK) {
+	/* Crea un vector */
+	if((st = ADT_Vector_create(&v)) != OK) {
 		show_status(st);
-		cla_destroy(&cla);
-		destroy_users(users, size);
+		cla_destroy(cla);
 		return st;
 	}
 
-	/* Ordena los usuarios con orden SORTING_ORDER */
-	if((st = sort_users(users, size, SORTING_ORDER)) != OK) {
+	/* Crea un arreglo de cadenas de caracteres */
+	if((data = malloc(sizeof(char *) * IN_FILE_FIELDS)) == NULL) {
+		show_status(ERROR_MEMORY);
+		cla_destroy(cla);
+		ADT_Vector_destroy(&v);
+		return ERROR_MEMORY;
+	}
+
+	for(i = 0; i < IN_FILE_FIELDS; i++) {
+		if((data[i] = calloc(sizeof(char), IN_FILE_FIELDS_MAX_LEN)) == NULL) {
+			show_status(ERROR_MEMORY);
+			cla_destroy(cla);
+			ADT_Vector_destroy(&v);
+			array_destroy(data, IN_FILE_FIELDS);
+			return ERROR_MEMORY;
+		}
+	}
+
+	/* Setea el comparador a ADT_Vector */	
+	if((st = ADT_Vector_set_comparator(v, user_equals)) != OK) {
 		show_status(st);
-		cla_destroy(&cla);
-		destroy_users(users, size);
+		cla_destroy(cla);
+		ADT_Vector_destroy(&v);
+		array_destroy(data, IN_FILE_FIELDS);
 		return st;
 	}
 
-	/* Imprime los datos cargados en users a un archivo de salida */
-	if((st = export_data(cla, users, size)) != OK) {
+	/* Crea un usuario temporal */
+	if((st = user_create(&user_tmp)) != OK) {
 		show_status(st);
-		cla_destroy(&cla);
-		destroy_users(users, size);
+		cla_destroy(cla);
+		ADT_Vector_destroy(&v);
+		array_destroy(data, IN_FILE_FIELDS);
 		return st;
 	}
 
+	/* Lee linea por linea del archivo de entrada */
+	while(fgets(buffer, IN_FILE_MAX_LEN, cla->fi)) {
 
-#ifdef PRINT_EXIT_SUCCESS_MSG
+		/* Separa la linea leida segun un caracter delimitador */
+		if((st = string_split(buffer, data, IN_FILE_DELIM)) != OK) {
+			show_status(st);
+			cla_destroy(cla);
+			ADT_Vector_destroy(&v);
+			array_destroy(data, IN_FILE_FIELDS);
+			free(user_tmp);
+			return st;
+		}
 
-	/* Imprime un mensaje para darle a conocer al usuario
-	 * que todo se ejecuto correctamente	*/
-	printf("\n%s\n%s%ld\n%s%ld\n", EXIT_SUCCESS_MSG, USERS_REGISTERED_MSG,\
-			size, PROCESED_LINES_MSG, cla->parsed_lines);
+		/* Setea el usuario temporal con los datos obtenidos de la linea */
+		if((st = user_set_data(user_tmp, data)) != OK) {
+			show_status(st);
+			cla_destroy(cla);
+			ADT_Vector_destroy(&v);
+			array_destroy(data, IN_FILE_FIELDS);
+			free(user_tmp);
+			return st;
+		}
 
-#endif
+		amount = strtol(data[POS_AMOUNT], &endptr, 10);
+		if(*endptr != '\0') {
+			show_status(st);
+			cla_destroy(cla);
+			ADT_Vector_destroy(&v);
+			array_destroy(data, IN_FILE_FIELDS);
+			free(user_tmp);
+			return ERROR_CORRUPT_DATA;
+		}
 
-	cla_destroy(&cla);
-	destroy_users(users, size);
+		/* Transforma el tiempo de la linea leida a formato UNIX */
+		get_date(&epoch, data);
 
+		/* Comprueba que el tiempo de la linea leida no supere los argumentos ingresados */
+		if(epoch < cla->ti) continue;
+		else if(epoch > cla->tf) break;
+
+		/* Solo imprime en el archivo de salida las transacciones realizadas con una tarjeta valida */
+		if(!is_valid_card(data[POS_CARD_NUMBER])) {
+			fprintf(stderr, "%s: %s\n",STR_INVALID_CARD_NUMBER, data[POS_CARD_NUMBER]);
+			continue;
+		}
+
+		/* Busca el id del usuario en el vector */
+		if((user = ADT_Vector_get_elem(v, user_tmp)) != NULL) {
+			/* Si lo encuentra le suma el monto correspondiente */
+			if((st = user_add_amount(user, amount)) != OK) {
+				show_status(st);
+				cla_destroy(cla);
+				ADT_Vector_destroy(&v);
+				array_destroy(data, IN_FILE_FIELDS);
+				free(user_tmp);
+				return st;
+			}
+		}
+
+		/* Si no lo encuentra crea un usuario nuevo */
+		else { 
+			if((st = user_create(&user)) != OK) {
+				show_status(st);
+				cla_destroy(cla);
+				ADT_Vector_destroy(&v);
+				array_destroy(data, IN_FILE_FIELDS);
+				free(user_tmp);
+				return st;
+			}
+
+			if((st = user_set_data(user, data))) {
+				show_status(st);
+				cla_destroy(cla);
+				ADT_Vector_destroy(&v);
+				array_destroy(data, IN_FILE_FIELDS);
+				free(user_tmp);
+				return st;
+			}
+
+			/* Y lo agrega al vector */
+			if((st = ADT_Vector_add(&v, user)) != OK){
+				show_status(st);
+				free(user_tmp);
+				cla_destroy(cla);
+				ADT_Vector_destroy(&v);
+				array_destroy(data, IN_FILE_FIELDS);
+				free(user_tmp);
+				return st;
+			}
+		}
+		clean_buffer(buffer);
+		clean_array(data);
+	} /* End while */
+
+	/* Ordena el vector con los usuarios */
+	if((st = ADT_Vector_sort(v, user_comparator_credits_maxmin)) != OK) {
+		show_status(st);
+		free(user_tmp);
+		cla_destroy(cla);
+		ADT_Vector_destroy(&v);
+		array_destroy(data, IN_FILE_FIELDS);
+		return st;
+	}
+
+	/* Setea el impresor a ADT_Vector */
+	if(!strcmp(cla->fmt, STR_FMT_CSV)) {
+		if((st = ADT_Vector_set_printer(v, user_print_as_csv)) != OK) {
+			show_status(st);
+			cla_destroy(cla);
+			ADT_Vector_destroy(&v);
+			array_destroy(data, IN_FILE_FIELDS);
+			return st;
+		}
+		/* E imprime el vector con los usuarios */
+		if((st = ADT_Vector_export_as_csv(v, cla->fo)) != OK) {
+			show_status(st);
+			free(user_tmp);
+			cla_destroy(cla);
+			ADT_Vector_destroy(&v);
+			array_destroy(data, IN_FILE_FIELDS);
+			return st;
+		}
+	}
+	else if(!strcmp(cla->fmt, STR_FMT_XML)) {
+		if((st = ADT_Vector_set_printer(v, user_print_as_xml)) != OK) {
+			show_status(st);
+			cla_destroy(cla);
+			ADT_Vector_destroy(&v);
+			array_destroy(data, IN_FILE_FIELDS);
+			return st;
+		}
+		if((st = ADT_Vector_export_as_xml(v, cla->fo)) != OK) {
+			show_status(st);
+			free(user_tmp);
+			cla_destroy(cla);
+			ADT_Vector_destroy(&v);
+			array_destroy(data, IN_FILE_FIELDS);
+			return st;
+		}
+	}
+
+	free(user_tmp);
+	cla_destroy(cla);
+	ADT_Vector_destroy(&v);
+	array_destroy(data, IN_FILE_FIELDS);
 	return OK;
 }

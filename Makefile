@@ -1,13 +1,13 @@
 CC=gcc
-CFLAGS=-pedantic -Wall
+CFLAGS=-pedantic -Wall -g
 SRCFOLDER=source
 HFOLDER=include
 PROGNAME=main
 
 all: main clean
 
-main: cla.o status.o sort.o io.o main.o user.o 
-	$(CC) $(CFLAGS) main.o cla.o status.o io.o sort.o user.o -o $(PROGNAME)
+main: cla.o status.o utils.o main.o user.o vector.o
+	$(CC) $(CFLAGS) main.o cla.o status.o utils.o user.o vector.o -o $(PROGNAME)
 
 main.o: $(HFOLDER)/cla.h $(HFOLDER)/status.h $(HFOLDER)/user.h
 	$(CC) $(CFLAGS) -c $(SRCFOLDER)/main.c
@@ -15,20 +15,23 @@ main.o: $(HFOLDER)/cla.h $(HFOLDER)/status.h $(HFOLDER)/user.h
 cla.o: $(HFOLDER)/cla.h $(HFOLDER)/status.h
 	$(CC) $(CFLAGS) -c $(SRCFOLDER)/cla.c
 
+vector.o: $(HFOLDER)/vector.h $(HFOLDER)/status.h
+	$(CC) $(CFLAGS) -c $(SRCFOLDER)/vector.c
+
 status.o: $(HFOLDER)/status.h
 	$(CC) $(CFLAGS) -c $(SRCFOLDER)/status.c
 
-io.o: $(HFOLDER)/status.h $(HFOLDER)/user.h
-	$(CC) $(CFLAGS) -c $(SRCFOLDER)/io.c
-
-sort.o: $(HFOLDER)/status.h $(HFOLDER)/user.h
-	$(CC) $(CFLAGS) -c $(SRCFOLDER)/sort.c
+utils.o: $(HFOLDER)/status.h $(HFOLDER)/user.h
+	$(CC) $(CFLAGS) -c $(SRCFOLDER)/utils.c
 
 user.o: $(HFOLDER)/status.h $(HFOLDER)/user.h
 	$(CC) $(CFLAGS) -c $(SRCFOLDER)/user.c
 
 clean:
 	rm *.o
+
+run5:
+	./main -fmt csv -out output.csv -in examples/test_file_5.csv -ti 1320498000 -tf 1320498046
 
 run20:
 	./main -fmt csv -out output.csv -in examples/test_file_20.csv -ti 1320498000 -tf 1320498046
@@ -48,8 +51,14 @@ run5k:
 run50k:
 	./main -fmt csv -out output.csv -in examples/test_file_50k.csv -ti 1320498000 -tf 1420529000
 
+run100k:
+	./main -fmt csv -out output.csv -in examples/test_file_100k.csv -ti 1320498000 -tf 1420529000
+
 run500k:
 	./main -fmt csv -out output.csv -in examples/test_file_500k.csv -ti 1320498000 -tf 1420529000
+
+run50m:
+	./main -fmt csv -out output.csv -in examples/test_file_50m.csv -ti 1320498000 -tf 1420529000
 
 run50xml:
 	./main -fmt xml -out output.xml -in examples/test_file_50.csv -ti 1320498000 -tf 1320498049

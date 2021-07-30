@@ -21,19 +21,18 @@ typedef enum {
 } flags_t;
 
 typedef struct {
-	char *fmt, *fi, *fo;
-	unsigned long ti, tf, parsed_lines;
+	char *fmt;
+	FILE *fi, *fo;
+	unsigned long ti, tf;
 } ADT_cla_t, *cla_t;
 
-status_t validate_arguments(int argc, char **argv);
-status_t check_flags_position(int argc, char **argv);
-status_t check_flags_repeated(int argc, char **argv);
+status_t validate_arguments(int, char **, cla_t);
+status_t check_flags_position(int, char **);
+status_t check_flags_repeated(int, char **);
 
-status_t cla_create(cla_t *cla);
-status_t cla_setup(int argc, char **argv, cla_t *cla);
-status_t cla_destroy(cla_t *cla);
-
-void clean(cla_t cla);
+status_t cla_create(cla_t *);
+status_t cla_setup(int, char **, cla_t);
+status_t cla_destroy(cla_t);
 
 extern const char *available_flags[FLAGS_MAX];
 extern const char *available_formats[FORMATS_MAX];

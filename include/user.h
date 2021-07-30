@@ -2,21 +2,29 @@
 #define USER__H
 
 #include "status.h"
+#include "utils.h"
+
+#define OUT_FILE_DELIM	","
+
+typedef unsigned long ulong;
 
 typedef struct {
-	size_t id;
-	long credit, debt;
-} ADT_user_t, *user_t;
+	/* id: user id / c: user credits / d: user debits */
+	ulong id, c, d;
+} ADT_user_t;
 
-user_t user_find(const user_t *users, int id, size_t size);
-user_t user_dup(user_t src);
+status_t user_create(ADT_user_t **);
+status_t user_destroy(ADT_user_t **);
+status_t user_set_data(ADT_user_t *, char **);
+status_t user_add_amount(ADT_user_t *, long);
 
-status_t user_create(user_t *usr);
-status_t user_set_data(user_t *user, char **data);
+int user_equals(const void *, const void *);
 
-void user_clean(user_t usr);
+status_t user_print_as_csv(const void *, FILE *);
+status_t user_print_as_xml(const void *, FILE *);
 
-status_t sort_users(user_t *users, size_t size, char *order);
-status_t destroy_users(user_t *users, size_t size);
+int user_comparator_credits_minmax(const void *, const void *);
+int user_comparator_credits_maxmin(const void *, const void *);
+
 
 #endif
