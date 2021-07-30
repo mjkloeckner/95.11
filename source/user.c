@@ -12,6 +12,16 @@ status_t user_create(ADT_user_t **user)
 	return OK;
 }
 
+status_t user_destroy(ADT_user_t **user)
+{
+	if(user == NULL) return ERROR_NULL_POINTER;
+
+	free(*user);
+	*user = NULL;
+
+	return OK;
+}
+
 status_t user_set_data(ADT_user_t *user, char **data) 
 {
 	char *endptr;

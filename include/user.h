@@ -14,15 +14,15 @@ typedef struct {
 } ADT_user_t;
 
 status_t user_create(ADT_user_t **);
-status_t user_set_data(ADT_user_t *, char **data);
-status_t user_add_amount(ADT_user_t *, long amount);
+status_t user_destroy(ADT_user_t **);
+status_t user_set_data(ADT_user_t *, char **);
+status_t user_add_amount(ADT_user_t *, long);
 
 int user_equals(const void *, const void *);
 
-status_t user_print_as_csv(const void *u, FILE *fp);
-status_t user_print_as_xml(const void *u, FILE *fp);
+status_t user_print_as_csv(const void *, FILE *);
+status_t user_print_as_xml(const void *, FILE *);
 
-int user_comparator(const void *, FILE *);
 int user_comparator_credits_minmax(const void *, const void *);
 int user_comparator_credits_maxmin(const void *, const void *);
 

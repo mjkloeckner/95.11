@@ -119,7 +119,6 @@ status_t ADT_Vector_print(const ADT_Vector_t *v, FILE *fp)
 		if((st = v->printer(v->a[i], fp)) != OK)
 			return st;
 
-	putchar('\n');
 	return OK;
 }
 
@@ -151,7 +150,7 @@ status_t ADT_Vector_set_comparator(ADT_Vector_t *v, comparator_t pf)
 	return OK;
 }
 
-status_t ADT_Vector_export_as_csv(const ADT_Vector_t *v, FILE *fp, printer_t pf)
+status_t ADT_Vector_export_as_csv(const ADT_Vector_t *v, FILE *fp)
 {
 	status_t st;
 	size_t i;
@@ -159,13 +158,13 @@ status_t ADT_Vector_export_as_csv(const ADT_Vector_t *v, FILE *fp, printer_t pf)
 	if(v == NULL) return ERROR_NULL_POINTER;
 
 	for(i = 0; i < v->size; i++)
-		if((st = (*pf)(v->a[i], fp)) != OK)
+		if((st = v->printer(v->a[i], fp)) != OK)
 			return st;
 
 	return OK;
 }
 
-status_t ADT_Vector_export_as_xml(const ADT_Vector_t *v, FILE *fp, printer_t pf)
+status_t ADT_Vector_export_as_xml(const ADT_Vector_t *v, FILE *fp)
 {
 	status_t st;
 	size_t i;
@@ -177,7 +176,7 @@ status_t ADT_Vector_export_as_xml(const ADT_Vector_t *v, FILE *fp, printer_t pf)
 
 	for(i = 0; i < v->size; i++){
 		fprintf(fp, "\t<%s>\n", XML_STR_ROW);
-		if((st = (*pf)(v->a[i], fp)) != OK)
+		if((st = v->printer(v->a[i], fp)) != OK)
 			return st;
 
 		fprintf(fp, "\t</%s>\n", XML_STR_ROW);

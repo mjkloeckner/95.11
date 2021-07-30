@@ -34,7 +34,7 @@ void *ADT_Vector_get_elem(const ADT_Vector_t *v, void *e);
 status_t ADT_Vector_set_printer(ADT_Vector_t *, printer_t);
 status_t ADT_Vector_set_comparator(ADT_Vector_t *, comparator_t);
 
-status_t ADT_Vector_export_as_xml(const ADT_Vector_t *, FILE *, printer_t);
-status_t ADT_Vector_export_as_csv(const ADT_Vector_t *, FILE *, printer_t);
+status_t ADT_Vector_export_as_xml(const ADT_Vector_t *, FILE *);
+status_t ADT_Vector_export_as_csv(const ADT_Vector_t *, FILE *);
 
 #endif

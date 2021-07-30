@@ -2,7 +2,7 @@ from string import digits
 from time import strftime, gmtime
 from random import randint, choice
 
-LINES = 100000
+LINES = 10000
 
 # OUTPUT:
 #     ID_TRANSACCION, ID_USUARIO, FECHA, MONTO, NUMERO DE TRAJETA, DESCRIPCION

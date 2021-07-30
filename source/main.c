@@ -63,26 +63,6 @@ int main (int argc, char *argv[])
 		return st;
 	}
 
-	/* Setea el impresor a ADT_Vector */
-	if(!strcmp(cla->fmt, STR_FMT_CSV)) {
-		if((st = ADT_Vector_set_printer(v, user_print_as_csv)) != OK) {
-			show_status(st);
-			cla_destroy(cla);
-			ADT_Vector_destroy(&v);
-			array_destroy(data, IN_FILE_FIELDS);
-			return st;
-		}
-	}
-	else if(!strcmp(cla->fmt, STR_FMT_XML)) {
-		if((st = ADT_Vector_set_printer(v, user_print_as_xml)) != OK) {
-			show_status(st);
-			cla_destroy(cla);
-			ADT_Vector_destroy(&v);
-			array_destroy(data, IN_FILE_FIELDS);
-			return st;
-		}
-	}
-
 	/* Crea un usuario temporal */
 	if((st = user_create(&user_tmp)) != OK) {
 		show_status(st);
@@ -101,6 +81,7 @@ int main (int argc, char *argv[])
 			cla_destroy(cla);
 			ADT_Vector_destroy(&v);
 			array_destroy(data, IN_FILE_FIELDS);
+			free(user_tmp);
 			return st;
 		}
 
@@ -110,11 +91,19 @@ int main (int argc, char *argv[])
 			cla_destroy(cla);
 			ADT_Vector_destroy(&v);
 			array_destroy(data, IN_FILE_FIELDS);
+			free(user_tmp);
 			return st;
 		}
 
 		amount = strtol(data[POS_AMOUNT], &endptr, 10);
-		if(*endptr != '\0') return ERROR_CORRUPT_DATA;
+		if(*endptr != '\0') {
+			show_status(st);
+			cla_destroy(cla);
+			ADT_Vector_destroy(&v);
+			array_destroy(data, IN_FILE_FIELDS);
+			free(user_tmp);
+			return ERROR_CORRUPT_DATA;
+		}
 
 		/* Transforma el tiempo de la linea leida a formato UNIX */
 		get_date(&epoch, data);
@@ -137,6 +126,7 @@ int main (int argc, char *argv[])
 				cla_destroy(cla);
 				ADT_Vector_destroy(&v);
 				array_destroy(data, IN_FILE_FIELDS);
+				free(user_tmp);
 				return st;
 			}
 		}
@@ -148,6 +138,7 @@ int main (int argc, char *argv[])
 				cla_destroy(cla);
 				ADT_Vector_destroy(&v);
 				array_destroy(data, IN_FILE_FIELDS);
+				free(user_tmp);
 				return st;
 			}
 
@@ -156,6 +147,7 @@ int main (int argc, char *argv[])
 				cla_destroy(cla);
 				ADT_Vector_destroy(&v);
 				array_destroy(data, IN_FILE_FIELDS);
+				free(user_tmp);
 				return st;
 			}
 
@@ -166,12 +158,13 @@ int main (int argc, char *argv[])
 				cla_destroy(cla);
 				ADT_Vector_destroy(&v);
 				array_destroy(data, IN_FILE_FIELDS);
+				free(user_tmp);
 				return st;
 			}
 		}
 		clean_buffer(buffer);
 		clean_array(data);
-	}
+	} /* End while */
 
 	/* Ordena el vector con los usuarios */
 	if((st = ADT_Vector_sort(v, user_comparator_credits_maxmin)) != OK) {
@@ -183,14 +176,41 @@ int main (int argc, char *argv[])
 		return st;
 	}
 
-	/* Imprime el vector con los usuarios de acuerdo al argumento recibido */
-	if((st = ADT_Vector_print(v, cla->fo)) != OK) {
-		show_status(st);
-		free(user_tmp);
-		cla_destroy(cla);
-		ADT_Vector_destroy(&v);
-		array_destroy(data, IN_FILE_FIELDS);
-		return st;
+	/* Setea el impresor a ADT_Vector */
+	if(!strcmp(cla->fmt, STR_FMT_CSV)) {
+		if((st = ADT_Vector_set_printer(v, user_print_as_csv)) != OK) {
+			show_status(st);
+			cla_destroy(cla);
+			ADT_Vector_destroy(&v);
+			array_destroy(data, IN_FILE_FIELDS);
+			return st;
+		}
+		/* E imprime el vector con los usuarios */
+		if((st = ADT_Vector_export_as_csv(v, cla->fo)) != OK) {
+			show_status(st);
+			free(user_tmp);
+			cla_destroy(cla);
+			ADT_Vector_destroy(&v);
+			array_destroy(data, IN_FILE_FIELDS);
+			return st;
+		}
+	}
+	else if(!strcmp(cla->fmt, STR_FMT_XML)) {
+		if((st = ADT_Vector_set_printer(v, user_print_as_xml)) != OK) {
+			show_status(st);
+			cla_destroy(cla);
+			ADT_Vector_destroy(&v);
+			array_destroy(data, IN_FILE_FIELDS);
+			return st;
+		}
+		if((st = ADT_Vector_export_as_xml(v, cla->fo)) != OK) {
+			show_status(st);
+			free(user_tmp);
+			cla_destroy(cla);
+			ADT_Vector_destroy(&v);
+			array_destroy(data, IN_FILE_FIELDS);
+			return st;
+		}
 	}
 
 	free(user_tmp);
