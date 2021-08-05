@@ -22,7 +22,7 @@ status_t user_destroy(ADT_user_t **user)
 	return OK;
 }
 
-status_t user_set_data(ADT_user_t *user, char **data) 
+status_t user_set_data_from_str(ADT_user_t *user, char **data) 
 {
 	char *endptr;
 	long amount;
@@ -37,6 +37,17 @@ status_t user_set_data(ADT_user_t *user, char **data)
 
 	if(amount > 0) user->c = amount;
 	else if(amount < 0) user->d = -amount; /* '-=' Para eliminar el menos	*/
+
+	return OK;
+}
+
+status_t user_set_data(ADT_user_t *user, ulong id, ulong c, ulong d) 
+{
+	if(user == NULL) return ERROR_NULL_POINTER;
+
+	user->id = id;
+	user->c = c;
+	user->d = d;
 
 	return OK;
 }

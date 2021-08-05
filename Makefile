@@ -21,7 +21,7 @@ vector.o: $(HFOLDER)/vector.h $(HFOLDER)/status.h
 status.o: $(HFOLDER)/status.h
 	$(CC) $(CFLAGS) -c $(SRCFOLDER)/status.c
 
-utils.o: $(HFOLDER)/status.h $(HFOLDER)/user.h
+utils.o: $(HFOLDER)/status.h $(HFOLDER)/user.h $(HFOLDER)/vector.h
 	$(CC) $(CFLAGS) -c $(SRCFOLDER)/utils.c
 
 user.o: $(HFOLDER)/status.h $(HFOLDER)/user.h

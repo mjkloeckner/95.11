@@ -1,13 +1,16 @@
 #ifndef VECTOR__H
 #define VECTOR__H
 
+#include <stdlib.h>
+
+#include "status.h"
+
 #define VECTOR_INIT_SIZE		10
 #define VECTOR_GROWTH_FACTOR	2
 
-#include <stdlib.h>
-
-#include "utils.h"
-#include "status.h"
+#define XML_STR_HEADER	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+#define XML_STR_ROOT	"root"
+#define XML_STR_ROW		"row"
 
 typedef status_t (*printer_t)(const void *, FILE *);
 typedef int (*comparator_t)(const void *, const void *);

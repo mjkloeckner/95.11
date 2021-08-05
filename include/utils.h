@@ -9,6 +9,7 @@
 #include "cla.h"
 #include "user.h"
 #include "status.h"
+#include "vector.h"
 
 #define _XOPEN_SOURCE
 #define __USE_XOPEN
@@ -31,9 +32,12 @@
 #define XML_STR_CREDIT	"credits"
 #define XML_STR_DEBIT	"debits"
 
-status_t get_date(time_t *, char **);
+status_t get_date(time_t *, char *);
+
 status_t array_destroy(char **, size_t);
+
 status_t string_split(char *, char **, char *);
+status_t load_users_to_vector(ADT_Vector_t **, ADT_cla_t *);
 
 bool is_valid_card(char *);
 
