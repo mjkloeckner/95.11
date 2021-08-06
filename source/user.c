@@ -12,31 +12,28 @@ status_t user_create(ADT_user_t **user)
 	return OK;
 }
 
+status_t user_dup(ADT_user_t *src, ADT_user_t *dst)
+{
+	status_t st;
+
+	if(src == NULL || dst == NULL) return ERROR_NULL_POINTER;
+
+	if((st = user_create(&dst)) != OK)
+		return st;
+
+	dst->id = src->id;
+	dst->c = src->c;
+	dst->d = src->d;
+
+	return OK;
+}
+
 status_t user_destroy(ADT_user_t **user)
 {
 	if(user == NULL) return ERROR_NULL_POINTER;
 
 	free(*user);
 	*user = NULL;
-
-	return OK;
-}
-
-status_t user_set_data_from_str(ADT_user_t *user, char **data) 
-{
-	char *endptr;
-	long amount;
-
-	if(data == NULL || user == NULL) return ERROR_NULL_POINTER;
-
-	user->id = strtol(data[POS_USER_ID], &endptr, 10);
-	if(*endptr != '\0') return ERROR_CORRUPT_DATA;
-
-	amount = strtol(data[POS_AMOUNT], &endptr, 10);
-	if(*endptr != '\0') return ERROR_CORRUPT_DATA;
-
-	if(amount > 0) user->c = amount;
-	else if(amount < 0) user->d = -amount; /* '-=' Para eliminar el menos	*/
 
 	return OK;
 }

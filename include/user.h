@@ -14,9 +14,9 @@ typedef struct {
 } ADT_user_t;
 
 status_t user_create(ADT_user_t **);
+status_t user_dup(ADT_user_t *, ADT_user_t *);
 status_t user_destroy(ADT_user_t **);
 
-status_t user_set_data_from_str(ADT_user_t *, char **);
 status_t user_set_data(ADT_user_t *, ulong, ulong, ulong);
 
 status_t user_add_amount(ADT_user_t *, long);

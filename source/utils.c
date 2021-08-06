@@ -73,7 +73,7 @@ bool is_valid_card(char *card_no)
 	if(card_no == NULL) return false;
 	if(strlen(card_no) != CARD_NO_VALID_LEN) return false;
 
-	for(i = 0, k = 0; i < 4; i++) {
+	for(i = 0, k = 0, sum = 0; i < 4; i++) {
 		for(j = 0; j < 4; j++) {
 			arr[i][j] = (card_no[k++] - '0');
 			if(j % 2) {
