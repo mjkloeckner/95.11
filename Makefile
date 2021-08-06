@@ -6,10 +6,10 @@ PROGNAME=main
 
 all: main clean
 
-main: cla.o status.o utils.o main.o user.o vector.o
-	$(CC) $(CFLAGS) main.o cla.o status.o utils.o user.o vector.o -o $(PROGNAME)
+main: cla.o status.o utils.o main.o user.o vector.o load.o
+	$(CC) $(CFLAGS) main.o cla.o status.o utils.o user.o load.o vector.o -o $(PROGNAME)
 
-main.o: $(HFOLDER)/cla.h $(HFOLDER)/status.h $(HFOLDER)/user.h
+main.o: $(HFOLDER)/cla.h $(HFOLDER)/status.h $(HFOLDER)/user.h $(HFOLDER)/load.h
 	$(CC) $(CFLAGS) -c $(SRCFOLDER)/main.c
 
 cla.o: $(HFOLDER)/cla.h $(HFOLDER)/status.h
@@ -26,6 +26,9 @@ utils.o: $(HFOLDER)/status.h $(HFOLDER)/user.h $(HFOLDER)/vector.h
 
 user.o: $(HFOLDER)/status.h $(HFOLDER)/user.h
 	$(CC) $(CFLAGS) -c $(SRCFOLDER)/user.c
+
+load.o: $(HFOLDER)/status.h $(HFOLDER)/user.h $(HFOLDER)/vector.h $(HFOLDER)/utils.h $(HFOLDER)/load.h $(HFOLDER)/cla.h
+	$(CC) $(CFLAGS) -c $(SRCFOLDER)/load.c
 
 clean:
 	rm *.o
@@ -45,8 +48,8 @@ run50:
 run500:
 	./main -fmt csv -out output.csv -in examples/test_file_500.csv -ti 1320498000 -tf 1320529000
 
-run5k:
-	./main -fmt csv -out output.csv -in examples/test_file_5k.csv -ti 1320498000 -tf 1320529000
+run10k:
+	./main -fmt csv -out output.csv -in examples/test_file_10k.csv -ti 1320498000 -tf 1320529000
 
 run50k:
 	./main -fmt csv -out output.csv -in examples/test_file_50k.csv -ti 1320498000 -tf 1420529000

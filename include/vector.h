@@ -28,11 +28,13 @@ status_t ADT_Vector_create(ADT_Vector_t **);
 status_t ADT_Vector_add(ADT_Vector_t **, void *);
 status_t ADT_Vector_destroy(ADT_Vector_t **);
 
-status_t ADT_Vector_set(ADT_Vector_t **, void *, size_t);
+status_t ADT_Vector_set_elem(ADT_Vector_t **, void *, size_t);
 status_t ADT_Vector_print(const ADT_Vector_t *, FILE *);
 status_t ADT_Vector_sort(ADT_Vector_t *, comparator_t);
 
-void *ADT_Vector_get_elem(const ADT_Vector_t *v, void *e);
+void *ADT_Vector_get_elem(const ADT_Vector_t *, void *);
+
+status_t ADT_Vector_get_elem_pos(const ADT_Vector_t *, void *, size_t *);
 
 status_t ADT_Vector_set_printer(ADT_Vector_t *, printer_t);
 status_t ADT_Vector_set_comparator(ADT_Vector_t *, comparator_t);

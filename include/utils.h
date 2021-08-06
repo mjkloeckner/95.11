@@ -34,11 +34,10 @@
 
 status_t get_date(time_t *, char *);
 
-status_t create_2darray(char **, size_t, size_t);
+status_t create_2darray(char ***, size_t, size_t);
 status_t destroy_2darray(char **, size_t);
 
 status_t string_split(char *, char **, char *);
-status_t load_users_to_vector(ADT_Vector_t **, ADT_cla_t *);
 
 bool is_valid_card(char *);
 

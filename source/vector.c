@@ -55,7 +55,7 @@ status_t ADT_Vector_destroy(ADT_Vector_t **v)
 	return OK;
 }
 
-status_t ADT_Vector_set(ADT_Vector_t **v, void *e, size_t pos)
+status_t ADT_Vector_set_elem(ADT_Vector_t **v, void *e, size_t pos)
 {
 	void ** aux;
 	size_t i, alloc_size;
@@ -106,6 +106,22 @@ void *ADT_Vector_get_elem(const ADT_Vector_t *v, void *e)
 	}
 
 	return NULL;
+}
+
+status_t ADT_Vector_get_elem_pos(const ADT_Vector_t *v, void *e, size_t *pos)
+{
+	size_t i;
+
+	if(v == NULL || e == NULL) return ERROR_NULL_POINTER;
+
+	for(i = 0; i < v->size; i++) { 
+		if(v->comparator(e, v->a[i])) {
+			*pos = i;
+			return OK;
+		}
+	}
+
+	return ELEM_NOT_FOUND;
 }
 
 status_t ADT_Vector_print(const ADT_Vector_t *v, FILE *fp)

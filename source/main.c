@@ -1,5 +1,6 @@
 #include "../include/cla.h"
 #include "../include/user.h"
+#include "../include/load.h"
 #include "../include/utils.h"
 #include "../include/status.h"
 #include "../include/vector.h"
