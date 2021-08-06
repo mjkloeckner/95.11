@@ -105,6 +105,37 @@ bool is_valid_card(char *card_no)
 	return (sum % 10) ? false : true;
 }
 
+status_t create_2darray(char **arr, size_t r, size_t c) {
+	size_t i;
+
+	if((arr = malloc(sizeof(char *) * r)) == NULL)
+		return ERROR_MEMORY;
+
+	for(i = 0; i < r; i++) {
+		if((arr[i] = calloc(sizeof(char), c)) == NULL) {
+			destroy_2darray(arr, c);
+			return ERROR_MEMORY;
+		}
+	}
+
+	return OK;
+}
+
+status_t destroy_2darray(char **arr, size_t r)
+{
+	size_t i;
+
+	if(arr == NULL) return ERROR_NULL_POINTER;
+
+	for(i = 0; i < r; i++) {
+		free(arr[i]);
+		arr[i] = NULL;
+	}
+
+	free(arr);
+	return OK;
+}
+
 status_t load_users_to_vector(ADT_Vector_t **v, ADT_cla_t *cla)
 {
 	status_t st;
@@ -114,19 +145,11 @@ status_t load_users_to_vector(ADT_Vector_t **v, ADT_cla_t *cla)
 	time_t epoch;
 	long long amount;
 	ulong id, c, d;
-	size_t i;
 
 	if(v == NULL || cla == NULL) return ERROR_NULL_POINTER;
-	/* Asigna memoria a data */
-	if((data = malloc(sizeof(char *) * IN_FILE_FIELDS)) == NULL)
-		return ERROR_MEMORY;
 
-	for(i = 0; i < IN_FILE_FIELDS; i++) {
-		if((data[i] = calloc(sizeof(char), IN_FILE_FIELDS_MAX_LEN)) == NULL) {
-			array_destroy(data, IN_FILE_FIELDS);
-			return ERROR_MEMORY;
-		}
-	}
+	if((st = create_2darray(data, IN_FILE_FIELDS, IN_FILE_FIELDS_MAX_LEN)) != OK)
+		return st;
 
 	/* Crea un usuario temporal */
 	if((st = user_create(&user_tmp)) != OK) {
@@ -137,21 +160,21 @@ status_t load_users_to_vector(ADT_Vector_t **v, ADT_cla_t *cla)
 	while(fgets(buffer, IN_FILE_MAX_LEN, cla->fi)) {
 		if((st = string_split(buffer, data, IN_FILE_DELIM)) != OK) {
 			free(user_tmp);
-			array_destroy(data, IN_FILE_FIELDS);
+			destroy_2darray(data, IN_FILE_FIELDS);
 			return st;
 		}
 
 		id = strtol(data[POS_USER_ID], &endptr, 10);
 		if(*endptr != '\0') {
 			free(user_tmp);
-			array_destroy(data, IN_FILE_FIELDS);
+			destroy_2darray(data, IN_FILE_FIELDS);
 			return ERROR_CORRUPT_DATA;
 		}
 
 		amount = strtol(data[POS_AMOUNT], &endptr, 10);
 		if(*endptr != '\0') {
 			free(user_tmp);
-			array_destroy(data, IN_FILE_FIELDS);
+			destroy_2darray(data, IN_FILE_FIELDS);
 			return ERROR_CORRUPT_DATA;
 		}
 
@@ -160,13 +183,13 @@ status_t load_users_to_vector(ADT_Vector_t **v, ADT_cla_t *cla)
 
 		if((st = user_set_data(user_tmp, id, c, d)) != OK) {
 			free(user_tmp);
-			array_destroy(data, IN_FILE_FIELDS);
+			destroy_2darray(data, IN_FILE_FIELDS);
 			return ERROR_CORRUPT_DATA;
 		}
 
 		if((st = get_date(&epoch, data[POS_TXN_DATE])) != OK){
 			free(user_tmp);
-			array_destroy(data, IN_FILE_FIELDS);
+			destroy_2darray(data, IN_FILE_FIELDS);
 			return ERROR_CORRUPT_DATA;
 		}
 
@@ -184,7 +207,7 @@ status_t load_users_to_vector(ADT_Vector_t **v, ADT_cla_t *cla)
 		if((user = ADT_Vector_get_elem(*v, user_tmp)) != NULL) {
 			/* Si lo encuentra le suma el monto correspondiente */
 			if((st = user_add_amount(user, amount)) != OK) {
-				array_destroy(data, IN_FILE_FIELDS);
+				destroy_2darray(data, IN_FILE_FIELDS);
 				free(user_tmp);
 				return st;
 			}
@@ -193,20 +216,20 @@ status_t load_users_to_vector(ADT_Vector_t **v, ADT_cla_t *cla)
 		/* Si no lo encuentra crea un usuario nuevo */
 		else { 
 			if((st = user_create(&user)) != OK) {
-				array_destroy(data, IN_FILE_FIELDS);
+				destroy_2darray(data, IN_FILE_FIELDS);
 				free(user_tmp);
 				return st;
 			}
 
 			if((st = user_set_data(user, id, c, d))) {
-				array_destroy(data, IN_FILE_FIELDS);
+				destroy_2darray(data, IN_FILE_FIELDS);
 				free(user_tmp);
 				return st;
 			}
 
 			/* Y lo agrega al vector */
 			if((st = ADT_Vector_add(v, user)) != OK){
-				array_destroy(data, IN_FILE_FIELDS);
+				destroy_2darray(data, IN_FILE_FIELDS);
 				free(user_tmp);
 				return st;
 			}
@@ -216,7 +239,7 @@ status_t load_users_to_vector(ADT_Vector_t **v, ADT_cla_t *cla)
 	} /* End while */
 
 		
-	array_destroy(data, IN_FILE_FIELDS);
+	destroy_2darray(data, IN_FILE_FIELDS);
 	free(user_tmp);
 
 	return OK;
