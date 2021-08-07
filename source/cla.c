@@ -41,6 +41,8 @@ status_t check_flags_repeated(int argc, char **argv)
 	size_t i, j, k, fflags_index;
 	int founded_flags[FLAGS_MAX];
 
+	if(argv == NULL) return ERROR_NULL_POINTER;
+
 	/* Inicializa a -1 para evitar confusiones con 0 */
 	for(i = 0; i < FLAGS_MAX; i++) founded_flags[i] = -1;
 
@@ -115,7 +117,7 @@ status_t cla_create(cla_t *cla)
 {
 	if(cla == NULL) return ERROR_NULL_POINTER;
 
-	if((*cla = (cla_t)malloc(sizeof(ADT_cla_t))) == NULL)
+	if((*cla = (cla_t)malloc(sizeof(cla_T))) == NULL)
 		return ERROR_MEMORY;
 
 	if(((*cla)->fmt = calloc(sizeof(char), 100)) == NULL) {

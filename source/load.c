@@ -1,14 +1,14 @@
 #include "../include/load.h"
 
-status_t load_users_to_vector(ADT_Vector_t **v, ADT_cla_t *cla)
+status_t load_users_to_vector(ADT_Vector_t **v, cla_t cla)
 {
 	status_t st;
 	char buffer[IN_FILE_MAX_LEN];
 	char *endptr1, *endptr2, **data;
-	ADT_user_t *u1, *u2, *u3;
+	user_t *u1, *u2, *u3;
 	time_t epoch;
 	long long amount;
-	size_t user_pos, parsed_lines;
+	size_t user_pos, parsed_lines, users_created;
 	ulong id, c, d;
 
 	if(v == NULL || cla == NULL) return ERROR_NULL_POINTER;
@@ -17,6 +17,7 @@ status_t load_users_to_vector(ADT_Vector_t **v, ADT_cla_t *cla)
 		return st;
 
 	parsed_lines = 0;
+	users_created = 1;
 	while(fgets(buffer, IN_FILE_MAX_LEN, cla->fi)) {
 		if((st = user_create(&u1)) != OK) {
 			destroy_2darray(data, IN_FILE_FIELDS);
@@ -108,13 +109,14 @@ status_t load_users_to_vector(ADT_Vector_t **v, ADT_cla_t *cla)
 				destroy_2darray(data, IN_FILE_FIELDS);
 				return st;
 			}
+			users_created++;
 		}
 		clean_buffer(buffer); clean_array(data);
 		parsed_lines++;
 	} /* End while */
 
 	destroy_2darray(data, IN_FILE_FIELDS);
-	printf("%s%8ld\n", STR_MSG_END_PROCSS, parsed_lines);
+	printf("%s%8ld\nUsers created:%11ld\n", STR_MSG_END_PROCSS, parsed_lines, users_created);
 
 	return OK;
 }

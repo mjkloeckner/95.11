@@ -55,39 +55,13 @@ status_t ADT_Vector_destroy(ADT_Vector_t **v)
 	return OK;
 }
 
+/* Esta funcion no puede crear elementos nuevos, solo setear los que ya estan */
 status_t ADT_Vector_set_elem(ADT_Vector_t **v, void *e, size_t pos)
 {
-	/* void ** aux; */
-	/* size_t i, alloc_size; */
-
 	if(v == NULL || e == NULL) return ERROR_NULL_POINTER;
 	else if(pos > (*v)->size) return ERROR_INVALID_POS;
 
-	/* alloc_size = (*v)->alloc; */
-
-	/* /1* Cuenta cuanto tiene que alargar el arreglo p/ que entre el nuevo elemento *1/ */
-    /* while(pos >= alloc_size) { */
-        /* alloc_size *= VECTOR_GROWTH_FACTOR; */
-	/* } */
-
-	/* Extiende el arreglo en caso de que no haya memoria suficiente */
-	/* if(pos > (*v)->alloc) { */
-	/* 	if((aux = (void **)realloc((*v)->a, sizeof(void *) * alloc_size)) == NULL) */
-	/* 		return ERROR_MEMORY; */
-	/* 	else { */
-	/* 		(*v)->a = aux; */
-	/* 		(*v)->alloc = alloc_size; */
-	/* 	} */
-	/* } */
-
-    /* for(i = (*v)->size; i < pos; i++) */
-    /*     (*v)->a[pos] = NULL; */
-
 	(*v)->a[pos] = e;
-
-    /* if(pos >= (*v)->size) { */
-    /*     (*v)->size = (pos + 1); */
-	/* } */
 
 	return OK;
 }

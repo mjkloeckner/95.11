@@ -85,7 +85,6 @@ int main (int argc, char *argv[])
 			return st;
 		}
 	}
-
 	cla_destroy(cla);
 	ADT_Vector_destroy(&v);
 	return OK;

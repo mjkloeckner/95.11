@@ -32,16 +32,15 @@
 #define XML_STR_CREDIT	"credits"
 #define XML_STR_DEBIT	"debits"
 
-status_t get_date(time_t *, char *);
+status_t string_split(char *, char **, char *);
+void clean_array(char **);
+void clean_buffer(char *);
 
 status_t create_2darray(char ***, size_t, size_t);
 status_t destroy_2darray(char **, size_t);
 
-status_t string_split(char *, char **, char *);
+status_t get_date(time_t *, char *);
 
 bool is_valid_card(char *);
-
-void clean_array(char **);
-void clean_buffer(char *);
 
 #endif

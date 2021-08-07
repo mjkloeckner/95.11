@@ -24,7 +24,7 @@ typedef struct {
 	char *fmt;
 	FILE *fi, *fo;
 	unsigned long ti, tf;
-} ADT_cla_t, *cla_t;
+} cla_T, *cla_t;
 
 status_t validate_arguments(int, char **, cla_t);
 status_t check_flags_position(int, char **);

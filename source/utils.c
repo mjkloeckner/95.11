@@ -17,7 +17,6 @@ status_t string_split(char *s, char **data, char *delim)
 	return OK;
 }
 
-
 void clean_buffer(char *buf)
 {
 	size_t i;
@@ -34,6 +33,37 @@ void clean_array(char **data)
 		for(j = 0; j < IN_FILE_FIELDS_MAX_LEN; j++)
 			data[i][j] = '\0';
 	}
+}
+
+status_t create_2darray(char ***arr, size_t r, size_t c) {
+	size_t i;
+
+	if(((*arr) = malloc(sizeof(char *) * r)) == NULL)
+		return ERROR_MEMORY;
+
+	for(i = 0; i < r; i++) {
+		if(((*arr)[i] = calloc(sizeof(char), c)) == NULL) {
+			destroy_2darray((*arr), c);
+			return ERROR_MEMORY;
+		}
+	}
+
+	return OK;
+}
+
+status_t destroy_2darray(char **arr, size_t r)
+{
+	size_t i;
+
+	if(arr == NULL) return ERROR_NULL_POINTER;
+
+	for(i = 0; i < r; i++) {
+		free(arr[i]);
+		arr[i] = NULL;
+	}
+
+	free(arr);
+	return OK;
 }
 
 status_t get_date(time_t *e, char *str)
@@ -88,35 +118,4 @@ bool is_valid_card(char *card_no)
 	}
 
 	return (sum % 10) ? false : true;
-}
-
-status_t create_2darray(char ***arr, size_t r, size_t c) {
-	size_t i;
-
-	if(((*arr) = malloc(sizeof(char *) * r)) == NULL)
-		return ERROR_MEMORY;
-
-	for(i = 0; i < r; i++) {
-		if(((*arr)[i] = calloc(sizeof(char), c)) == NULL) {
-			destroy_2darray((*arr), c);
-			return ERROR_MEMORY;
-		}
-	}
-
-	return OK;
-}
-
-status_t destroy_2darray(char **arr, size_t r)
-{
-	size_t i;
-
-	if(arr == NULL) return ERROR_NULL_POINTER;
-
-	for(i = 0; i < r; i++) {
-		free(arr[i]);
-		arr[i] = NULL;
-	}
-
-	free(arr);
-	return OK;
 }

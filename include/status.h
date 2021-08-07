@@ -11,7 +11,7 @@
 #define MSG_PROCESED_LINES			"Lineas procesadas"
 #define STR_INVALID_CARD_NUMBER		"Número no válido"
 
-#define STATUS_T_MAX 12
+#define STATUS_T_MAX 13
 
 typedef enum {
 	OK,

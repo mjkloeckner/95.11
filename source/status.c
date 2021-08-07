@@ -1,20 +1,42 @@
 #include "../include/status.h"
 
+#ifdef __DEBUG_MODE__
+
 const char *status_strings[] = {
-	"Everything executed succesfully. Have a nice day.",
-	"El elemento no pertenece al vector (ELEM_NOT_FOUND)",
-	"Error hubo un problema con la memoria, puede que sea escasa (ERROR_MEMORY)",
-	"There is a flags misspeled",
-	"There is a problem with entered time",
-	"Error en los argumentos ingresados (ERROR_INVALID_POS)"
-	"Error faltan argumentos (ERROR_MISSING_ARGS)",
-	"Error el archivo de se pudo abrir, puede que no existe o que el nombre sea incorrecto",
-	"Error al leer un dato, puede que el archivo de entrada este corrupto",
-	"Error hay una flag repetida",
-	"Error flag no encontrada",
-	"Error el formato de salida no se reconoce",
-	"Hubo un problema durante la ejecucion (ERROR_NULL_POINTER)"
+	"(OK)",
+	"(ELEM_NOT_FOUND)",
+	"(ERROR_MEMORY)",
+	"(ERROR_WRONG_FLAGS)",
+	"(ERROR_WRONG_TIME)",
+	"(ERROR_INVALID_POS)"
+	"(ERROR_MISSING_ARGS)",
+	"(ERROR_OPENING_FILE)",
+	"(ERROR_CORRUPT_DATA)",
+	"(ERROR_FLAG_REPEATED)",
+	"(ERROR_FLAG_NOT_FOUND)",
+	"(ERROR_FORMAT_NOT_FOUND)",
+	"(ERROR_NULL_POINTER)"
 };
+
+#else
+
+const char *status_strings[] = {
+	"Todo se ejecuto correctamente. Tenga un buen dia.",
+	"El elemento no pertenece al vector.",
+	"ERROR: Hubo un problema con la memoria, puede que sea escasa.",
+	"ERROR: No se reconoce un argumento.",
+	"ERROR: El tiempo ingresado no es correcto.",
+	"ERROR: En los argumentos ingresados.",
+	"ERROR: Faltan argumentos.",
+	"ERROR: El archivo de se pudo abrir, puede que no exista o el nombre sea incorrecto.",
+	"ERROR: Puede que el archivo de entrada este vacio, corrupto o no se encuentre.",
+	"ERROR: Hay una flag repetida.",
+	"ERROR: Flag no encontrada.",
+	"ERROR: El formato de salida no se reconoce.",
+	"ERROR: Hubo un problema durante la ejecucion."
+};
+
+#endif
 
 void show_status(status_t st)
 {
