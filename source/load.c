@@ -17,7 +17,7 @@ status_t load_users_to_vector(ADT_Vector_t **v, cla_t cla)
 		return st;
 
 	parsed_lines = 0;
-	users_created = 1;
+	users_created = 0;
 	while(fgets(buffer, IN_FILE_MAX_LEN, cla->fi)) {
 		if((st = user_create(&u1)) != OK) {
 			destroy_2darray(data, IN_FILE_FIELDS);
