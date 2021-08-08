@@ -116,7 +116,7 @@ status_t load_users_to_vector(ADT_Vector_t **v, cla_t cla)
 	} /* End while */
 
 	destroy_2darray(data, IN_FILE_FIELDS);
-	printf("%s%8ld\nUsers created:%11ld\n", STR_MSG_END_PROCSS, parsed_lines, users_created);
+	printf("%s\n%s%11ld\n%s%8ld\n", STR_MSG_END_PROCSS_ES, STR_MSG_LINES_PROCSSD_ES, parsed_lines, STR_MSG_USRS_REGISTERD_ES, users_created);
 
 	return OK;
 }

@@ -21,7 +21,7 @@ const char *status_strings[] = {
 #else
 
 const char *status_strings[] = {
-	"Todo se ejecuto correctamente. Tenga un buen dia.",
+	"Todo se ejecuto correctamente.\nTenga un buen dia.",
 	"El elemento no pertenece al vector.",
 	"ERROR: Hubo un problema con la memoria, puede que sea escasa.",
 	"ERROR: No se reconoce un argumento.",
