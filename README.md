@@ -1,8 +1,10 @@
-#	ALGORITHMS & PROGRAMMING I (code 9511) - WORKBOOK
+# Algoritmos y Programación I
 
-"Algoritmos y programacion I" is a subject from "Facultad de 
-Ingenieria de la Universidad de Buenos Aires".
+En este repositorio se encuentran mis notas y resolución de ejercicios de la
+materia Algoritmos y Programación I (95.11) curso Cardozo
 
-In this repository (previous a subfolder from c-repo) I'm gonna
-be storing all my resolved exercies from Martin Cardozo's exercies
-guides (All rights reserved).
+## Recursos Recomendados
+
+* [C gibberish ↔ English](https://cdecl.org/)
+* [Deitel & Deitel - C how to program with an Introduction to C++](https://deitel.com/c-how-to-program-8-e/)
+* [Brian Kernighan & Dennis Ritchie - The C Programming Language](https://en.wikipedia.org/wiki/The_C_Programming_Language)
