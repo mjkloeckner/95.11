@@ -1,2 +1,5 @@
-# 9511_project03
-Command line program that parses a bank .csv file and generates and output file in format .csv or .xml containing the debits and credits of every user.
+# Trabajo Práctico 2
+
+Programa de linea de comandos que analiza un archivo en formato `csv` emulando
+un registro de cuentas de un banco, y luego imprime en un archivo de salida, en
+formato `csv` o `xml`, el crédito y debido de cada usuario
